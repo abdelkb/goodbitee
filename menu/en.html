@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant GOODBITE</title>
+      <!-- Favicon -->
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    <!-- Ajouter les liens vers les fichiers CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Ajouter le lien vers le fichier CSS personnalisé -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap">
+    <style>
+
+        #loading-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 1); /* Fond blanc semi-transparent */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Assure que l'overlay est au-dessus de tout le reste */
+        }
+
+        #loading-spinner {
+            border: 8px solid #FFB700; /* Couleur de fond pour le spinner */
+            border-top: 8px solid #D2042D; /* Couleur pour la partie visible du spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.5s linear infinite; /* Animation de rotation du spinner */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Ajouter des styles personnalisés ici si nécessaire */
+        body {
+            font-family: 'Roboto', sans-serif; /* Utilisez Roboto comme police par défaut */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-height: 100;
+        }
+
+        #slider {
+            max-width: 600px;
+            margin: 20px auto;
+            margin-top: 100px;
+        }
+
+        footer {
+            width: 100%;
+            background-color: black;
+            color: white;
+            margin-top: 30px;
+        }
+
+
+        .nav-item {
+            background-color: #FFB700;
+            margin: 5px;
+            border-radius: 10px;
+            margin-bottom: 3px;
+            width: auto;
+            height: auto;
+            text-align: center;
+        }
+
+        .nav-item:hover {
+            background-color: #facb53;
+        }
+
+        .nav-link {
+            font-size: large;
+            margin-left: 5px;
+            margin-right: 5px;
+            min-width: 70px;
+            color: #D2042D;
+        }
+
+        .nav-link:hover {
+            color: #d32c4d;
+        }
+        #slider-content{
+            text-align: center;
+        }
+        #slider-content img {
+            border-radius: 40px;
+            padding: 5px;
+            max-height: 65vh;
+            max-width: auto;
+            margin-bottom: 190px;
+        }
+        #slider-content p {
+            color: #1f1f1f;
+            text-align: center;
+        }
+        #slider-content h6 {
+            text-align: center;
+            color: #1f1f1f;
+            text-decoration: solid;
+            font-weight: bold;
+        }
+        #slider-content h5 {
+
+            color: #D2042D;
+            padding-top: 0;
+            font-size: 25px;
+            text-align: center;
+            background-color: #FFB700;
+            border-radius: 30px;
+            padding: 7px;
+            width: auto;
+        }
+
+
+                /* Styles pour les icônes du carousel */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #1f1f1f; /* Couleur spécifique pour les icônes */
+            border-radius: 3px;
+            height: 20px;
+            width: 20px;
+        }
+        .nav-list {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            list-style: none;
+            margin-top: 54px;
+            padding-bottom: 5px;
+            
+        }
+        .scrollable-nav {
+    width: 100%; /* Ou une largeur fixe en pixels, pour ajuster selon vos besoins */
+    overflow-x: auto;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div id="loading-overlay">
+        <div style="margin-right: 10px;"> <img src="/img/Logo goodbite.png" height="50" width="auto"> </div>
+        <div id="loading-spinner"> </div>
+    </div>
+    
+    <!-- Navigation Bar -->
+    
+    <nav class="scrollable-nav navbar navbar-expand-lg">
+        <ul class="nav-list fixed-top" style="background-color: #1f1f1f;">                
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="changeCategory('salade')">Salads</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('poulet')">Chicken Dishes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('viande')">Meat Dishes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('poisson')">Fish Dishes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('pizza')">Pizza</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('pasta')">Pasta</a>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('tacos')">Tacos | Sandwiches | Panini</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('burger')">Burgers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('jus')">Juices | Drinks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeCategory('supp')">Desserts</a>
+            </li>
+            <!-- Add other categories if necessary -->
+        </ul>
+        <a style="padding-bottom: 15px; color: #FFB700;background-color: #1f1f1f; width: 100vmax;" class="navbar-expand-lg navbar-brand fixed-top" href="/index.html">
+            <span style="margin: 7px;"><img src="/img/back.png" style="width: 35px; height: auto;"> </span>
+            <img src="https://github.com/abdelkb/goodbite/blob/main/img/Logo%20goodbite.png?raw=true" height="30" width="auto" alt=""><span id="title"> Restaurant GOODBITE</span>
+        </a>
+    </nav>
+     
+
+
+
+    <!-- Slider d'images -->
+    <div id="slider" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" id="slider-content">
+            <!-- Contenu du slider sera rempli dynamiquement avec JavaScript -->
+        </div>
+        <a class="carousel-control-prev" href="#slider" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Précédent</span>
+        </a>
+        <a class="carousel-control-next" href="#slider" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Suivant</span>
+        </a>
+    </div>
+
+    <!-- Ajouter les liens vers les fichiers JavaScript de jQuery et Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function changeCategory(category) {
+            // Remplacez ces données factices par les données réelles de votre site
+            var categoryData = {
+                pizza: [
+    { image: '/img/pizza/1.jpg', name: 'Pizza Margherita', price: 'SMALL: 35 DH | LARGE: 55 DH', description: 'TOMATO SAUCE - MOZZARELLA' },
+    { image: '/img/pizza/2.jpg', name: 'GOODBITE Pizza', price: 'SMALL: 43 DH | LARGE: 65 DH', description: 'TOMATO SAUCE - MOZZARELLA - CHICKEN - BELL PEPPERS' },
+    { image: '/img/pizza/3.jpg', name: 'Bolognese Pizza', price: 'SMALL: 46 DH | LARGE: 65 DH', description: 'TOMATO SAUCE - MOZZARELLA - GROUND MEAT - MUSHROOMS - BELL PEPPERS' },
+    { image: '/img/pizza/4.jpg', name: '4 Cheese Pizza', price: 'SMALL: 46 DH | LARGE: 65 DH', description: 'TOMATO SAUCE - MOZZARELLA - RICOTTA - PARMESAN - RED CHEESE' },
+    { image: '/img/pizza/5.jpg', name: 'Tuna Pizza', price: 'SMALL: 48 DH | LARGE: 68 DH', description: 'TOMATO SAUCE - MOZZARELLA - TUNA' },
+    { image: '/img/pizza/6.jpg', name: '6 Vegetable Pizza', price: 'SMALL: 45 DH | LARGE: 68 DH', description: 'TOMATO SAUCE - MOZZARELLA - BROCCOLI - SPINACH - CORN - BELL PEPPER - MUSHROOM - TOMATOES' },
+    { image: '/img/pizza/7.jpg', name: 'Seafood Pizza', price: 'SMALL: 55 DH | LARGE: 75 DH', description: 'TOMATO SAUCE - MOZZARELLA - SHRIMPS - SQUID' },
+    { image: '/img/pizza/8.jpg', name: '4 Seasons Pizza', price: 'SMALL: 59 DH | LARGE: 84 DH', description: 'TOMATO SAUCE - MOZZARELLA - SHRIMPS - SQUID - CHICKEN - GROUND MEAT - BELL PEPPER - MUSHROOMS' },
+    { image: '/img/pizza/9.jpg', name: 'CCC Chicken Pizza', price: 'SMALL: 60 DH | LARGE: 80 DH', description: 'SOUR CREAM - CRAB - MUSHROOMS - CHICKEN - MOZZARELLA - PARMESAN' },
+    { image: '/img/pizza/10.jpg', name: 'CCC Seafood Pizza', price: 'SMALL: 65 DH | LARGE: 85 DH', description: 'SOUR CREAM - CRAB - SHRIMPS - SQUID - MOZZARELLA - PARMESAN' },
+    { image: '/img/pizza/11.jpg', name: 'Royale Pizza', price: 'SMALL: 70 DH | LARGE: 110 DH', description: 'TOMATO SAUCE - MOZZARELLA - SHRIMPS - SQUID - CRAB - SAUSAGES - GROUND MEAT - CHICKEN - BELL PEPPER - MUSHROOM - BROCCOLI - TOMATO' },
+    // Add more pizzas if necessary
+],
+burger: [
+    { image: 'https://abdelkb.github.io/goodbitee/img/burger/1.JPG', name: 'Chicken Burger', price: '41 DH', description: 'CHEESE - LETTUCE - TOMATOES' },
+    { image: 'https://abdelkb.github.io/goodbitee/img/burger/2.JPG', name: 'Cheese Burger', price: '43 DH', description: 'CHEESE - LETTUCE - TOMATOES' },
+    { image: 'https://abdelkb.github.io/goodbitee/img/burger/3.JPG', name: 'Countryside Burger', price: '45 DH', description: 'MUSHROOMS - ONIONS - CHEESE - LETTUCE - TOMATOES' },
+    { image: 'https://abdelkb.github.io/goodbitee/img/burger/4.JPG', name: 'Giant Burger', price: '67 DH', description: 'DOUBLE BURGER - CHEESE - LETTUCE - TOMATOES' },
+    // Add more burgers if necessary
+],
+pasta: [
+    { image: '/img/pasta/1.jpg', name: 'Spaghetti Bolognese', price: '62 DH', description: 'TOMATO SAUCE - GROUND MEAT - PARMESAN - CHEESE' },
+    { image: '/img/pasta/2.jpg', name: 'Chicken Alfredo Tagliatelle', price: '88 DH', description: 'CREAM SAUCE - CHICKEN - PARMESAN' },
+    { image: '/img/pasta/3.jpg', name: 'Chicken and Broccoli Alfredo Tagliatelle', price: '98 DH', description: 'CREAM SAUCE - CHICKEN - BROCCOLI - PARMESAN' },
+    { image: '/img/pasta/4.jpg', name: 'Seafood Alfredo Tagliatelle', price: '110 DH', description: 'CREAM SAUCE - CRAB - SHRIMP - SQUID - PARMESAN' },
+    // Add more pastas if necessary
+],
+poulet: [
+    { image: '/img/poulet/1.jpg', name: 'Chicken Wings', price: '32 DH', description: 'SPICY SAUCE - BLUE CHEESE' },
+    { image: '/img/poulet/2.jpg', name: 'Chicken Fillet', price: '37 DH', description: 'FRIES - DAILY VEGETABLES - VERMICELLI' },
+    { image: '/img/poulet/3.jpg', name: 'Quarter Chicken', price: '41 DH', description: 'FRIES - DAILY VEGETABLES - VERMICELLI' },
+    { image: '/img/poulet/4.jpg', name: 'Breaded Chicken', price: '41 DH', description: 'FRIES - DAILY VEGETABLES - VERMICELLI' },
+    { image: '/img/poulet/5.jpg', name: 'Chicken Cutlet', price: '48 DH', description: 'TOMATO SAUCE - DAILY VEGETABLES' },
+    { image: '/img/poulet/6.jpg', name: 'Turkey Dish', price: '55 DH', description: 'FRIES - DAILY VEGETABLES - SALAD' },
+    { image: '/img/poulet/7.jpg', name: 'Chicken Parmesan', price: '55 DH', description: 'TOMATO SAUCE - CHEESE - PARMESAN - DAILY VEGETABLES' },
+    { image: '/img/poulet/8.jpg', name: 'Milanese Chicken', price: '58 DH', description: 'ARUGULA - TOMATOES - ONIONS - BALSAMIC VINAIGRETTE' },
+    { image: '/img/poulet/9.jpg', name: 'Chicken with Vegetables', price: '65 DH', description: 'SAUTÉED VEGETABLES - RICOTTA - OLIVES' },
+    { image: '/img/poulet/10.jpg', name: 'CCC Chicken', price: '75 DH', description: 'MUSHROOMS - CRAB - SOUR CREAM - DAILY VEGETABLES' },
+    { image: '/img/poulet/11.jpg', name: 'Half Chicken', price: '79 DH', description: 'FRIES - DAILY VEGETABLES - VERMICELLI' },
+    { image: '/img/poulet/12.jpg', name: 'Whole Chicken', price: '157 DH', description: 'FRIES - DAILY VEGETABLES - VERMICELLI' },
+    // Add more chicken items if necessary
+],
+viande: [
+    { image: '/img/viande/1.jpg', name: 'Ground Meat Dish', price: '59 DH', description: 'FRIES - DAILY VEGETABLES - SALAD' },
+    { image: '/img/viande/2.jpg', name: 'Sausage Dish', price: '60 DH', description: 'FRIES - DAILY VEGETABLES - SALAD' },
+    { image: '/img/viande/3.jpg', name: 'Mixed Dish', price: '72 DH', description: 'FRIES - DAILY VEGETABLES - SALAD' },
+    { image: '/img/viande/4.jpg', name: 'Steak with Sautéed Vegetables', price: '83 DH', description: 'Sautéed Vegetables - Salad' },
+    { image: '/img/viande/5.jpg', name: 'CCC Steak', price: '110 DH', description: 'SOUR CREAM - CRAB - MUSHROOMS - DAILY VEGETABLES' },
+    // Add more meat items if necessary
+],
+poisson: [
+    { image: '/img/fish/1.jpg', name: 'Fried Whiting Fish', price: '90 DH', description: 'WHITING FISH FILLET - DAILY VEGETABLES - CHEESE RICE BALL - FRIES - CHEESE SAUCE' },
+    { image: '/img/fish/2.jpg', name: 'Grilled Whiting Fish', price: '90 DH', description: 'WHITING FISH FILLET - VEGETABLES - SALAD' },
+    { image: '/img/fish/3.jpg', name: 'Grilled Salmon', price: '120 DH', description: 'SALMON FILLET - VEGETABLES - SALAD' },
+    { image: '/img/fish/4.jpg', name: 'Shrimp and Calamari', price: '110 DH', description: 'SHRIMP - CALAMARI - DAILY VEGETABLES - CHEESE RICE BALL - FRIES - CHEESE SAUCE' },
+    { image: '/img/fish/5.jpg', name: 'Mixed Grilled Fish Dish', price: '140 DH', description: 'SALMON - WHITING - SHRIMP - OMBRINE - VEGETABLES - SALAD' },
+    { image: '/img/fish/6.jpg', name: 'Fried Fish Assortment', price: '140 DH', description: 'WHITING - SHRIMP - OMBRINE - CALAMARI - DAILY VEGETABLES - CHEESE RICE BALL - FRIES - CHEESE SAUCE' },
+    // Add more fish items if necessary
+],
+jus: [
+    { image: '/img/jus/1p.jpg', name: 'Mineral Water 500 CL', price: '5 DH', description: ' ' },
+    { image: '/img/jus/1.jpg', name: 'Mineral Water 1L', price: '15 DH', description: ' ' },
+    { image: '/img/jus/2.jpg', name: 'Soda Can', price: '15 DH', description: ' ' },
+    { image: '/img/jus/3.jpg', name: 'Coffee', price: '12 DH', description: ' ' },
+    { image: '/img/jus/4.jpg', name: 'Orange Juice', price: '15 DH', description: ' ' },
+    { image: '/img/jus/5.jpg', name: 'Banana Juice', price: '15 DH', description: ' ' },
+    { image: '/img/jus/6.jpg', name: 'Apple Juice', price: '15 DH', description: ' ' },
+    { image: '/img/jus/7.jpg', name: 'Avocado Juice', price: '19 DH', description: ' ' },
+    { image: '/img/jus/8.jpg', name: 'Strawberry Juice', price: '17 DH', description: ' ' },
+    { image: '/img/jus/9.jpg', name: 'Plum Juice', price: '17 DH', description: ' ' },
+    { image: '/img/jus/10.jpg', name: 'Pear Juice', price: '17 DH', description: ' ' },
+    { image: '/img/jus/11.jpg', name: 'Almond Juice', price: '21 DH', description: ' ' },
+    { image: '/img/jus/12.jpg', name: 'Lemon Juice', price: '15 DH', description: ' ' },
+    { image: '/img/jus/13.jpg', name: 'Avocado Oreo Juice', price: '18 DH', description: ' ' },
+    { image: '/img/jus/14.jpg', name: 'Dried Fruit Juice', price: '21 DH', description: ' ' },
+    { image: '/img/jus/15.jpg', name: 'Zaazaa Juice', price: '28 DH', description: ' ' },
+    { image: '/img/jus/16.jpg', name: 'Pineapple Juice', price: '20 DH', description: ' ' },
+    { image: '/img/jus/17.jpg', name: 'Mango Juice', price: '20 DH', description: ' ' },
+    { image: '/img/jus/18.jpg', name: 'Papaya Juice', price: '20 DH', description: ' ' },
+    { image: '/img/jus/19.jpg', name: 'Kiwi Juice', price: '20 DH', description: ' ' },
+    { image: '/img/jus/20.jpg', name: 'Mixed Juice', price: '21 DH', description: ' ' },
+    { image: '/img/jus/21.jpg', name: 'Royal Juice', price: '24 DH', description: ' ' },
+    { image: '/img/jus/22.jpg', name: 'Goodbite Juice', price: '23 DH', description: ' ' },
+    // Add more juices if necessary
+],
+supp: [
+    { image: '/img/supp/1.jpg', name: 'Orange Fruit Salad', price: '23 DH', description: ' ' },
+    { image: '/img/supp/2.jpg', name: 'Avocado Fruit Salad', price: '26 DH', description: ' ' },
+    { image: '/img/supp/3.jpg', name: 'Raïb Fruit Salad', price: '24 DH', description: ' ' },
+    { image: '/img/supp/4.jpg', name: 'Tiramisu', price: '15 DH', description: ' ' },
+    // Add more supplements if necessary
+],
+tacos: [
+    { image: '/img/tacos/1.jpg', name: 'Chicken Tacos', price: '45 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/1.jpg', name: 'Breaded Chicken Tacos', price: '45 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/2.jpg', name: 'Turkey Tacos', price: '45 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/3.jpg', name: 'Ground Beef Tacos', price: '47 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/4.jpg', name: 'Sausage Tacos', price: '47 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/5.jpg', name: 'Mixed Tacos', price: '49 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/6.jpg', name: 'Seafood Tacos', price: '55 DH', description: 'CHOICE OF SAUCE - FRIES' },
+    { image: '/img/tacos/7.jpg', name: 'Chicken Sandwich', price: '39 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/7.jpg', name: 'Turkey Sandwich', price: '39 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/8.jpg', name: 'Ground Beef Sandwich', price: '41 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/9.jpg', name: 'Sausage Sandwich', price: '41 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/10.jpg', name: 'Mixed Sandwich', price: '42 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/11.jpg', name: 'Shawarma Sandwich', price: '39 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/12.jpg', name: 'Cheese Steak Sandwich', price: '49 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/13.jpg', name: 'Seafood Sandwich', price: '49 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/14.jpg', name: 'Chicken Panini', price: '39 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/15.jpg', name: 'Turkey Panini', price: '39 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/16.jpg', name: 'Ground Beef Panini', price: '41 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/17.jpg', name: 'Sausage Panini', price: '41 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/18.jpg', name: 'Mixed Panini', price: '42 DH', description: 'SAUCE - FRIES' },
+    { image: '/img/tacos/19.jpg', name: 'Seafood Panini', price: '49 DH', description: 'SAUCE - FRIES' },
+    // Add other taco types if necessary
+],
+salade: [
+    { image: '/img/salade/1.jpg', name: 'House Salad', price: '26 DH', description:'LETTUCE - TOMATO - BELL PEPPER - ONION - CUCUMBER - HOUSE VINEGAR' },
+    { image: '/img/salade/2.jpg', name: 'Caesar Salad', price: '37 DH', description:'GRILLED CHICKEN - LETTUCE - CROUTONS - PARMESAN CHEESE - CAESAR SAUCE' },
+    { image: '/img/salade/3.jpg', name: 'Tuna Salad', price: '37 DH', description:'TUNA - LETTUCE - BELL PEPPER - ONIONS - TOMATOES' },
+    { image: '/img/salade/4.jpg', name: 'Chicken Salad', price: '39 DH', description:'BREADED CHICKEN - LETTUCE - BELL PEPPER - ONIONS - TOMATOES - RED CHEESE' },
+    { image: '/img/salade/5.jpg', name: 'Chef Salad', price: '39 DH', description:'- VARIETY OF VEGETABLES - TUNA - RICE - CORN - RED CHEESE' },
+    { image: '/img/salade/6.jpg', name: 'Vegetarian Salad', price: '41 DH', description:'VARIED VEGETABLES - SPINACH, BROCCOLI - MUSHROOMS - RICOTTA CHEESE' },
+    { image: '/img/salade/7.jpg', name: 'Calamari Salad', price: '42 DH', description:'BREADED CALAMARI - LETTUCE - BELL PEPPER - ONIONS - TOMATOES - RED CHEESE' },
+    { image: '/img/salade/8.jpg', name: 'Chef Chicken Salad', price: '47 DH', description:'CHICKEN - VARIETY OF VEGETABLES - TUNA - RICE - CORN - RED CHEESE' },
+    { image: '/img/salade/9.jpg', name: 'Italian Salad', price: '63 DH', description:'SHRIMP AND CALAMARI - LETTUCE ARUGULA - ONIONS - TOMATOES - HOUSE VINAIGRETTE' },
+    { image: '/img/salade/10.jpg', name: 'Goodbite Salad', price: '67 DH', description:'- SEAFOOD - LETTUCE - RED CHEESE - HOUSE VINAIGRETTE' },
+    // Add other types of salads if necessary
+],
+            };
+
+            var sliderContent = document.getElementById('slider-content');
+            sliderContent.innerHTML = '';
+
+             categoryData[category].forEach(function (item) {
+             var slide = document.createElement('div');
+             slide.className = 'carousel-item';
+             if (sliderContent.children.length === 0) {
+            slide.classList.add('active');
+
+            var loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.style.display = 'none';
+        }
+
+        // Div pour l'image
+        var imgDiv = document.createElement('div');
+        imgDiv.className = 'slider-image-container';
+
+        var img = document.createElement('img');
+        img.src = item.image;
+        img.className = 'd-block w-100';
+        img.alt = item.name;
+
+        imgDiv.appendChild(img);
+
+        // Div pour le texte
+        var textDiv = document.createElement('div');
+        textDiv.className = 'carousel-caption text-left'; // Aligner le texte à gauche
+
+        textDiv.innerHTML = '<h5>' + item.name + '</h5><h6>' + item.price + '</h6><p>' + item.description + '</p>';
+
+        // Ajouter les divs à la diapositive
+        slide.appendChild(imgDiv);
+        slide.appendChild(textDiv);
+
+        // Ajouter la diapositive au contenu du slider
+        sliderContent.appendChild(slide);
+    });
+
+    // Réduire la barre de navigation après avoir choisi une catégorie
+    var navbarToggler = document.querySelector('.navbar-toggler');
+    var navbarCollapse = document.querySelector('.navbar-collapse');
+    navbarToggler.classList.add('collapsed');
+    navbarCollapse.classList.remove('show');
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+            // Laissez la page de chargement visible au début
+            var loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.style.display = 'flex';
+
+            // Appel de la fonction changeCategory après un délai simulé (1000ms ici, ajustez selon vos besoins)
+            setTimeout(function () {
+                changeCategory('salade');
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>
