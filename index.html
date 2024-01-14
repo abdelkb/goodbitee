@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant GOODBITE</title>
   <!-- Favicon -->
-  <link rel="icon" href="https://abdelkb.github.io/goodbitee/img/favicon.png" type="image/x-icon">
-  <link rel="shortcut icon" href="https://abdelkb.github.io/goodbitee/img/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 
   <!-- Ajoutez le lien vers Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -60,8 +60,8 @@
     }
     .language-btn {
       background-color: #c2c2c2;
-      padding: 1px;
-      margin-right: 5px;
+      margin: 5px;
+      padding: 0;
       border: none;
       border-radius: 9px;
     }
@@ -128,12 +128,27 @@
     #btnmenu:hover {
     background-color: #D2042D;
     color: #FFB700;
-    
     }
+    #btnapl {
+    background-color: #03b63e	;
+    border: none;
+    color: #fff;
+    border-radius: 100px;
+    height: 50px;
+    width: auto;
+    font-size: 20px;
+    text-decoration: none;
+    }
+
+    #btnapl:hover {
+    background-color: #39e756;
+    }
+
+
     #desc{
       color:#000000;
       font-size: 20px;
-      padding-top: 20px;
+      padding-top: 50px;
     }
 
     .max-dimensions {
@@ -145,12 +160,12 @@
 <body>
 
   <div id="loader" class="loader-container">
-    <div style="margin-right: 10px;"> <img src="https://abdelkb.github.io/goodbitee/img/Logo goodbite.png" height="50" width="auto"> </div>
+    <div style="margin-right: 10px;"> <img src="/img/Logo goodbite.png" height="50" width="auto"> </div>
     <div class="loader"></div>
   </div>
 
-<nav class="title-nav d-flex justify-content-between align-items-center fixed-top" style=" margin-top: 50px; background-color: #272727;">
-    <a style="padding: 15px; color: #FFB700;" class="navbar-brand" href="https://abdelkb.github.io/goodbitee">
+<nav class="title-nav d-flex justify-content-between align-items-center fixed-top" style=" padding-top: 85px; background-color: #272727;">
+    <a style="padding: 15px; color: #FFB700;" class="navbar-brand" href="#">
         <img src="https://github.com/abdelkb/goodbite/blob/main/img/Logo%20goodbite.png?raw=true" height="30" width="auto" alt=""><span id="title" > Restaurant GOODBITE</span>
     </a>
 
@@ -169,7 +184,8 @@
      
 
     <div class="mx-auto">
-      
+      <h5>Langue - Language - Idioma - اللغة </h5>
+      <a style="color: #fff;">.....</a>      
       <button class="language-btn mx-2 " onclick="changeLanguage('fr')">
         <img src="https://github.com/abdelkb/goodbite/blob/main/img/fr-flag.png?raw=true" alt="Drapeau de la France" width="50" height="auto">
       </button>
@@ -182,7 +198,6 @@
       <button class="language-btn mx-2" onclick="changeLanguage('ar')">
         <img src="https://github.com/abdelkb/goodbite/blob/main/img/ma-flag.png?raw=true" alt="Drapeau du Maroc" width="50" height="auto">
       </button>
-
     </div>
 
     
@@ -214,17 +229,21 @@
 
     <p id="desc">Découvrez notre délicieuse cuisine internationale.</p>
     <div class= "max-dimensions">
-      <iframe width="380" height="380" src="https://www.youtube.com/embed/5pinsvAjm60" frameborder="0" allowfullscreen></iframe>
+      <iframe width="450" height="450" src="https://www.youtube.com/embed/5pinsvAjm60" frameborder="0" allowfullscreen></iframe>
     </div>  
     
     <h1 style="color:#D2042D;" id="delivery-message">Livraison à domicile</h1>
 
     <!-- Bouton pour aller au menu -->
     <div class="row">
-      <div class="col-md-12">
+      <div style="margin-top: 15px;" class="col-md-12">
         <!-- Bouton pour aller à l'application Glovo -->
+        <button id="btnapl" class="btn mb-2" onclick="goToMenu()">
+          <img width="23" height="30" style=" margin-right: 5px; border-radius: 30px;" src="https://deedpoll.org.uk/wp-content/uploads/2019/12/Phone-symbol.png"><span id="apl">Appeller</span>
+        </button>
         <button id="btnmenu" class="btn mb-2" onclick="goToMenu()">
-          <img alt="Logo de Glovo" width="30" height="30" style=" margin-right: 5px; border-radius: 30px;" src="https://github.com/abdelkb/goodbite/blob/main/img/menu.png?raw=true"><span id="menu">Voir le Menu</span></button>
+          <img width="30" height="30" style=" margin-right: 5px; border-radius: 30px;" src="https://github.com/abdelkb/goodbite/blob/main/img/menu.png?raw=true"><span id="menu">Voir le Menu</span>
+        </button>
         <button id="btnglovo" class="btn mb-2" onclick="goToGlovo()">
           <img style="border-radius: 30px;" src="https://github.com/abdelkb/goodbite/blob/main/img/glovo.png?raw=true" alt="Logo de Glovo" width="30" height="30" style="margin-right: 5px;">
           <span id="command">Commander sur Glovo</span>
@@ -237,7 +256,7 @@
       <h2 id="about-us-heading">Bienvenue au Restaurant GOODBITE</h2>
       <p id="about-us-text">Le Restaurant XYZ vous propose une expérience culinaire exceptionnelle avec des plats préparés avec soin et des ingrédients de qualité.</p>
       <p id="address-text">Adresse: 123, Rue de la Bonne Cuisine, Ville</p>
-      <p id="phone-text">Téléphone: +123 456 789</p>
+      <a href="#" id="phone-text">Téléphone: +123 456 789</a>
       
       
   </div>
@@ -253,7 +272,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    changeLanguage('fr');
+    changeLanguage('ar');
     function changeLanguage(languageCode) {
       // Mettez ici le code pour changer la langue en fonction du code de langue fourni
       console.log("Langue changée vers : " + languageCode);
@@ -264,9 +283,10 @@
             document.getElementById('about-us-heading').innerText = 'Bienvenue';
             document.getElementById('about-us-text').innerText = 'Le Restaurant GOODBITE vous propose une expérience culinaire exceptionnelle avec des plats préparés avec soin et des ingrédients de qualité.';
             document.getElementById('address-text').innerText = 'Adresse: Boulevard La Résistance, Belvédère, Casablanca';
+            document.getElementById('apl').innerText = 'Appeler';
             document.getElementById('phone-text').innerText = 'Téléphone: +212 522 452 987';
-            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="https://abdelkb.github.io/goodbitee/menu/fr.html">Voir le Menu</a>';
-            document.getElementById('command').innerText = 'Commander sur Glovo';
+            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="/menu/fr.html">Menu</a>';
+            document.getElementById('command').innerText = 'Glovo';
             document.getElementById('desc').innerText = 'Découvrez notre délicieuse cuisine internationale.';
           } else if (languageCode === 'en') {
             document.getElementById('title').innerText = 'Restaurant GOODBITE';
@@ -275,8 +295,9 @@
             document.getElementById('about-us-text').innerText = 'Restaurant GOODBITE offers you an exceptional culinary experience with carefully prepared dishes and quality ingredients.';
             document.getElementById('address-text').innerText = 'Address: Boulevard La Résistance, Belvédère, Casablanca';
             document.getElementById('phone-text').innerText = 'Phone: +212 522 452 987';
-            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="https://abdelkb.github.io/goodbitee/menu/en.html">Our Menu</a>';
-            document.getElementById('command').innerText = 'Order on Glovo';
+            document.getElementById('apl').innerText = 'Call us';
+            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="/menu/en.html">Menu</a>';
+            document.getElementById('command').innerText = 'Glovo';
             document.getElementById('desc').innerText = 'Discover our delicious international cuisine.';
           } else if (languageCode === 'es') {
             document.getElementById('title').innerText = 'Restaurante GOODBITE';
@@ -285,18 +306,20 @@
             document.getElementById('about-us-text').innerText = 'Restaurante GOODBITE te ofrece una experiencia culinaria excepcional con platos cuidadosamente elaborados e ingredientes de calidad.';
             document.getElementById('address-text').innerText = 'Dirección: Calle Buen Sabor, Ciudad';
             document.getElementById('phone-text').innerText = 'Teléfono: +212 522 452 987';
-            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="https://abdelkb.github.io/goodbitee/menu/es.html">Nuestro menú</a>';
-            document.getElementById('command').innerText = 'Haz tu pedido en Glovo';
+            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="/menu/es.html">Menú</a>';
+            document.getElementById('apl').innerText = 'llámenos';
+            document.getElementById('command').innerText = 'Glovo';
             document.getElementById('desc').innerText = 'Descubre nuestra deliciosa cocina internacional.';
           } else if (languageCode === 'ar') {
             document.getElementById('title').innerText = 'مطعم غودبايت';
             document.getElementById('delivery-message').innerText = 'توصيل منزلي';
             document.getElementById('about-us-heading').innerText = 'مرحبًا';
-            document.getElementById('about-us-text').innerText = 'يقدم لك مطعم GOODBITE أطباق استثنائية و لذيذة مُعدة بعناية و جودة عالية';
+            document.getElementById('about-us-text').innerText = 'يقدم لك مطعم غودبايت أطباق استثنائية و لذيذة مُعدة بعناية و جودة عالية';
             document.getElementById('address-text').innerText = 'العنوان: شارع المقاومة، بيلفيدير، الدار البيضاء';
-            document.getElementById('phone-text').innerText = 'الهاتف: +212 522 452 987';
-            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="https://abdelkb.github.io/goodbitee/menu/ar.html">قائمة الطعام</a>';
-            document.getElementById('command').innerText = 'الطلب من غلوفو';
+            document.getElementById('phone-text').innerText = '+212 522 452 987';
+            document.getElementById('menu').innerHTML = '<a style="color: #FFFF00; text-decoration: none;" href="/menu/ar.html">القائمة</a>';
+            document.getElementById('command').innerText = 'غلوفو';
+            document.getElementById('apl').innerText = 'اتصل بنا';
             document.getElementById('desc').innerText = 'اكتشف أطباقنا اللذيذة';
           }
 
