@@ -1,415 +1,546 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم جود بايت</title>
-      <!-- Favicon -->
-  <link rel="icon" href="https://abdelkb.github.io/goodbitee/img/favicon.png" type="image/x-icon">
-  <link rel="shortcut icon" href="https://abdelkb.github.io/goodbitee/img/favicon.png" type="image/x-icon">
-    <!-- Ajouter les liens vers les fichiers CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Ajouter le lien vers le fichier CSS personnalisé -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap">
+    <meta charset="utf-8">
+    <title>Restoran - Bootstrap Restaurant Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
     <style>
-
-        #loading-overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 1); /* Fond blanc semi-transparent */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000; /* Assure que l'overlay est au-dessus de tout le reste */
-        }
-
-        #loading-spinner {
-            border: 8px solid #FFB700; /* Couleur de fond pour le spinner */
-            border-top: 8px solid #D2042D; /* Couleur pour la partie visible du spinner */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 0.5s linear infinite; /* Animation de rotation du spinner */
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Ajouter des styles personnalisés ici si nécessaire */
-        body {
-            font-family: 'Roboto', sans-serif; /* Utilisez Roboto comme police par défaut */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            max-height: 100;
-        }
-
-        #slider {
-            max-width: 600px;
-            margin: 20px auto;
-            margin-top: 100px;
-        }
-
-        footer {
-            width: 100%;
-            background-color: black;
-            color: white;
-            margin-top: 30px;
-        }
-
-
-        .nav-item {
-            background-color: #FFB700;
-            margin: 5px;
-            border-radius: 10px;
-            margin-bottom: 3px;
-            width: auto;
-            height: auto;
-            text-align: center;
-        }
-
-        .nav-item:hover {
-            background-color: #facb53;
-        }
-
-        .nav-link {
-            font-size: 20px;
-            margin-left: 5px;
-            margin-right: 5px;
-            min-width: 70px;
-            color: #D2042D;
-        }
-
-        .nav-link:hover {
-            color: #d32c4d;
-        }
-        #slider-content{
-            text-align: center;
-        }
-        #slider-content img {
-            border-radius: 40px;
-            padding: 5px;
-            max-height: 65vh;
-            max-width: auto;
-            margin-bottom: 190px;
-        }
-        #slider-content p {
-            color: #1f1f1f;
-            text-align: center;
-        }
-        #slider-content h6 {
-            text-align: center;
-            color: #1f1f1f;
-            text-decoration: solid;
-            font-weight: bold;
-        }
-        #slider-content h5 {
-
-            color: #D2042D;
-            padding-top: 0;
-            font-size: 25px;
-            text-align: center;
-            background-color: #FFB700;
-            border-radius: 30px;
-            padding: 7px;
-            width: auto;
-        }
-
-
-                /* Styles pour les icônes du carousel */
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: #1f1f1f; /* Couleur spécifique pour les icônes */
-            border-radius: 3px;
-            height: 20px;
-            width: 20px;
-        }
-        .nav-list {
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            list-style: none;
-            margin-top: 54px;
-            padding-bottom: 5px;
-            
-        }
-        .scrollable-nav {
-    width: 100%; /* Ou une largeur fixe en pixels, pour ajuster selon vos besoins */
-    overflow-x: auto;
-}
-
+        .nav-pills {
+        white-space: nowrap;
+    }
+    .nav-item {
+        flex: 0 0 auto;
+    }
+    .container-fluid {
+        overflow-x: auto;
+    }
     </style>
 </head>
 
 <body>
-
-    <div id="loading-overlay">
-        <div style="margin-right: 10px;"> <img src="https://abdelkb.github.io/goodbitee/img/Logo goodbite.png" height="50" width="auto"> </div>
-        <div id="loading-spinner"> </div>
-    </div>
-    
-    <!-- Bar Navigation -->
-    
-    <nav class="scrollable-nav navbar navbar-expand-lg">
-        <ul class="nav-list fixed-top ml-auto" style="background-color: #1f1f1f;">                
-            <li class="nav-item">
-                <a class="nav-link active" href="#" onclick="changeCategory('salade')">السلطات</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('poulet')">أطباق الدجاج</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('viande')">أطباق اللحم</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('poisson')">أطباق السمك</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('pizza')">البيتزا</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('pasta')">المعكرونة</a>
-            </li> 
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('tacos')">تاكو | ساندويتش | بانيني</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('burger')">البرغر</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('jus')">العصائر | المشروبات</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeCategory('supp')">الحلويات</a>
-            </li>
-            <!-- Add other categories if necessary -->
-        </ul>
-        <a style="padding-bottom: 15px; color: #FFB700;background-color: #1f1f1f; width: 100vmax;" class="navbar-expand-lg navbar-brand fixed-top" href="https://abdelkb.github.io/goodbitee/index.html">
-            <span style="margin: 7px;"><img src="https://abdelkb.github.io/goodbitee/img/back.png" style="width: 35px; height: auto;"> </span>
-            <img src="https://github.com/abdelkb/goodbite/blob/main/img/Logo%20goodbite.png?raw=true" height="30" width="auto" alt=""><span id="title"> مطعم جودبايت</span>
-        </a>
-    </nav>
-     
-
-
-
-    <!-- Slider d'images -->
-    <div id="slider" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" id="slider-content">
-            <!-- Contenu du slider sera rempli dynamiquement avec JavaScript -->
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
-        <a class="carousel-control-prev" href="#slider" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Précédent</span>
-        </a>
-        <a class="carousel-control-next" href="#slider" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Suivant</span>
-        </a>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                    <!-- <img src="img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0 pe-4">
+                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="service.html" class="nav-item nav-link">Service</a>
+                        <a href="menu.html" class="nav-item nav-link active">Menu</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Our Team</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+                </div>
+            </nav>
+
+            
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+        <!-- Menu Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Notre Menu</h5>
+                </div>
+                <div style="margin-top: 20px;" class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="container-fluid p-0">
+                        <ul class="nav nav-pills d-inline-flex justify-content-start border-bottom mb-5 flex-nowrap overflow-auto w-100">
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                                    <i class="fa fa-coffee fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Popular</small>
+                                        <h6 class="mt-n1 mb-0">Breakfast</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 " data-bs-toggle="pill" href="#tab-1">
+                                    <i class="fa fa-coffee fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Popular</small>
+                                        <h6 class="mt-n1 mb-0">Breakfast</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 " data-bs-toggle="pill" href="#tab-1">
+                                    <i class="fa fa-coffee fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Popular</small>
+                                        <h6 class="mt-n1 mb-0">Breakfast</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                                    <i class="fa fa-hamburger fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Special</small>
+                                        <h6 class="mt-n1 mb-0">Lunch</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                                    <i class="fa fa-utensils fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Lovely</small>
+                                        <h6 class="mt-n1 mb-0">Dinner</h6>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-3" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-3.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-4.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-5.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-6.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-7.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-8.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>Chicken Burger</span>
+                                                <span class="text-primary">$115</span>
+                                            </h5>
+                                            <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu End -->
+        
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
+                        <a class="btn btn-link" href="">About Us</a>
+                        <a class="btn btn-link" href="">Contact Us</a>
+                        <a class="btn btn-link" href="">Reservation</a>
+                        <a class="btn btn-link" href="">Privacy Policy</a>
+                        <a class="btn btn-link" href="">Terms & Condition</a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                        <div class="d-flex pt-2">
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
+                        <h5 class="text-light fw-normal">Monday - Saturday</h5>
+                        <p>09AM - 09PM</p>
+                        <h5 class="text-light fw-normal">Sunday</h5>
+                        <p>10AM - 08PM</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
+                        <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                        <div class="position-relative mx-auto" style="max-width: 400px;">
+                            <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
+							
+							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                            Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <div class="footer-menu">
+                                <a href="">Home</a>
+                                <a href="">Cookies</a>
+                                <a href="">Help</a>
+                                <a href="">FQAs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- Ajouter les liens vers les fichiers JavaScript de jQuery et Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <script>
-        function changeCategory(category) {
-            // Remplacez ces données factices par les données réelles de votre site
-            var categoryData = {
-                pizza: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/1.jpg', name: 'بيتزا مارغريتا', price: 'صغيرة: 35 درهم | كبيرة: 55 درهم', description: 'صلصة الطماطم - جبن الموزاريلا' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/2.jpg', name: 'بيتزا جودبايت', price: 'صغيرة: 43 درهم | كبيرة: 65 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - دجاج - فلفل' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/3.jpg', name: 'بيتزا بولونياز', price: 'صغيرة: 46 درهم | كبيرة: 65 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - لحم مفروم - فطر - فلفل' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/4.jpg', name: 'بيتزا 4 أنواع من الجبن', price: 'صغيرة: 46 درهم | كبيرة: 65 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - ريكوتا - بارميزان - جبن أحمر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/5.jpg', name: 'بيتزا التونة', price: 'صغيرة: 48 درهم | كبيرة: 68 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - التونة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/6.jpg', name: 'بيتزا 6 خضار', price: 'صغيرة: 45 درهم | كبيرة: 68 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - بروكلي - سبانخ - ذرة - فلفل - فطر - طماطم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/7.jpg', name: 'بيتزا فروت دو مير', price: 'صغيرة: 55 درهم | كبيرة: 75 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - جمبري - كالاماري' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/8.jpg', name: 'بيتزا 4 مواسم', price: 'صغيرة: 59 درهم | كبيرة: 84 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - جمبري - كالاماري - دجاج - لحم مفروم - فلفل - فطر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/9.jpg', name: 'بيتزا سي سي سي بوليه', price: 'صغيرة: 60 درهم | كبيرة: 80 درهم', description: 'كريمة طازجة - سرطان - فطر - دجاج - جبن الموزاريلا - بارميزان' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/10.jpg', name: 'سي سي سي فروت دو مير', price: 'صغيرة: 65 درهم | كبيرة: 85 درهم', description: 'كريمة طازجة - سرطان - جمبري - كالاماري - جبن الموزاريلا - بارميزان' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pizza/11.jpg', name: 'بيتزا رويال', price: 'صغيرة: 70 درهم | كبيرة: 110 درهم', description: 'صلصة الطماطم - جبن الموزاريلا - جمبري - كالاماري - سرطان - نقانق - لحم مفروم - دجاج - فلفل - فطر - بروكلي - طماطم' },
-    // إضافة بيتزا أخرى إذا كان ذلك ضروريًا
-],
-burger: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/burger/1.JPG', name: 'برغر الدجاج', price: '41 درهم', description: 'جبن - خس - طماطم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/burger/2.JPG', name: 'برغر بالجبن', price: '43 درهم', description: 'جبن - خس - طماطم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/burger/3.JPG', name: 'برغر كامبانيا', price: '45 درهم', description: 'فطر - بصل - جبن - خس - طماطم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/burger/4.JPG', name: 'برغر جيانت', price: '67 درهم', description: 'برغر مزدوج - جبن - خس - طماطم' },
-    // إضافة برغر آخر إذا كان ذلك ضروريًا
-],
-pasta: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/pasta/1.JPG', name: 'سباغيتي بولونيز', price: '62 درهم', description: 'صلصة الطماطم - لحم مفروم - بارميزان - جبن' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pasta/2.JPG', name: 'تالياتيل ألفريدو بالدجاج', price: '88 درهم', description: 'صلصة الكريمة - دجاج - بارميزان' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pasta/3.JPG', name: 'تالياتيل ألفريدو بالدجاج والبروكلي', price: '98 درهم', description: 'صلصة الكريمة - دجاج - بروكلي - بارميزان' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/pasta/4.JPG', name: 'تالياتيل ألفريدو بفواكه البحر', price: '110 درهم', description: 'صلصة الكريمة - سرطان - جمبري - كالاماري - بارميزان' },
-    // إضافة مزيد من الحساء إذا كان ذلك ضروريًا
-],
-poulet: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/1.jpg', name: 'أجنحة الدجاج', price: '32 درهم', description: 'صلصة حارة - جبن أزرق' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/2.jpg', name: 'صدر الدجاج', price: '37 درهم', description: 'بطاطس مقلية - خضار اليوم - شعيرية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/3.jpg', name: 'ربع الدجاج', price: '41 درهم', description: 'بطاطس مقلية - خضار اليوم - شعيرية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/4.jpg', name: 'الدجاج المقرمش', price: '41 درهم', description: 'بطاطس مقلية - خضار اليوم - شعيرية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/5.jpg', name: 'كتليه الدجاج', price: '48 درهم', description: 'صلصة الطماطم - خضار اليوم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/6.jpg', name: 'طبق الديندن', price: '55 درهم', description: 'بطاطس مقلية - خضار اليوم - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/7.jpg', name: 'الدجاج بارميزان', price: '55 درهم', description: 'صلصة الطماطم - جبن - بارميزان - خضار اليوم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/8.jpg', name: 'الدجاج ميلانيز', price: '58 درهم', description: 'روكيت - طماطم - بصل - صلصة بلسمية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/9.jpg', name: 'الدجاج مع الخضار', price: '65 درهم', description: 'خضار مقلية - ريكوتا - زيتون' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/10.jpg', name: 'الدجاج سي سي سي', price: '75 درهم', description: 'فطر - سرطان - كريمة طازجة - خضار اليوم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/11.jpg', name: 'نصف الدجاج', price: '79 درهم', description: 'بطاطس مقلية - خضار اليوم - شعيرية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/poulet/12.jpg', name: 'الدجاج كامل', price: '157 درهم', description: 'بطاطس مقلية - خضار اليوم - شعيرية' },
-    // إضافة مزيد من أصناف الدجاج إذا كان ذلك ضروريًا
-],
-viande: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/viande/1.JPG', name: 'طبق لحم مفروم', price: '59 درهم', description: 'بطاطس مقلية - خضار اليوم - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/viande/2.JPG', name: 'طبق النقانق', price: '60 درهم', description: 'بطاطس مقلية - خضار اليوم - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/viande/3.JPG', name: 'طبق مشكل', price: '72 درهم', description: 'بطاطس مقلية - خضار اليوم - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/viande/4.JPG', name: 'ستيك بخضار مقلية', price: '83 درهم', description: 'خضار مقلية - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/viande/5.JPG', name: 'ستيك سي سي سي', price: '110 درهم', description: 'كريمة طازجة - سرطان - فطر - خضار اليوم' },
-    // إضافة مزيد من أصناف اللحم إذا كان ذلك ضروريًا
-],
-poisson: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/1.jpg', name: 'سمك محمر', price: '90 درهم', description: 'سمك مرلان - خضار اليوم - كرات أرز بالجبن - بطاطس مقلية - صلصة الجبن' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/2.jpg', name: 'سمك مشوي', price: '90 درهم', description: 'سمك مرلان - خضار - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/3.jpg', name: 'سمك السلمون المشوي', price: '120 درهم', description: 'سمك السلمون - خضار - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/4.jpg', name: 'جمبري وحبار', price: '110 درهم', description: 'جمبري - حبار - خضار اليوم - كرات أرز بالجبن - بطاطس مقلية - صلصة الجبن' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/5.jpg', name: 'طبق سمك مشوي', price: '140 درهم', description: 'سلمون - مرلان - جمبري - أومبرين - خضار - سلطة' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/fish/6.jpg', name: 'قلي سمك', price: '140 درهم', description: 'مرلان - جمبري - أومبرين - حبار - خضار اليوم - كرات أرز بالجبن - بطاطس مقلية - صلصة الجبن' },
-    // إضافة مزيد من أصناف الأسماك إذا كان ذلك ضروريًا
-],
-jus: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/1p.jpg', name: 'مياه معدنية 500 سم³', price: '5 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/1.JPG', name: 'مياه معدنية 1 لتر', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/2.JPG', name: 'صودا علبة', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/3.JPG', name: 'قهوة', price: '12 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/4.JPG', name: 'عصير البرتقال', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/5.JPG', name: 'عصير الموز', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/6.JPG', name: 'عصير التفاح', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/7.JPG', name: 'عصير الأفوكادو', price: '19 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/8.JPG', name: 'عصير الفراولة', price: '17 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/9.JPG', name: 'عصير البرقوق', price: '17 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/10.JPG', name: 'عصير الكمثرى', price: '17 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/11.JPG', name: 'عصير اللوز', price: '21 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/12.JPG', name: 'عصير الليمون', price: '15 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/13.JPG', name: 'عصير الأفوكادو أوريو', price: '18 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/14.JPG', name: 'عصير الفواكه الجافة', price: '21 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/15.JPG', name: 'عصير زازا', price: '28 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/16.JPG', name: 'عصير الأناناس', price: '20 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/17.JPG', name: 'عصير المانجو', price: '20 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/18.JPG', name: 'عصير البابايا', price: '20 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/19.JPG', name: 'عصير الكيوي', price: '20 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/20.JPG', name: 'عصير مختلط', price: '21 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/21.JPG', name: 'عصير رويال', price: '24 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/jus/22.JPG', name: 'عصير جودبايت', price: '23 درهم', description: ' ' },
-    // إضافة مزيد من العصائر إذا كان ذلك ضروريًا
-],
-supp: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/supp/1.JPG', name: 'سلطة الفواكه بالبرتقال', price: '23 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/supp/2.JPG', name: 'سلطة الفواكه بالأفوكادو', price: '26 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/supp/3.JPG', name: 'سلطة الفواكه بالرايب', price: '24 درهم', description: ' ' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/supp/4.JPG', name: 'تيراميسو', price: '15 درهم', description: ' ' },
-    // إضافة مزيد من الإضافات إذا كان ذلك ضروريًا
-],
-tacos: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/1.JPG', name: 'تاكوس الدجاج', price: '45 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/1.JPG', name: 'تاكوس الدجاج المقلي', price: '45 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/2.JPG', name: 'تاكوس الديندا', price: '45 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/3.JPG', name: 'تاكوس اللحم المفروم', price: '47 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/4.JPG', name: 'تاكوس النقانق', price: '47 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/5.JPG', name: 'تاكوس مشكل', price: '49 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/6.JPG', name: 'تاكوس فواكه البحر', price: '55 درهم', description: 'صلصة حسب الاختيار - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/7.JPG', name: 'ساندويتش الدجاج', price: '39 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/7.JPG', name: 'ساندويتش الديندا', price: '39 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/8.JPG', name: 'ساندويتش اللحم المفروم', price: '41 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/9.JPG', name: 'ساندويتش النقانق', price: '41 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/10.JPG', name: 'ساندويتش مشكل', price: '42 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/11.JPG', name: 'شاورما ساندويتش', price: '39 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/12.JPG', name: 'ساندويتش شيز ستيك', price: '49 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/13.JPG', name: 'ساندويتش فواكه البحر', price: '49 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/14.JPG', name: 'بانيني الدجاج', price: '39 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/15.JPG', name: 'بانيني الديندا', price: '39 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/16.JPG', name: 'بانيني اللحم المفروم', price: '41 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/17.JPG', name: 'بانيني النقانق', price: '41 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/18.JPG', name: 'بانيني مشكل', price: '42 درهم', description: 'صلصة - بطاطس' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/tacos/19.JPG', name: 'بانيني فواكه البحر', price: '49 درهم', description: 'صلصة - بطاطس' },
-    // إضافة أنواع أخرى من التاكوس إذا كان ذلك ضروريًا
-],
-salade: [
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/1.jpg', name: 'سلطة البيت', price: '26 درهم', description:'الخس - الطماطم - الفلفل - البصل - الخيار - خل البيت' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/2.jpg', name: 'سلطة السيزار', price: '37 درهم', description:'- دجاج مشوي - الخس - الكريسبي - جبن البارميزان - صلصة سيزار' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/3.jpg', name: 'سلطة التونة', price: '37 درهم', description:'التونة - الخس - الفلفل - البصل - الطماطم' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/4.jpg', name: 'سلطة الدجاج', price: '39 درهم', description:'الدجاج المقرمش - الخس - الفلفل - البصل - الطماطم - جبن أحمر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/5.jpg', name: 'سلطة الشيف', price: '39 درهم', description:'- مجموعة متنوعة من الخضروات - التونة - الأرز - الذرة - جبن أحمر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/6.jpg', name: 'سلطة النباتية', price: '41 درهم', description:'خضروات متنوعة - سبانخ، بروكلي - فطر - جبن ريكوتا' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/7.jpg', name: 'سلطة الكالامار', price: '42 درهم', description:'الكالامار المقرمش - الخس - الفلفل - البصل - الطماطم - جبن أحمر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/8.jpg', name: 'سلطة الشيف - الدجاج', price: '47 درهم', description:'الدجاج - مجموعة متنوعة من الخضروات - التونة - الأرز - الذرة - جبن أحمر' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/9.jpg', name: 'سلطة إيطالية', price: '63 درهم', description:'جمبري وكالامار - الخس والجرجير - البصل - الطماطم - صلصة بيتية' },
-    { image: 'https://abdelkb.github.io/goodbitee/img/Salade/10.jpg', name: 'سلطة جود بايت', price: '67 درهم', description:'- فواكه البحر - الخس - جبن أحمر - صلصة بيتية' },
-    // أضف أنواع أخرى من السلطات إذا لزم الأمر
-],
-            };
-
-            var sliderContent = document.getElementById('slider-content');
-            sliderContent.innerHTML = '';
-
-             categoryData[category].forEach(function (item) {
-             var slide = document.createElement('div');
-             slide.className = 'carousel-item';
-             if (sliderContent.children.length === 0) {
-            slide.classList.add('active');
-
-            var loadingOverlay = document.getElementById('loading-overlay');
-            loadingOverlay.style.display = 'none';
-        }
-
-        // Div pour l'image
-        var imgDiv = document.createElement('div');
-        imgDiv.className = 'slider-image-container';
-
-        var img = document.createElement('img');
-        img.src = item.image;
-        img.className = 'd-block w-100';
-        img.alt = item.name;
-
-        imgDiv.appendChild(img);
-
-        // Div pour le texte
-        var textDiv = document.createElement('div');
-        textDiv.className = 'carousel-caption text-left'; // Aligner le texte à gauche
-
-        textDiv.innerHTML = '<h5>' + item.name + '</h5><h6>' + item.price + '</h6><p>' + item.description + '</p>';
-
-        // Ajouter les divs à la diapositive
-        slide.appendChild(imgDiv);
-        slide.appendChild(textDiv);
-
-        // Ajouter la diapositive au contenu du slider
-        sliderContent.appendChild(slide);
-    });
-
-    // Réduire la barre de navigation après avoir choisi une catégorie
-    var navbarToggler = document.querySelector('.navbar-toggler');
-    var navbarCollapse = document.querySelector('.navbar-collapse');
-    navbarToggler.classList.add('collapsed');
-    navbarCollapse.classList.remove('show');
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-            // Laissez la page de chargement visible au début
-            var loadingOverlay = document.getElementById('loading-overlay');
-            loadingOverlay.style.display = 'flex';
-
-            // Appel de la fonction changeCategory après un délai simulé (1000ms ici, ajustez selon vos besoins)
-            setTimeout(function () {
-                changeCategory('salade');
-            }, 1500);
-        });
-    </script>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
