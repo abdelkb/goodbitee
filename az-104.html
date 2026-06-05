@@ -895,6 +895,80 @@
     }
     .btn-cancel:hover { background: var(--ms-gray-light); }
 
+    /* ── EXHIBIT TABLE ── */
+    .exhibit-wrap {
+      background: var(--ms-white);
+      border: 1px solid var(--ms-gray-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    .exhibit-wrap h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ms-gray);
+      margin-bottom: 10px;
+    }
+    .exhibit-table {
+      border-collapse: collapse;
+      font-size: 13px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .exhibit-table th {
+      background: #e1dfdd;
+      padding: 6px 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid #c8c6c4;
+      white-space: nowrap;
+    }
+    .exhibit-table td {
+      padding: 6px 12px;
+      border: 1px solid #c8c6c4;
+      white-space: nowrap;
+    }
+    .exhibit-table tr:nth-child(even) td { background: #faf9f8; }
+
+    /* ── DROPDOWN QUESTION ── */
+    .dropdown-rows { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .dropdown-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--ms-white);
+      border: 2px solid var(--ms-gray-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      flex-wrap: wrap;
+    }
+    .dropdown-row.correct-dd { border-color: var(--ms-green); background: #dff6dd; }
+    .dropdown-row.wrong-dd  { border-color: var(--ms-red);   background: #fde7e9; }
+    .dropdown-row label {
+      font-size: 14px;
+      color: var(--ms-black);
+      flex: 1;
+      min-width: 200px;
+    }
+    .dd-select {
+      border: 2px solid var(--ms-gray-border);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--ms-white);
+      cursor: pointer;
+      min-width: 160px;
+      transition: border-color 0.15s;
+    }
+    .dd-select:focus { outline: none; border-color: var(--ms-blue); }
+    .dd-select:disabled { opacity: 0.8; cursor: default; }
+    .dropdown-row .dd-icon { font-size: 16px; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .exam-body { flex-direction: column-reverse; padding: 16px; }
@@ -1265,6 +1339,31 @@ const QUESTIONS = [
     explanation: "RA-GRS et RA-GZRS sont les seules options qui offrent à la fois la géo-redondance (protection contre une panne régionale) ET l'accès en lecture depuis la région secondaire. LRS ne protège que contre les défaillances matérielles locales. ZRS protège contre les pannes de zones de disponibilité mais pas de régions entières. GRS protège contre les pannes régionales mais ne permet pas l'accès en lecture depuis la secondaire (sauf en cas de basculement initié par Microsoft).",
     reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/storage-redundancy"
   }
+  ,
+  {
+    id: 3,
+    type: "dropdown",
+    domain: "Ressources de calcul Azure",
+    topic: "Diagnostics de démarrage VM",
+    question: "Vous disposez de deux machines virtuelles Azure (VM) et de trois comptes de stockage provisionnés dans un abonnement Azure. La configuration de l'abonnement est indiquée dans l'épreuve ci-dessous.\n\nVous devez activer les diagnostics de démarrage dans les VM Azure en utilisant les comptes de stockage disponibles.\n\nQuels comptes de stockage devez-vous utiliser ? Pour répondre, sélectionnez les options appropriées dans les menus déroulants.",
+    exhibit: `<table class="exhibit-table"><thead><tr><th>Groupe de ressources</th><th>Région</th></tr></thead><tbody><tr><td>rg1</td><td>Central US</td></tr><tr><td>rg2</td><td>East US</td></tr></tbody></table>
+<table class="exhibit-table" style="margin-top:10px"><thead><tr><th>VM Azure</th><th>Système d'exploitation</th><th>Groupe de ressources</th><th>Région</th></tr></thead><tbody><tr><td>vm1</td><td>Ubuntu 20.04 LTS</td><td>rg1</td><td>Central US</td></tr><tr><td>vm2</td><td>Windows Server 2019</td><td>rg2</td><td>East US</td></tr></tbody></table>
+<table class="exhibit-table" style="margin-top:10px"><thead><tr><th>Compte de stockage</th><th>Type</th><th>Réplication</th><th>Groupe de ressources</th><th>Région</th></tr></thead><tbody><tr><td>storage1</td><td>Compte de stockage Premium</td><td>LRS</td><td>rg1</td><td>Central US</td></tr><tr><td>storage2</td><td>Compte de stockage v1</td><td>LRS</td><td>rg2</td><td>East US</td></tr><tr><td>storage3</td><td>Compte de stockage v2</td><td>GRS</td><td>rg1</td><td>Central US</td></tr></tbody></table>`,
+    dropdowns: [
+      {
+        label: "Activer les diagnostics de démarrage dans vm1 en utilisant",
+        options: ["storage1", "storage2", "storage3"],
+        correct: 2
+      },
+      {
+        label: "Activer les diagnostics de démarrage dans vm2 en utilisant",
+        options: ["storage1", "storage2", "storage3"],
+        correct: 1
+      }
+    ],
+    explanation: "Les diagnostics de démarrage Azure nécessitent un compte de stockage à usage général (v1 ou v2). Les comptes de stockage Premium (storage1) ne sont PAS compatibles avec les diagnostics de démarrage.\n\n• vm1 est dans Central US (rg1) → storage3 est le seul compte non-Premium dans Central US (storage1 est Premium → exclu).\n• vm2 est dans East US (rg2) → storage2 est le seul compte disponible dans East US.\n\nRéponses correctes : vm1 → storage3 | vm2 → storage2",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machines/boot-diagnostics"
+  }
   // ── ADD MORE QUESTIONS HERE ──
 ];
 
@@ -1304,6 +1403,21 @@ const State = {
 //  Raw score → Scaled 1–1000 (pass = 700)
 // ══════════════════════════════════════════════════════════
 function calcQuestionScore(q, userAnswers) {
+  // dropdown: userAnswers is an object {ddIdx: selectedOptIdx}
+  if (q.type === 'dropdown') {
+    if (!userAnswers || Array.isArray(userAnswers) || Object.keys(userAnswers).length === 0)
+      return { raw: 0, max: 1, isCorrect: false, isPartial: false };
+    const n = q.dropdowns.length;
+    let correctCount = 0;
+    q.dropdowns.forEach((dd, i) => {
+      if (userAnswers[i] !== undefined && userAnswers[i] === dd.correct) correctCount++;
+    });
+    const raw = correctCount / n;
+    const isCorrect = correctCount === n;
+    const isPartial = correctCount > 0 && !isCorrect;
+    return { raw, max: 1, isCorrect, isPartial };
+  }
+
   if (!userAnswers || userAnswers.length === 0) return { raw: 0, max: 1, isCorrect: false, isPartial: false };
 
   if (q.type === 'single') {
@@ -1449,41 +1563,12 @@ const App = {
     const q = State.questions[qi];
     const total = State.questions.length;
     const panel = document.getElementById('question-panel');
-    const userAns = State.answers[qi] || [];
     const revealed = State.revealed.has(qi);
 
     document.getElementById('exam-progress-text').textContent = `Question ${qi+1} / ${total}`;
     document.getElementById('exam-progress-bar').style.width = `${((qi+1)/total)*100}%`;
 
-    const letters = 'ABCDEFGHIJ';
-
-    let optionsHtml = '';
-    q.options.forEach((opt, i) => {
-      let cls = 'option-item';
-      let icon = '';
-      const isSelected = userAns.includes(i);
-      const isCorrect = q.correct.includes(i);
-
-      if (revealed) {
-        cls += ' disabled';
-        if (isSelected && isCorrect) { cls += ' correct'; icon = '<span class="option-icon">✓</span>'; }
-        else if (isSelected && !isCorrect) { cls += ' wrong'; icon = '<span class="option-icon">✗</span>'; }
-        else if (!isSelected && isCorrect) { cls += ' correct-missed'; icon = '<span class="option-icon">✓</span>'; }
-      } else {
-        if (isSelected) cls += ' selected';
-      }
-
-      optionsHtml += `
-        <div class="${cls}" onclick="App.selectOption(${i})">
-          <div class="option-letter">${letters[i]}</div>
-          <div class="option-text">${escHtml(opt)}</div>
-          ${icon}
-        </div>`;
-    });
-
-    const multiHint = q.type === 'multiple'
-      ? `<div style="font-size:12px; color:var(--ms-orange); font-weight:600; margin-bottom:12px;">⚠ Choisissez ${q.correct.length} réponse(s)</div>`
-      : '';
+    const typeLabels = { single: 'Choix unique', multiple: 'Choix multiples', dropdown: 'Liste déroulante' };
 
     const explanationBlock = revealed && State.config.showExplanation ? `
       <div class="explanation-block visible">
@@ -1499,38 +1584,121 @@ const App = {
     const prevBtn = qi > 0
       ? `<button class="btn-nav" onclick="App.navigate(-1)">← Précédent</button>`
       : '';
-
     const nextBtn = qi < total - 1
       ? `<button class="btn-nav primary-nav" onclick="App.navigate(1)">Suivant →</button>`
       : `<button class="btn-nav primary-nav" onclick="App.confirmEnd()">Terminer ✓</button>`;
 
-    panel.innerHTML = `
+    const header = `
       <div class="question-header">
         <span class="q-number">Q${qi+1}</span>
         <span class="q-domain">${escHtml(q.domain)}</span>
-        <span class="q-type">${q.type === 'multiple' ? 'Choix multiples' : 'Choix unique'}</span>
+        <span class="q-type">${typeLabels[q.type] || q.type}</span>
         <button class="flagged-btn ${State.flags.has(qi) ? 'flagged' : ''}" onclick="App.toggleFlag()" title="Marquer">🚩</button>
-      </div>
+      </div>`;
+
+    // ── DROPDOWN type ──
+    if (q.type === 'dropdown') {
+      const userAns = State.answers[qi] || {};
+      const exhibitHtml = q.exhibit
+        ? `<div class="exhibit-wrap"><h4>📋 Épreuve</h4>${q.exhibit}</div>`
+        : '';
+      let ddRows = '';
+      q.dropdowns.forEach((dd, ddi) => {
+        const selected = userAns[ddi];
+        const hasAnswer = selected !== undefined;
+        let rowCls = 'dropdown-row';
+        let icon = '';
+        if (revealed && hasAnswer) {
+          if (selected === dd.correct) { rowCls += ' correct-dd'; icon = '<span class="dd-icon">✓</span>'; }
+          else                         { rowCls += ' wrong-dd';   icon = '<span class="dd-icon">✗</span>'; }
+        } else if (revealed && !hasAnswer) {
+          rowCls += ' wrong-dd'; icon = '<span class="dd-icon">✗</span>';
+        }
+        const opts = dd.options.map((o, oi) => {
+          let optLabel = escHtml(o);
+          if (revealed) {
+            if (oi === dd.correct) optLabel += ' ✓';
+            else if (hasAnswer && oi === selected && oi !== dd.correct) optLabel += ' ✗';
+          }
+          return `<option value="${oi}" ${hasAnswer && selected === oi ? 'selected' : ''}>${optLabel}</option>`;
+        }).join('');
+        ddRows += `
+          <div class="${rowCls}">
+            <label>${escHtml(dd.label)}</label>
+            <select class="dd-select" ${revealed ? 'disabled' : ''} onchange="App.selectDropdown(${qi}, ${ddi}, +this.value)">
+              <option value="" disabled ${!hasAnswer ? 'selected' : ''}>— Sélectionner —</option>
+              ${opts}
+            </select>
+            ${icon}
+          </div>`;
+      });
+      panel.innerHTML = `
+        ${header}
+        <div class="question-text">${escHtml(q.question)}</div>
+        ${exhibitHtml}
+        <div class="dropdown-rows">${ddRows}</div>
+        ${explanationBlock}
+        <div class="question-actions">${revealBtn}${prevBtn}${nextBtn}</div>`;
+      return;
+    }
+
+    // ── SINGLE / MULTIPLE type ──
+    const userAns = State.answers[qi] || [];
+    const letters = 'ABCDEFGHIJ';
+    let optionsHtml = '';
+    q.options.forEach((opt, i) => {
+      let cls = 'option-item';
+      let icon = '';
+      const isSelected = userAns.includes(i);
+      const isCorrect = q.correct.includes(i);
+      if (revealed) {
+        cls += ' disabled';
+        if (isSelected && isCorrect)  { cls += ' correct';       icon = '<span class="option-icon">✓</span>'; }
+        else if (isSelected)          { cls += ' wrong';         icon = '<span class="option-icon">✗</span>'; }
+        else if (isCorrect)           { cls += ' correct-missed'; icon = '<span class="option-icon">✓</span>'; }
+      } else {
+        if (isSelected) cls += ' selected';
+      }
+      optionsHtml += `
+        <div class="${cls}" onclick="App.selectOption(${i})">
+          <div class="option-letter">${letters[i]}</div>
+          <div class="option-text">${escHtml(opt)}</div>
+          ${icon}
+        </div>`;
+    });
+    const multiHint = q.type === 'multiple'
+      ? `<div style="font-size:12px;color:var(--ms-orange);font-weight:600;margin-bottom:12px;">⚠ Choisissez ${q.correct.length} réponse(s)</div>`
+      : '';
+    panel.innerHTML = `
+      ${header}
       <div class="question-text">${escHtml(q.question)}</div>
       ${multiHint}
       <div class="options-list">${optionsHtml}</div>
       ${explanationBlock}
-      <div class="question-actions">
-        ${revealBtn}
-        ${prevBtn}
-        ${nextBtn}
-      </div>`;
+      <div class="question-actions">${revealBtn}${prevBtn}${nextBtn}</div>`;
   },
 
   _renderNavGrid() {
     const grid = document.getElementById('nav-grid');
-    grid.innerHTML = State.questions.map((_, i) => {
+    grid.innerHTML = State.questions.map((q, i) => {
+      const ans = State.answers[i];
+      const hasAnswer = q.type === 'dropdown'
+        ? ans && !Array.isArray(ans) && Object.keys(ans).length > 0
+        : ans?.length > 0;
       let cls = 'nav-dot';
       if (i === State.current) cls += ' current';
-      else if (State.answers[i]?.length) cls += ' answered';
+      else if (hasAnswer) cls += ' answered';
       if (State.flags.has(i)) cls = 'nav-dot flagged';
       return `<div class="${cls}" onclick="App.jumpTo(${i})">${i+1}</div>`;
     }).join('');
+  },
+
+  selectDropdown(qi, ddIdx, optIdx) {
+    if (State.revealed.has(qi)) return;
+    const ans = Object.assign({}, State.answers[qi] || {});
+    ans[ddIdx] = optIdx;
+    State.answers[qi] = ans;
+    this._renderNavGrid();
   },
 
   selectOption(optIdx) {
@@ -1620,7 +1788,7 @@ const App = {
     const domainMap = {};
 
     qs.forEach((q, i) => {
-      const ua = State.answers[i] || [];
+      const ua = q.type === 'dropdown' ? (State.answers[i] || {}) : (State.answers[i] || []);
       const score = calcQuestionScore(q, ua);
       totalRaw += score.raw;
       totalMax += score.max;
@@ -1629,7 +1797,10 @@ const App = {
       domainMap[q.domain].raw += score.raw;
       domainMap[q.domain].max += score.max;
 
-      if (ua.length === 0) {
+      const isEmpty = q.type === 'dropdown'
+        ? (!ua || Object.keys(ua).length === 0)
+        : (!ua || ua.length === 0);
+      if (isEmpty) {
         skipped++;
         wrongItems.push({ q, i, ua, score, status: 'skipped' });
       } else if (score.isCorrect) {
@@ -1691,8 +1862,35 @@ const App = {
       reviewList.innerHTML = wrongItems.map(({ q, i, ua, status }) => {
         const badgeClass = status === 'partial' ? 'partial' : status === 'skipped' ? 'skipped' : 'wrong';
         const badgeLabel = status === 'partial' ? 'Partiel' : status === 'skipped' ? 'Non répondu' : 'Incorrect';
-        const yourAns = ua.length ? ua.map(x => letters[x]).join(', ') : '—';
-        const correctAns = q.correct.map(x => letters[x]).join(', ');
+
+        let answerDetail = '';
+        if (q.type === 'dropdown') {
+          answerDetail = q.dropdowns.map((dd, ddi) => {
+            const yourSel = ua[ddi] !== undefined ? dd.options[ua[ddi]] : '—';
+            const correctSel = dd.options[dd.correct];
+            const ok = ua[ddi] === dd.correct;
+            return `<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--ms-gray-border);">
+              <strong>${escHtml(dd.label)}</strong><br>
+              Ta réponse : <span style="color:${ok ? 'var(--ms-green)' : 'var(--ms-red)'};font-weight:700">${escHtml(yourSel)}</span>
+              ${!ok ? `&nbsp;→ Correcte : <span style="color:var(--ms-green);font-weight:700">${escHtml(correctSel)}</span>` : ''}
+            </div>`;
+          }).join('');
+        } else {
+          const yourAns = ua.length ? ua.map(x => letters[x]).join(', ') : '—';
+          const correctAns = q.correct.map(x => letters[x]).join(', ');
+          answerDetail = `
+            <div class="review-answer">Ta réponse : <span class="your-a">${yourAns}</span></div>
+            <div class="review-answer">Réponse correcte : <span class="correct-a">${correctAns}</span></div>
+            <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--ms-black);">Options :</div>
+            ${q.options.map((o, idx) => {
+              const isC = q.correct.includes(idx);
+              const isU = ua.includes(idx);
+              return `<div style="font-size:13px;padding:4px 0;color:${isC ? 'var(--ms-green)' : isU ? 'var(--ms-red)' : 'var(--ms-gray)'}">
+                ${letters[idx]}. ${escHtml(o)} ${isC ? '✓' : ''} ${isU && !isC ? '✗' : ''}
+              </div>`;
+            }).join('')}`;
+        }
+
         return `
           <div class="review-item">
             <div class="review-item-header" onclick="this.nextElementSibling.classList.toggle('open')">
@@ -1701,16 +1899,7 @@ const App = {
               <span class="ri-badge ${badgeClass}">${badgeLabel}</span>
             </div>
             <div class="review-item-body">
-              <div class="review-answer">Ta réponse : <span class="your-a">${yourAns}</span></div>
-              <div class="review-answer">Réponse correcte : <span class="correct-a">${correctAns}</span></div>
-              <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--ms-black);">Options :</div>
-              ${q.options.map((o, idx) => {
-                const isC = q.correct.includes(idx);
-                const isU = ua.includes(idx);
-                return `<div style="font-size:13px; padding:4px 0; color:${isC ? 'var(--ms-green)' : isU ? 'var(--ms-red)' : 'var(--ms-gray)'}">
-                  ${letters[idx]}. ${escHtml(o)} ${isC ? '✓' : ''} ${isU && !isC ? '✗' : ''}
-                </div>`;
-              }).join('')}
+              ${answerDetail}
               <div class="review-expl"><strong>💡 Explication :</strong><br>${escHtml(q.explanation)}</div>
               ${q.reference ? `<div style="margin-top:8px;font-size:12px;"><a href="${q.reference}" target="_blank" style="color:var(--ms-blue)">📖 Documentation Microsoft</a></div>` : ''}
             </div>
