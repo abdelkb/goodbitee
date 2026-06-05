@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AZ-104 Exam Simulator</title>
+  <style>
+    :root {
+      --ms-blue: #0078d4;
+      --ms-blue-dark: #005a9e;
+      --ms-blue-light: #deecf9;
+      --ms-green: #107c10;
+      --ms-red: #d13438;
+      --ms-orange: #ca5010;
+      --ms-gray: #605e5c;
+      --ms-gray-light: #f3f2f1;
+      --ms-gray-border: #edebe9;
+      --ms-white: #ffffff;
+      --ms-black: #323130;
+      --ms-yellow: #ffb900;
+      --radius: 4px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--ms-gray-light);
+      color: var(--ms-black);
+      min-height: 100vh;
+    }
+
+    /* ── SCREENS ── */
+    .screen { display: none; }
+    .screen.active { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── HEADER ── */
+    .app-header {
+      background: var(--ms-blue);
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .app-header .logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .app-header .badge {
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .app-header .spacer { flex: 1; }
+    .app-header .btn-ghost {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.15s;
+    }
+    .app-header .btn-ghost:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── HOME SCREEN ── */
+    #screen-home {
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+    }
+    .home-hero {
+      text-align: center;
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    .home-hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ms-blue);
+      margin-bottom: 8px;
+    }
+    .home-hero p {
+      font-size: 16px;
+      color: var(--ms-gray);
+      line-height: 1.6;
+    }
+    .exam-info-strip {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .info-chip {
+      background: var(--ms-blue-light);
+      color: var(--ms-blue-dark);
+      border-radius: 16px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mode-cards {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+      width: 100%;
+    }
+    .mode-card {
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      width: 380px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .mode-card:hover {
+      border-color: var(--ms-blue);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .mode-card .card-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+    .mode-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ms-black);
+    }
+    .mode-card p {
+      font-size: 14px;
+      color: var(--ms-gray);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .mode-card ul {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .mode-card ul li {
+      font-size: 13px;
+      color: var(--ms-gray);
+      padding: 3px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mode-card ul li::before {
+      content: "✓";
+      color: var(--ms-green);
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .btn-primary {
+      background: var(--ms-blue);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--ms-blue-dark); }
+
+    .mode-card.exam-mode .card-strip {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ms-orange), var(--ms-red));
+    }
+    .mode-card.practice-mode .card-strip {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ms-blue), var(--ms-green));
+    }
+
+    /* ── SETUP SCREENS ── */
+    #screen-setup-practice,
+    #screen-setup-exam {
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+    }
+    .setup-card {
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 520px;
+    }
+    .setup-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--ms-blue);
+    }
+    .setup-card .subtitle {
+      color: var(--ms-gray);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ms-black);
+      margin-bottom: 8px;
+    }
+    .form-group .hint {
+      font-size: 12px;
+      color: var(--ms-gray);
+      margin-top: 4px;
+    }
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      border: 2px solid var(--ms-gray-border);
+      background: var(--ms-white);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--ms-gray);
+    }
+    .chip:hover { border-color: var(--ms-blue); color: var(--ms-blue); }
+    .chip.selected { background: var(--ms-blue); border-color: var(--ms-blue); color: #fff; }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ms-gray-border);
+    }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-row .label-block { flex: 1; }
+    .toggle-row .label-block span { font-size: 14px; font-weight: 600; display: block; }
+    .toggle-row .label-block small { font-size: 12px; color: var(--ms-gray); }
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle .slider {
+      position: absolute;
+      inset: 0;
+      background: var(--ms-gray-border);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle .slider::before {
+      content: "";
+      position: absolute;
+      width: 18px; height: 18px;
+      left: 3px; top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider { background: var(--ms-blue); }
+    .toggle input:checked + .slider::before { transform: translateX(20px); }
+
+    .input-number {
+      border: 2px solid var(--ms-gray-border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      font-size: 14px;
+      width: 100%;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+    .input-number:focus { outline: none; border-color: var(--ms-blue); }
+
+    .form-actions { display: flex; gap: 12px; margin-top: 28px; }
+    .btn-secondary {
+      background: var(--ms-white);
+      color: var(--ms-blue);
+      border: 2px solid var(--ms-blue);
+      padding: 10px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      flex: 1;
+    }
+    .btn-secondary:hover { background: var(--ms-blue-light); }
+    .btn-primary.flex-1 { flex: 1; }
+
+    /* ── EXAM SCREEN ── */
+    #screen-exam { flex-direction: column; }
+    .exam-topbar {
+      background: var(--ms-white);
+      border-bottom: 1px solid var(--ms-gray-border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .exam-topbar .mode-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .mode-badge.practice { background: #dff6dd; color: var(--ms-green); }
+    .mode-badge.exam { background: #fed9cc; color: var(--ms-orange); }
+    .exam-topbar .progress-info {
+      font-size: 13px;
+      color: var(--ms-gray);
+      font-weight: 600;
+    }
+    .exam-topbar .spacer { flex: 1; }
+    .timer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ms-black);
+      padding: 6px 14px;
+      background: var(--ms-gray-light);
+      border-radius: 20px;
+    }
+    .timer.warning { color: var(--ms-red); background: #fde7e9; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--ms-gray-border);
+      position: sticky;
+      top: 53px;
+      z-index: 49;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--ms-blue);
+      transition: width 0.3s;
+    }
+
+    .exam-body {
+      flex: 1;
+      display: flex;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    /* Question panel */
+    .question-panel {
+      flex: 1;
+      min-width: 0;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .q-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ms-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .q-domain {
+      font-size: 11px;
+      background: var(--ms-blue-light);
+      color: var(--ms-blue-dark);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-weight: 600;
+    }
+    .q-type {
+      font-size: 11px;
+      background: #f3f2f1;
+      color: var(--ms-gray);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-weight: 600;
+    }
+    .flagged-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--ms-gray);
+      transition: color 0.15s;
+      padding: 2px 6px;
+    }
+    .flagged-btn.flagged { color: var(--ms-yellow); }
+
+    .question-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ms-black);
+      margin-bottom: 24px;
+      background: var(--ms-white);
+      padding: 20px 24px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--ms-blue);
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--ms-white);
+      border: 2px solid var(--ms-gray-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .option-item:hover:not(.disabled) { border-color: var(--ms-blue); background: var(--ms-blue-light); }
+    .option-item.selected { border-color: var(--ms-blue); background: var(--ms-blue-light); }
+    .option-item.correct { border-color: var(--ms-green); background: #dff6dd; }
+    .option-item.wrong { border-color: var(--ms-red); background: #fde7e9; }
+    .option-item.correct-missed { border-color: var(--ms-green); background: #dff6dd; border-style: dashed; }
+    .option-item.disabled { cursor: default; }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--ms-gray-light);
+      border: 2px solid var(--ms-gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      color: var(--ms-gray);
+    }
+    .option-item.selected .option-letter {
+      background: var(--ms-blue);
+      border-color: var(--ms-blue);
+      color: #fff;
+    }
+    .option-item.correct .option-letter {
+      background: var(--ms-green);
+      border-color: var(--ms-green);
+      color: #fff;
+    }
+    .option-item.wrong .option-letter {
+      background: var(--ms-red);
+      border-color: var(--ms-red);
+      color: #fff;
+    }
+    .option-item.correct-missed .option-letter {
+      background: var(--ms-green);
+      border-color: var(--ms-green);
+      color: #fff;
+    }
+    .option-text {
+      font-size: 14px;
+      line-height: 1.6;
+      flex: 1;
+      color: var(--ms-black);
+    }
+    .option-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Explanation block */
+    .explanation-block {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-left: 4px solid var(--ms-yellow);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      display: none;
+    }
+    .explanation-block.visible { display: block; }
+    .explanation-block .expl-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ms-orange);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .explanation-block .expl-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ms-black);
+    }
+    .explanation-block .expl-ref {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--ms-blue);
+    }
+    .explanation-block .expl-ref a { color: var(--ms-blue); }
+
+    /* Question actions */
+    .question-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-reveal {
+      background: var(--ms-white);
+      border: 2px solid var(--ms-yellow);
+      color: var(--ms-orange);
+      padding: 8px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-reveal:hover { background: #fff8e1; }
+    .btn-nav {
+      background: var(--ms-white);
+      border: 2px solid var(--ms-gray-border);
+      color: var(--ms-black);
+      padding: 8px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-nav:hover { background: var(--ms-gray-light); }
+    .btn-nav.primary-nav {
+      background: var(--ms-blue);
+      border-color: var(--ms-blue);
+      color: #fff;
+    }
+    .btn-nav.primary-nav:hover { background: var(--ms-blue-dark); }
+    .btn-end-exam {
+      background: var(--ms-red);
+      border-color: var(--ms-red);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .btn-end-exam:hover { background: #b02020; }
+
+    /* Navigation sidebar */
+    .nav-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      position: sticky;
+      top: 80px;
+    }
+    .nav-sidebar h3 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ms-gray);
+      margin-bottom: 12px;
+    }
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+    .nav-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--ms-gray-light);
+      color: var(--ms-gray);
+      border: 2px solid transparent;
+      transition: all 0.1s;
+    }
+    .nav-dot:hover { border-color: var(--ms-blue); }
+    .nav-dot.current { border-color: var(--ms-blue); background: var(--ms-blue-light); color: var(--ms-blue); }
+    .nav-dot.answered { background: var(--ms-blue); color: #fff; }
+    .nav-dot.flagged { background: var(--ms-yellow); color: #fff; }
+    .nav-dot.correct { background: var(--ms-green); color: #fff; }
+    .nav-dot.wrong { background: var(--ms-red); color: #fff; }
+
+    .nav-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--ms-gray);
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── RESULTS SCREEN ── */
+    #screen-results {
+      align-items: center;
+      justify-content: flex-start;
+      padding: 32px 20px;
+    }
+    .results-container {
+      max-width: 900px;
+      width: 100%;
+    }
+    .score-card {
+      background: var(--ms-white);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .score-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+    }
+    .score-card.pass::before { background: linear-gradient(90deg, var(--ms-green), #16b520); }
+    .score-card.fail::before { background: linear-gradient(90deg, var(--ms-red), var(--ms-orange)); }
+    .score-verdict {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .score-verdict.pass { color: var(--ms-green); }
+    .score-verdict.fail { color: var(--ms-red); }
+    .score-main {
+      font-size: 72px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .score-main.pass { color: var(--ms-green); }
+    .score-main.fail { color: var(--ms-red); }
+    .score-label { font-size: 14px; color: var(--ms-gray); margin-bottom: 20px; }
+
+    .score-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding: 20px 0;
+      border-top: 1px solid var(--ms-gray-border);
+      border-bottom: 1px solid var(--ms-gray-border);
+      margin: 16px 0;
+    }
+    .stat-item { text-align: center; }
+    .stat-item .stat-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ms-black);
+    }
+    .stat-item .stat-key { font-size: 12px; color: var(--ms-gray); margin-top: 2px; }
+
+    .domain-breakdown {
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .domain-breakdown h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--ms-black);
+    }
+    .domain-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .domain-name { font-size: 13px; width: 240px; flex-shrink: 0; color: var(--ms-black); }
+    .domain-bar-wrap { flex: 1; height: 8px; background: var(--ms-gray-border); border-radius: 4px; overflow: hidden; }
+    .domain-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+    .domain-pct { font-size: 13px; font-weight: 700; width: 40px; text-align: right; }
+
+    .review-section {
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .review-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--ms-black);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .review-item {
+      border: 1px solid var(--ms-gray-border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .review-item-header {
+      padding: 12px 16px;
+      background: var(--ms-gray-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .review-item-header .ri-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ms-gray);
+    }
+    .review-item-header .ri-q {
+      font-size: 14px;
+      color: var(--ms-black);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .review-item-header .ri-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .ri-badge.wrong { background: #fde7e9; color: var(--ms-red); }
+    .ri-badge.partial { background: #fff4ce; color: var(--ms-orange); }
+    .ri-badge.skipped { background: #f3f2f1; color: var(--ms-gray); }
+    .review-item-body {
+      padding: 16px;
+      display: none;
+      border-top: 1px solid var(--ms-gray-border);
+    }
+    .review-item-body.open { display: block; }
+    .review-answer {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .review-answer span { font-weight: 700; }
+    .review-answer .your-a { color: var(--ms-red); }
+    .review-answer .correct-a { color: var(--ms-green); }
+    .review-expl {
+      background: #fff8e1;
+      border-left: 3px solid var(--ms-yellow);
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.7;
+      border-radius: 0 4px 4px 0;
+      margin-top: 12px;
+      color: var(--ms-black);
+    }
+
+    .results-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .results-actions .btn-primary { width: auto; padding: 10px 28px; }
+    .results-actions .btn-secondary { width: auto; padding: 10px 28px; }
+
+    /* ── CONFIRMATION MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      display: none;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--ms-white);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+      margin: 16px;
+    }
+    .modal-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .modal-box p { font-size: 14px; color: var(--ms-gray); line-height: 1.6; margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 10px; }
+    .btn-danger {
+      background: var(--ms-red);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+    }
+    .btn-danger:hover { background: #b02020; }
+    .btn-cancel {
+      background: var(--ms-white);
+      color: var(--ms-black);
+      border: 2px solid var(--ms-gray-border);
+      padding: 10px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+    }
+    .btn-cancel:hover { background: var(--ms-gray-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .exam-body { flex-direction: column-reverse; padding: 16px; }
+      .nav-sidebar { width: 100%; position: static; }
+      .mode-card { width: 100%; }
+      .setup-card { padding: 24px 20px; }
+      .score-stats { gap: 16px; }
+      .domain-name { width: 160px; font-size: 12px; }
+      .question-text { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     SCREEN: HOME
+════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <header class="app-header">
+    <span class="logo">AZ-104</span>
+    <span class="badge">Microsoft Azure Administrator</span>
+    <span class="spacer"></span>
+  </header>
+
+  <div class="home-hero" style="padding-top:40px;">
+    <h1>AZ-104 Exam Simulator</h1>
+    <p>Prépare-toi à la certification <strong>Microsoft Azure Administrator</strong> avec des simulations d'examen réalistes.</p>
+    <div class="exam-info-strip">
+      <span class="info-chip">⏱ 150 minutes</span>
+      <span class="info-chip">📝 40–60 questions</span>
+      <span class="info-chip">🎯 Score de passage : 700/1000</span>
+      <span class="info-chip">💰 Coût : ~165 USD</span>
+    </div>
+  </div>
+
+  <div class="mode-cards">
+    <!-- Practice Mode -->
+    <div class="mode-card practice-mode" onclick="App.openSetup('practice')">
+      <div class="card-strip"></div>
+      <div class="card-icon">🎓</div>
+      <h2>Mode Pratique</h2>
+      <p>Entraîne-toi à ton rythme avec un retour immédiat sur chaque réponse.</p>
+      <ul>
+        <li>Choix du nombre de questions</li>
+        <li>Temps configurable ou illimité</li>
+        <li>Affichage optionnel des réponses</li>
+        <li>Explications détaillées</li>
+        <li>Navigation libre entre questions</li>
+      </ul>
+      <button class="btn-primary" onclick="event.stopPropagation(); App.openSetup('practice')">Démarrer la pratique</button>
+    </div>
+
+    <!-- Exam Mode -->
+    <div class="mode-card exam-mode" onclick="App.openSetup('exam')">
+      <div class="card-strip"></div>
+      <div class="card-icon">🏆</div>
+      <h2>Mode Examen</h2>
+      <p>Simulation fidèle des conditions de l'examen Microsoft officiel.</p>
+      <ul>
+        <li>150 minutes (conditions réelles)</li>
+        <li>40–60 questions au hasard</li>
+        <li>Pas de réponses pendant l'examen</li>
+        <li>Scoring Microsoft (échelle 1–1000)</li>
+        <li>Revue des erreurs après résultats</li>
+      </ul>
+      <button class="btn-primary" onclick="event.stopPropagation(); App.openSetup('exam')" style="background:var(--ms-orange);border-color:var(--ms-orange)">Démarrer l'examen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN: SETUP PRACTICE
+════════════════════════════════════ -->
+<div id="screen-setup-practice" class="screen">
+  <header class="app-header">
+    <span class="logo">AZ-104</span>
+    <span class="badge">Mode Pratique</span>
+    <span class="spacer"></span>
+    <button class="btn-ghost" onclick="App.goHome()">← Retour</button>
+  </header>
+
+  <div style="flex:1; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px;">
+    <div class="setup-card">
+      <h2>🎓 Configurer la pratique</h2>
+      <p class="subtitle">Personnalise ta session d'entraînement selon tes besoins.</p>
+
+      <div class="form-group">
+        <label>Nombre de questions</label>
+        <div class="chip-group" id="q-count-chips">
+          <span class="chip" data-val="10" onclick="App.selectChip('q-count', 10, this)">10</span>
+          <span class="chip selected" data-val="20" onclick="App.selectChip('q-count', 20, this)">20</span>
+          <span class="chip" data-val="30" onclick="App.selectChip('q-count', 30, this)">30</span>
+          <span class="chip" data-val="40" onclick="App.selectChip('q-count', 40, this)">40</span>
+          <span class="chip" data-val="all" onclick="App.selectChip('q-count', 'all', this)">Toutes</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Temps limite (minutes, 0 = illimité)</label>
+        <input type="number" class="input-number" id="practice-time" value="0" min="0" max="240" placeholder="0 = illimité">
+        <p class="hint">Recommandation : environ 2 min 30 sec par question</p>
+      </div>
+
+      <div class="form-group">
+        <label>Options</label>
+        <div class="toggle-row">
+          <div class="label-block">
+            <span>Afficher la réponse correcte</span>
+            <small>Révèle la bonne réponse après chaque soumission</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="opt-show-answer" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="label-block">
+            <span>Afficher l'explication</span>
+            <small>Montre le pourquoi de la réponse correcte</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="opt-show-explanation" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="label-block">
+            <span>Mélanger les questions</span>
+            <small>Ordre aléatoire à chaque session</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="opt-shuffle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-secondary" onclick="App.goHome()">Annuler</button>
+        <button class="btn-primary flex-1" onclick="App.startSession('practice')">Commencer →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN: SETUP EXAM
+════════════════════════════════════ -->
+<div id="screen-setup-exam" class="screen">
+  <header class="app-header">
+    <span class="logo">AZ-104</span>
+    <span class="badge">Mode Examen</span>
+    <span class="spacer"></span>
+    <button class="btn-ghost" onclick="App.goHome()">← Retour</button>
+  </header>
+
+  <div style="flex:1; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px;">
+    <div class="setup-card">
+      <h2>🏆 Conditions de l'examen Microsoft</h2>
+      <p class="subtitle">La simulation respecte les conditions officielles de l'examen AZ-104.</p>
+
+      <div style="background:var(--ms-blue-light); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
+        <p style="font-size:14px; color:var(--ms-blue-dark); line-height:1.7; margin:0;">
+          <strong>📋 Conditions officielles :</strong><br>
+          • <strong>Durée :</strong> 150 minutes (2h30)<br>
+          • <strong>Questions :</strong> 40 à 60 questions<br>
+          • <strong>Score de passage :</strong> 700 / 1000<br>
+          • <strong>Pas de retour en arrière</strong> sur les questions marquées comme terminées<br>
+          • Aucune explication pendant l'examen
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label>Nombre de questions</label>
+        <div class="chip-group" id="exam-q-count-chips">
+          <span class="chip" data-val="40" onclick="App.selectChip('exam-q-count', 40, this)">40</span>
+          <span class="chip selected" data-val="50" onclick="App.selectChip('exam-q-count', 50, this)">50 (défaut)</span>
+          <span class="chip" data-val="60" onclick="App.selectChip('exam-q-count', 60, this)">60</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Options</label>
+        <div class="toggle-row">
+          <div class="label-block">
+            <span>Mélanger les questions</span>
+            <small>Sélection et ordre aléatoires</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="exam-shuffle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-secondary" onclick="App.goHome()">Annuler</button>
+        <button class="btn-primary flex-1" onclick="App.startSession('exam')" style="background:var(--ms-orange);">Démarrer l'examen →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN: EXAM (questions)
+════════════════════════════════════ -->
+<div id="screen-exam" class="screen">
+  <div class="exam-topbar">
+    <span class="mode-badge" id="exam-mode-badge">Practice</span>
+    <span class="progress-info" id="exam-progress-text">Question 1 / 20</span>
+    <span class="spacer"></span>
+    <div class="timer" id="exam-timer">⏱ --:--</div>
+    <button class="btn-end-exam" onclick="App.confirmEnd()">Terminer</button>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="exam-progress-bar" style="width:0%"></div>
+  </div>
+
+  <div class="exam-body">
+    <div class="question-panel" id="question-panel">
+      <!-- Injected by JS -->
+    </div>
+    <div class="nav-sidebar" id="nav-sidebar">
+      <h3>Navigation</h3>
+      <div class="nav-grid" id="nav-grid"></div>
+      <div class="nav-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--ms-blue)"></div>
+          <span>Répondu</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--ms-yellow)"></div>
+          <span>Marqué</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--ms-gray-light); border:1px solid var(--ms-gray-border)"></div>
+          <span>Non répondu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN: RESULTS
+════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <header class="app-header">
+    <span class="logo">AZ-104</span>
+    <span class="badge" id="results-mode-label">Résultats</span>
+    <span class="spacer"></span>
+    <button class="btn-ghost" onclick="App.goHome()">🏠 Accueil</button>
+  </header>
+
+  <div class="results-container" style="padding-top:24px;">
+    <!-- Score card -->
+    <div class="score-card" id="score-card">
+      <div class="score-verdict" id="score-verdict">RÉUSSI</div>
+      <div class="score-main" id="score-main">750</div>
+      <div class="score-label">Score final (sur 1000) — Seuil de passage : 700</div>
+
+      <div class="score-stats">
+        <div class="stat-item">
+          <div class="stat-val" id="stat-correct">0</div>
+          <div class="stat-key">Correctes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-wrong">0</div>
+          <div class="stat-key">Incorrectes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-skipped">0</div>
+          <div class="stat-key">Non répondues</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-pct">0%</div>
+          <div class="stat-key">Pourcentage brut</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-time">0:00</div>
+          <div class="stat-key">Temps utilisé</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domain breakdown -->
+    <div class="domain-breakdown" id="domain-breakdown">
+      <h3>📊 Résultats par domaine AZ-104</h3>
+      <div id="domain-rows"><!-- Injected by JS --></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="results-actions">
+      <button class="btn-primary" onclick="App.retrySession()">🔄 Recommencer</button>
+      <button class="btn-secondary" onclick="App.goHome()">🏠 Accueil</button>
+    </div>
+
+    <!-- Review wrong answers -->
+    <div class="review-section" id="review-section">
+      <h3>❌ Questions incorrectes ou manquées</h3>
+      <div id="review-list"><!-- Injected by JS --></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     MODAL: Confirm End
+════════════════════════════════════ -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <h3>Terminer l'examen ?</h3>
+    <p id="confirm-modal-text">Il reste des questions non répondues. Es-tu sûr de vouloir terminer ?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="App.closeModal()">Continuer</button>
+      <button class="btn-danger" onclick="App.finishSession()">Terminer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  QUESTION BANK — AZ-104
+//  Format each question as:
+//  {
+//    id: number,
+//    type: "single" | "multiple",   // single = 1 answer, multiple = N answers
+//    domain: string,                 // AZ-104 domain
+//    topic: string,                  // sub-topic
+//    question: string,
+//    options: string[],              // answer choices (text only)
+//    correct: number[],              // 0-based indices of correct answers
+//    explanation: string,            // WHY this is correct
+//    reference: string               // optional MS docs URL
+//  }
+// ══════════════════════════════════════════════════════════
+const QUESTIONS = [
+  // ── EXAMPLE QUESTION (replace with real questions) ──
+  {
+    id: 1,
+    type: "single",
+    domain: "Identités et gouvernance Azure",
+    topic: "Azure Active Directory",
+    question: "Votre entreprise utilise Azure Active Directory (Azure AD). Un administrateur doit autoriser un utilisateur à réinitialiser les mots de passe des autres utilisateurs mais sans lui donner d'autres permissions d'administration. Quel rôle Azure AD devez-vous attribuer ?",
+    options: [
+      "Administrateur général (Global Administrator)",
+      "Administrateur de mot de passe (Password Administrator)",
+      "Administrateur utilisateur (User Administrator)",
+      "Administrateur de sécurité (Security Administrator)"
+    ],
+    correct: [1],
+    explanation: "Le rôle Administrateur de mot de passe permet de réinitialiser les mots de passe pour les utilisateurs non-administrateurs et les Administrateurs de mot de passe. Il s'agit du rôle le moins privilégié qui répond à cette exigence, respectant ainsi le principe du moindre privilège. L'Administrateur général a tous les droits (trop permissif), l'Administrateur utilisateur peut créer/modifier des utilisateurs, et l'Administrateur de sécurité gère les stratégies de sécurité.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/roles/permissions-reference"
+  },
+  {
+    id: 2,
+    type: "multiple",
+    domain: "Stockage Azure",
+    topic: "Comptes de stockage",
+    question: "Vous devez configurer un compte de stockage Azure qui répond aux exigences suivantes : les données doivent être accessibles en cas de panne d'une région Azure, les données doivent être accessibles en lecture depuis la région secondaire. Quels deux types de réplication devez-vous utiliser ? (Choisissez deux réponses)",
+    options: [
+      "Stockage localement redondant (LRS)",
+      "Stockage redondant dans une zone (ZRS)",
+      "Stockage géo-redondant (GRS)",
+      "Stockage géo-redondant avec accès en lecture (RA-GRS)",
+      "Stockage géo-redondant interzone avec accès en lecture (RA-GZRS)"
+    ],
+    correct: [3, 4],
+    explanation: "RA-GRS et RA-GZRS sont les seules options qui offrent à la fois la géo-redondance (protection contre une panne régionale) ET l'accès en lecture depuis la région secondaire. LRS ne protège que contre les défaillances matérielles locales. ZRS protège contre les pannes de zones de disponibilité mais pas de régions entières. GRS protège contre les pannes régionales mais ne permet pas l'accès en lecture depuis la secondaire (sauf en cas de basculement initié par Microsoft).",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/storage-redundancy"
+  }
+  // ── ADD MORE QUESTIONS HERE ──
+];
+
+// ══════════════════════════════════════════════════════════
+//  AZ-104 DOMAINS (for breakdown report)
+// ══════════════════════════════════════════════════════════
+const DOMAINS = [
+  { name: "Identités et gouvernance Azure",      weight: 0.175 },
+  { name: "Stockage Azure",                      weight: 0.175 },
+  { name: "Ressources de calcul Azure",          weight: 0.225 },
+  { name: "Réseaux virtuels Azure",              weight: 0.175 },
+  { name: "Surveillance et maintenance Azure",   weight: 0.125 },
+];
+
+// ══════════════════════════════════════════════════════════
+//  APP STATE
+// ══════════════════════════════════════════════════════════
+const State = {
+  mode: 'practice',        // 'practice' | 'exam'
+  questions: [],           // active question set (shuffled subset)
+  current: 0,              // current question index
+  answers: {},             // { qIndex: number[] } user selections
+  flags: new Set(),        // flagged question indices
+  revealed: new Set(),     // practice: indices where answer was revealed
+  config: {},              // session config
+  timerInterval: null,
+  timeLeft: 0,             // seconds remaining
+  timeUsed: 0,             // seconds used (for results)
+  startTime: null,
+  lastConfig: null,        // for retry
+};
+
+// ══════════════════════════════════════════════════════════
+//  MICROSOFT SCORING
+//  Single: 1 pt if all correct, 0 otherwise
+//  Multiple: partial — award per-correct-option minus per-wrong-option, min 0
+//  Raw score → Scaled 1–1000 (pass = 700)
+// ══════════════════════════════════════════════════════════
+function calcQuestionScore(q, userAnswers) {
+  if (!userAnswers || userAnswers.length === 0) return { raw: 0, max: 1, isCorrect: false, isPartial: false };
+
+  if (q.type === 'single') {
+    const correct = userAnswers.length === 1 && userAnswers[0] === q.correct[0];
+    return { raw: correct ? 1 : 0, max: 1, isCorrect: correct, isPartial: false };
+  }
+
+  // Multiple: partial Microsoft scoring
+  const n = q.correct.length;
+  const pointPerCorrect = 1 / n;
+  let earned = 0;
+  userAnswers.forEach(sel => {
+    if (q.correct.includes(sel)) earned += pointPerCorrect;
+    else earned -= pointPerCorrect;
+  });
+  earned = Math.max(0, earned);
+  const isCorrect = Math.abs(earned - 1) < 0.001;
+  const isPartial = earned > 0 && !isCorrect;
+  return { raw: earned, max: 1, isCorrect, isPartial };
+}
+
+function calcScaledScore(rawTotal, maxTotal) {
+  if (maxTotal === 0) return 1;
+  const pct = rawTotal / maxTotal;
+  // Microsoft scaled scoring: linear mapping 0%→1, 100%→1000
+  // Pass at 70% (700/1000)
+  return Math.round(1 + pct * 999);
+}
+
+// ══════════════════════════════════════════════════════════
+//  APP CONTROLLER
+// ══════════════════════════════════════════════════════════
+const App = {
+  _qCountVal: 20,
+  _examQCountVal: 50,
+
+  showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  },
+
+  goHome() {
+    if (State.timerInterval) clearInterval(State.timerInterval);
+    this.showScreen('screen-home');
+  },
+
+  openSetup(mode) {
+    this.showScreen(mode === 'practice' ? 'screen-setup-practice' : 'screen-setup-exam');
+  },
+
+  selectChip(type, val, el) {
+    const group = el.closest('.chip-group');
+    group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    if (type === 'q-count') this._qCountVal = val;
+    if (type === 'exam-q-count') this._examQCountVal = val;
+  },
+
+  startSession(mode) {
+    if (QUESTIONS.length === 0) {
+      alert('Aucune question disponible dans la banque de questions.\nAjoutez des questions dans le tableau QUESTIONS.');
+      return;
+    }
+
+    State.mode = mode;
+    State.answers = {};
+    State.flags = new Set();
+    State.revealed = new Set();
+    State.current = 0;
+
+    let qs = [...QUESTIONS];
+
+    if (mode === 'practice') {
+      const count = this._qCountVal === 'all' ? qs.length : Math.min(this._qCountVal, qs.length);
+      const shuffle = document.getElementById('opt-shuffle').checked;
+      if (shuffle) qs = qs.sort(() => Math.random() - 0.5);
+      qs = qs.slice(0, count);
+
+      const timeMins = parseInt(document.getElementById('practice-time').value) || 0;
+      State.config = {
+        showAnswer: document.getElementById('opt-show-answer').checked,
+        showExplanation: document.getElementById('opt-show-explanation').checked,
+        timeLimit: timeMins * 60,
+      };
+      State.timeLeft = State.config.timeLimit;
+    } else {
+      const count = Math.min(this._examQCountVal, qs.length);
+      const shuffle = document.getElementById('exam-shuffle').checked;
+      if (shuffle) qs = qs.sort(() => Math.random() - 0.5);
+      qs = qs.slice(0, count);
+      State.config = { showAnswer: false, showExplanation: false, timeLimit: 150 * 60 };
+      State.timeLeft = 150 * 60;
+    }
+
+    State.questions = qs;
+    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal };
+    State.startTime = Date.now();
+    State.timeUsed = 0;
+
+    this.showScreen('screen-exam');
+    this._setupTimer();
+    this._renderExamHeader();
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  _setupTimer() {
+    if (State.timerInterval) clearInterval(State.timerInterval);
+    const timerEl = document.getElementById('exam-timer');
+    const updateTimer = () => {
+      if (State.config.timeLimit === 0) {
+        State.timeUsed = Math.floor((Date.now() - State.startTime) / 1000);
+        const m = Math.floor(State.timeUsed / 60);
+        const s = State.timeUsed % 60;
+        timerEl.textContent = `⏱ ${m}:${String(s).padStart(2,'0')}`;
+        timerEl.className = 'timer';
+        return;
+      }
+      State.timeLeft--;
+      State.timeUsed = State.config.timeLimit - State.timeLeft;
+      if (State.timeLeft <= 0) {
+        clearInterval(State.timerInterval);
+        this.finishSession(true);
+        return;
+      }
+      const m = Math.floor(State.timeLeft / 60);
+      const s = State.timeLeft % 60;
+      timerEl.textContent = `⏱ ${m}:${String(s).padStart(2,'0')}`;
+      timerEl.className = State.timeLeft < 300 ? 'timer warning' : 'timer';
+    };
+    if (State.config.timeLimit > 0) updateTimer();
+    State.timerInterval = setInterval(updateTimer, 1000);
+  },
+
+  _renderExamHeader() {
+    const badge = document.getElementById('exam-mode-badge');
+    badge.textContent = State.mode === 'practice' ? 'Pratique' : 'Examen';
+    badge.className = 'mode-badge ' + State.mode;
+  },
+
+  _renderQuestion() {
+    const qi = State.current;
+    const q = State.questions[qi];
+    const total = State.questions.length;
+    const panel = document.getElementById('question-panel');
+    const userAns = State.answers[qi] || [];
+    const revealed = State.revealed.has(qi);
+
+    document.getElementById('exam-progress-text').textContent = `Question ${qi+1} / ${total}`;
+    document.getElementById('exam-progress-bar').style.width = `${((qi+1)/total)*100}%`;
+
+    const letters = 'ABCDEFGHIJ';
+
+    let optionsHtml = '';
+    q.options.forEach((opt, i) => {
+      let cls = 'option-item';
+      let icon = '';
+      const isSelected = userAns.includes(i);
+      const isCorrect = q.correct.includes(i);
+
+      if (revealed) {
+        cls += ' disabled';
+        if (isSelected && isCorrect) { cls += ' correct'; icon = '<span class="option-icon">✓</span>'; }
+        else if (isSelected && !isCorrect) { cls += ' wrong'; icon = '<span class="option-icon">✗</span>'; }
+        else if (!isSelected && isCorrect) { cls += ' correct-missed'; icon = '<span class="option-icon">✓</span>'; }
+      } else {
+        if (isSelected) cls += ' selected';
+      }
+
+      optionsHtml += `
+        <div class="${cls}" onclick="App.selectOption(${i})">
+          <div class="option-letter">${letters[i]}</div>
+          <div class="option-text">${escHtml(opt)}</div>
+          ${icon}
+        </div>`;
+    });
+
+    const multiHint = q.type === 'multiple'
+      ? `<div style="font-size:12px; color:var(--ms-orange); font-weight:600; margin-bottom:12px;">⚠ Choisissez ${q.correct.length} réponse(s)</div>`
+      : '';
+
+    const explanationBlock = revealed && State.config.showExplanation ? `
+      <div class="explanation-block visible">
+        <div class="expl-header">💡 Explication</div>
+        <div class="expl-text">${escHtml(q.explanation)}</div>
+        ${q.reference ? `<div class="expl-ref"><a href="${q.reference}" target="_blank">📖 Documentation Microsoft</a></div>` : ''}
+      </div>` : '';
+
+    const revealBtn = State.mode === 'practice' && State.config.showAnswer && !revealed
+      ? `<button class="btn-reveal" onclick="App.revealAnswer()">👁 Voir la réponse</button>`
+      : '';
+
+    const prevBtn = qi > 0
+      ? `<button class="btn-nav" onclick="App.navigate(-1)">← Précédent</button>`
+      : '';
+
+    const nextBtn = qi < total - 1
+      ? `<button class="btn-nav primary-nav" onclick="App.navigate(1)">Suivant →</button>`
+      : `<button class="btn-nav primary-nav" onclick="App.confirmEnd()">Terminer ✓</button>`;
+
+    panel.innerHTML = `
+      <div class="question-header">
+        <span class="q-number">Q${qi+1}</span>
+        <span class="q-domain">${escHtml(q.domain)}</span>
+        <span class="q-type">${q.type === 'multiple' ? 'Choix multiples' : 'Choix unique'}</span>
+        <button class="flagged-btn ${State.flags.has(qi) ? 'flagged' : ''}" onclick="App.toggleFlag()" title="Marquer">🚩</button>
+      </div>
+      <div class="question-text">${escHtml(q.question)}</div>
+      ${multiHint}
+      <div class="options-list">${optionsHtml}</div>
+      ${explanationBlock}
+      <div class="question-actions">
+        ${revealBtn}
+        ${prevBtn}
+        ${nextBtn}
+      </div>`;
+  },
+
+  _renderNavGrid() {
+    const grid = document.getElementById('nav-grid');
+    grid.innerHTML = State.questions.map((_, i) => {
+      let cls = 'nav-dot';
+      if (i === State.current) cls += ' current';
+      else if (State.answers[i]?.length) cls += ' answered';
+      if (State.flags.has(i)) cls = 'nav-dot flagged';
+      return `<div class="${cls}" onclick="App.jumpTo(${i})">${i+1}</div>`;
+    }).join('');
+  },
+
+  selectOption(optIdx) {
+    const qi = State.current;
+    const q = State.questions[qi];
+    if (State.revealed.has(qi)) return;
+
+    let ans = [...(State.answers[qi] || [])];
+
+    if (q.type === 'single') {
+      ans = [optIdx];
+    } else {
+      const pos = ans.indexOf(optIdx);
+      if (pos === -1) ans.push(optIdx);
+      else ans.splice(pos, 1);
+    }
+    State.answers[qi] = ans;
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  revealAnswer() {
+    const qi = State.current;
+    State.revealed.add(qi);
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  toggleFlag() {
+    const qi = State.current;
+    if (State.flags.has(qi)) State.flags.delete(qi);
+    else State.flags.add(qi);
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  navigate(dir) {
+    const next = State.current + dir;
+    if (next < 0 || next >= State.questions.length) return;
+    State.current = next;
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  jumpTo(idx) {
+    State.current = idx;
+    this._renderQuestion();
+    this._renderNavGrid();
+  },
+
+  confirmEnd() {
+    const unanswered = State.questions.filter((_, i) => !State.answers[i]?.length).length;
+    const flagged = State.flags.size;
+    let msg = '';
+    if (unanswered > 0) msg += `${unanswered} question(s) sans réponse. `;
+    if (flagged > 0) msg += `${flagged} question(s) marquée(s). `;
+    msg += 'Veux-tu terminer la session ?';
+    document.getElementById('confirm-modal-text').textContent = msg;
+    document.getElementById('confirm-modal').classList.add('open');
+  },
+
+  closeModal() {
+    document.getElementById('confirm-modal').classList.remove('open');
+  },
+
+  finishSession(timeout = false) {
+    this.closeModal();
+    if (State.timerInterval) clearInterval(State.timerInterval);
+    State.timeUsed = Math.floor((Date.now() - State.startTime) / 1000);
+    this._buildResults();
+    this.showScreen('screen-results');
+  },
+
+  retrySession() {
+    if (!State.lastConfig) { this.goHome(); return; }
+    const cfg = State.lastConfig;
+    this._qCountVal = cfg.qCountVal;
+    this._examQCountVal = cfg.examQCountVal;
+    this.startSession(cfg.mode);
+  },
+
+  _buildResults() {
+    const qs = State.questions;
+    let totalRaw = 0, totalMax = 0;
+    let correct = 0, wrong = 0, skipped = 0;
+    const wrongItems = [];
+    const domainMap = {};
+
+    qs.forEach((q, i) => {
+      const ua = State.answers[i] || [];
+      const score = calcQuestionScore(q, ua);
+      totalRaw += score.raw;
+      totalMax += score.max;
+
+      if (!domainMap[q.domain]) domainMap[q.domain] = { raw: 0, max: 0 };
+      domainMap[q.domain].raw += score.raw;
+      domainMap[q.domain].max += score.max;
+
+      if (ua.length === 0) {
+        skipped++;
+        wrongItems.push({ q, i, ua, score, status: 'skipped' });
+      } else if (score.isCorrect) {
+        correct++;
+      } else if (score.isPartial) {
+        wrong++;
+        wrongItems.push({ q, i, ua, score, status: 'partial' });
+      } else {
+        wrong++;
+        wrongItems.push({ q, i, ua, score, status: 'wrong' });
+      }
+    });
+
+    const scaledScore = calcScaledScore(totalRaw, totalMax);
+    const pass = scaledScore >= 700;
+    const pct = totalMax > 0 ? Math.round((totalRaw / totalMax) * 100) : 0;
+
+    // Render score card
+    const card = document.getElementById('score-card');
+    card.className = 'score-card ' + (pass ? 'pass' : 'fail');
+    document.getElementById('score-verdict').textContent = pass ? '✅ RÉUSSI' : '❌ ÉCHOUÉ';
+    document.getElementById('score-verdict').className = 'score-verdict ' + (pass ? 'pass' : 'fail');
+    document.getElementById('score-main').textContent = scaledScore;
+    document.getElementById('score-main').className = 'score-main ' + (pass ? 'pass' : 'fail');
+    document.getElementById('stat-correct').textContent = correct;
+    document.getElementById('stat-wrong').textContent = wrong;
+    document.getElementById('stat-skipped').textContent = skipped;
+    document.getElementById('stat-pct').textContent = pct + '%';
+
+    const usedMin = Math.floor(State.timeUsed / 60);
+    const usedSec = State.timeUsed % 60;
+    document.getElementById('stat-time').textContent = `${usedMin}:${String(usedSec).padStart(2,'0')}`;
+    document.getElementById('results-mode-label').textContent = State.mode === 'exam' ? 'Résultats — Mode Examen' : 'Résultats — Mode Pratique';
+
+    // Domain breakdown
+    const domainRows = document.getElementById('domain-rows');
+    domainRows.innerHTML = '';
+    DOMAINS.forEach(d => {
+      const dm = domainMap[d.name];
+      if (!dm) return;
+      const pctD = dm.max > 0 ? Math.round((dm.raw / dm.max) * 100) : 0;
+      const color = pctD >= 70 ? 'var(--ms-green)' : pctD >= 50 ? 'var(--ms-yellow)' : 'var(--ms-red)';
+      domainRows.innerHTML += `
+        <div class="domain-row">
+          <div class="domain-name">${escHtml(d.name)}</div>
+          <div class="domain-bar-wrap"><div class="domain-bar-fill" style="width:${pctD}%;background:${color}"></div></div>
+          <div class="domain-pct" style="color:${color}">${pctD}%</div>
+        </div>`;
+    });
+
+    // Review wrong/skipped (exam mode always shows; practice mode always shows)
+    const reviewSection = document.getElementById('review-section');
+    const reviewList = document.getElementById('review-list');
+    if (wrongItems.length === 0) {
+      reviewSection.style.display = 'none';
+    } else {
+      reviewSection.style.display = '';
+      const letters = 'ABCDEFGHIJ';
+      reviewList.innerHTML = wrongItems.map(({ q, i, ua, status }) => {
+        const badgeClass = status === 'partial' ? 'partial' : status === 'skipped' ? 'skipped' : 'wrong';
+        const badgeLabel = status === 'partial' ? 'Partiel' : status === 'skipped' ? 'Non répondu' : 'Incorrect';
+        const yourAns = ua.length ? ua.map(x => letters[x]).join(', ') : '—';
+        const correctAns = q.correct.map(x => letters[x]).join(', ');
+        return `
+          <div class="review-item">
+            <div class="review-item-header" onclick="this.nextElementSibling.classList.toggle('open')">
+              <span class="ri-num">Q${i+1}</span>
+              <span class="ri-q">${escHtml(q.question)}</span>
+              <span class="ri-badge ${badgeClass}">${badgeLabel}</span>
+            </div>
+            <div class="review-item-body">
+              <div class="review-answer">Ta réponse : <span class="your-a">${yourAns}</span></div>
+              <div class="review-answer">Réponse correcte : <span class="correct-a">${correctAns}</span></div>
+              <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--ms-black);">Options :</div>
+              ${q.options.map((o, idx) => {
+                const isC = q.correct.includes(idx);
+                const isU = ua.includes(idx);
+                return `<div style="font-size:13px; padding:4px 0; color:${isC ? 'var(--ms-green)' : isU ? 'var(--ms-red)' : 'var(--ms-gray)'}">
+                  ${letters[idx]}. ${escHtml(o)} ${isC ? '✓' : ''} ${isU && !isC ? '✗' : ''}
+                </div>`;
+              }).join('')}
+              <div class="review-expl"><strong>💡 Explication :</strong><br>${escHtml(q.explanation)}</div>
+              ${q.reference ? `<div style="margin-top:8px;font-size:12px;"><a href="${q.reference}" target="_blank" style="color:var(--ms-blue)">📖 Documentation Microsoft</a></div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+  }
+};
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+</script>
+</body>
+</html>
