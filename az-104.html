@@ -257,6 +257,9 @@
     }
     .chip:hover { border-color: var(--ms-blue); color: var(--ms-blue); }
     .chip.selected { background: var(--ms-blue); border-color: var(--ms-blue); color: #fff; }
+    .chip.multi.selected { background: var(--ms-blue); border-color: var(--ms-blue); color: #fff; }
+    .chip.multi:not(.selected) { opacity: 0.55; }
+    .chip-group-hint { font-size: 11px; color: var(--ms-gray); margin-top: 4px; }
 
     .toggle-row {
       display: flex;
@@ -1180,6 +1183,21 @@
       </div>
 
       <div class="form-group">
+        <label>Types de questions</label>
+        <div class="chip-group" id="type-chips">
+          <span class="chip multi selected" data-type="single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
+          <span class="chip multi selected" data-type="multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
+          <span class="chip multi selected" data-type="yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
+          <span class="chip multi selected" data-type="hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
+          <span class="chip multi selected" data-type="dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
+          <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
+          <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
+          <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
+        </div>
+        <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
+      </div>
+
+      <div class="form-group">
         <label>Nombre de questions</label>
         <div class="chip-group" id="q-count-chips">
           <span class="chip" data-val="10" onclick="App.selectChip('q-count', 10, this)">10</span>
@@ -1272,6 +1290,21 @@
           <span class="chip selected" data-val="fr" onclick="App.selectChip('exam-lang','fr',this)">🇫🇷 Français</span>
           <span class="chip" data-val="both" onclick="App.selectChip('exam-lang','both',this)">🌐 Les deux</span>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label>Types de questions</label>
+        <div class="chip-group" id="exam-type-chips">
+          <span class="chip multi selected" data-type="single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
+          <span class="chip multi selected" data-type="multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
+          <span class="chip multi selected" data-type="yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
+          <span class="chip multi selected" data-type="hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
+          <span class="chip multi selected" data-type="dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
+          <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
+          <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
+          <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
+        </div>
+        <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
       </div>
 
       <div class="form-group">
@@ -6814,6 +6847,7 @@ const App = {
   _qCountVal: 20,
   _examQCountVal: 50,
   _lang: 'fr',          // 'fr' | 'en' | 'both'
+  _types: new Set(['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion']),
 
   showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -6839,6 +6873,23 @@ const App = {
     if (type === 'exam-lang') this._lang = val;
   },
 
+  toggleTypeChip(el) {
+    const t = el.dataset.type;
+    if (this._types.has(t)) {
+      // Don't allow deselecting the last type
+      if (this._types.size === 1) return;
+      this._types.delete(t);
+      el.classList.remove('selected');
+    } else {
+      this._types.add(t);
+      el.classList.add('selected');
+    }
+    // Sync the mirror chip-group (practice ↔ exam share same _types)
+    document.querySelectorAll('.chip.multi[data-type="' + t + '"]').forEach(c => {
+      c.classList.toggle('selected', this._types.has(t));
+    });
+  },
+
   startSession(mode) {
     if (QUESTIONS.length === 0) {
       alert('Aucune question disponible dans la banque de questions.\nAjoutez des questions dans le tableau QUESTIONS.');
@@ -6857,6 +6908,16 @@ const App = {
     if (this._lang === 'en') qs = qs.filter(q => q.id <= 200);
     else if (this._lang === 'fr') qs = qs.filter(q => q.id >= 201);
     // 'both' = no filter
+
+    // Filter by question type
+    const allTypes = ['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion'];
+    const allSelected = allTypes.every(t => this._types.has(t));
+    if (!allSelected) qs = qs.filter(q => this._types.has(q.type));
+
+    if (qs.length === 0) {
+      alert('Aucune question ne correspond aux filtres sélectionnés.\nModifie la langue ou les types de questions.');
+      return;
+    }
 
     if (mode === 'practice') {
       const count = this._qCountVal === 'all' ? qs.length : Math.min(this._qCountVal, qs.length);
@@ -6881,7 +6942,7 @@ const App = {
     }
 
     State.questions = qs;
-    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal, lang: this._lang };
+    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal, lang: this._lang, types: new Set(this._types) };
     State.startTime = Date.now();
     State.timeUsed = 0;
 
@@ -7355,6 +7416,7 @@ const App = {
     this._qCountVal = cfg.qCountVal;
     this._examQCountVal = cfg.examQCountVal;
     if (cfg.lang) this._lang = cfg.lang;
+    if (cfg.types) this._types = new Set(cfg.types);
     this.startSession(cfg.mode);
   },
 
