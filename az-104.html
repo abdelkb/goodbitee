@@ -8405,6 +8405,104 @@ const State = {
 //  Multiple: partial — award per-correct-option minus per-wrong-option, min 0
 //  Raw score → Scaled 1–1000 (pass = 700)
 // ══════════════════════════════════════════════════════════
+
+function fisherYates(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Stratified exam selection matching official AZ-104 domain weightings.
+// Case study groups are included as atomic blocs (0 or 1 group max, chosen randomly).
+// Remaining slots are filled by proportional domain sampling.
+function selectExamQuestions(qs, count) {
+  // Official AZ-104 domain weightings (Microsoft study guide 2025)
+  const WEIGHTS = {
+    'Identités et gouvernance Azure':      0.23,
+    'Ressources de calcul Azure':          0.23,
+    'Réseaux virtuels Azure':              0.19,
+    'Stockage Azure':                      0.19,
+    'Surveillance et maintenance Azure':   0.16,
+  };
+
+  // Split into case-study groups vs standalone
+  const csGroups = {};
+  const standalone = [];
+  qs.forEach(q => {
+    if (q.caseStudyId) {
+      if (!csGroups[q.caseStudyId]) csGroups[q.caseStudyId] = [];
+      csGroups[q.caseStudyId].push(q);
+    } else {
+      standalone.push(q);
+    }
+  });
+
+  // Randomly decide to include one case study group if it fits (≤20% of count)
+  const csQuota = Math.floor(count * 0.20);
+  const csKeys = fisherYates(Object.keys(csGroups));
+  const selectedCS = [];
+  for (const key of csKeys) {
+    const grp = csGroups[key];
+    if (grp.length <= csQuota) {
+      selectedCS.push(...grp);
+      break; // max one case study group per exam, like the real AZ-104
+    }
+  }
+
+  // Budget left for stratified standalone sampling
+  const budget = count - selectedCS.length;
+  const usedIds = new Set(selectedCS.map(q => q.id));
+
+  // Group standalone by domain
+  const byDomain = {};
+  standalone.forEach(q => {
+    if (usedIds.has(q.id)) return;
+    const d = q.domain || 'Autre';
+    if (!byDomain[d]) byDomain[d] = [];
+    byDomain[d].push(q);
+  });
+
+  // Compute per-domain targets (Hamilton/largest-remainder method)
+  const domains = Object.keys(WEIGHTS);
+  const quotas = {};
+  let allocated = 0;
+  domains.forEach(d => {
+    quotas[d] = Math.floor(WEIGHTS[d] * budget);
+    allocated += quotas[d];
+  });
+  // Distribute remainder slots by largest fractional part
+  const remainder = budget - allocated;
+  [...domains]
+    .sort((a, b) => (WEIGHTS[b] * budget % 1) - (WEIGHTS[a] * budget % 1))
+    .slice(0, remainder)
+    .forEach(d => quotas[d]++);
+
+  // Sample from each domain
+  const selectedStandalone = [];
+  domains.forEach(d => {
+    const pool = fisherYates(byDomain[d] || []);
+    const n = Math.min(quotas[d] || 0, pool.length);
+    for (let i = 0; i < n; i++) {
+      selectedStandalone.push(pool[i]);
+      usedIds.add(pool[i].id);
+    }
+  });
+
+  // If some domains were under-stocked, fill gaps from any remaining questions
+  if (selectedStandalone.length < budget) {
+    const extras = fisherYates(standalone.filter(q => !usedIds.has(q.id)));
+    const gap = budget - selectedStandalone.length;
+    for (let i = 0; i < Math.min(gap, extras.length); i++) {
+      selectedStandalone.push(extras[i]);
+    }
+  }
+
+  return shuffleKeepingCaseStudies([...selectedCS, ...selectedStandalone]);
+}
+
 function shuffleKeepingCaseStudies(qs) {
   // Group casestudy questions by caseStudyId; shuffle groups as units
   const groups = {};
@@ -8641,8 +8739,8 @@ const App = {
     } else {
       const count = Math.min(this._examQCountVal, qs.length);
       const shuffle = document.getElementById('exam-shuffle').checked;
-      if (shuffle) qs = shuffleKeepingCaseStudies(qs);
-      qs = qs.slice(0, count);
+      // Stratified selection: respect official AZ-104 domain weightings
+      qs = shuffle ? selectExamQuestions(qs, count) : qs.slice(0, count);
       State.config = { showAnswer: false, showExplanation: false, timeLimit: 150 * 60 };
       State.timeLeft = 150 * 60;
     }
