@@ -937,6 +937,18 @@
     }
     .exhibit-table tr:nth-child(even) td { background: #faf9f8; }
 
+    .case-study-badge {
+      background: linear-gradient(135deg, #e8f0fe, #d2e3fc);
+      border: 1px solid #a8c7fa;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ms-blue-dark);
+      margin-bottom: 12px;
+      letter-spacing: 0.2px;
+    }
+
     /* ── EXHIBIT TABS (casestudy / multiexhibit) ── */
     .exhibit-tabs-nav {
       display: flex;
@@ -7587,7 +7599,7 @@ az network private-dns link vnet create \
 
   // === ÉTUDE DE CAS 1 : Contoso Migration (431-436) ===
   {
-    id: 431, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
+    id: 431, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p><strong>Contoso Ltd.</strong> est une entreprise de 2000 employés qui migre son infrastructure on-premises vers Azure. Ils ont actuellement 3 datacenters en France avec des serveurs Windows Server 2012 R2 et 2019.</p>
 <p><strong>Objectifs :</strong> Migrer 150 serveurs vers Azure en 6 mois, réduire les coûts d'infrastructure de 30%, et améliorer la disponibilité.</p>` },
@@ -7619,7 +7631,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/hybrid/whatis-hybrid-identity"
   },
   {
-    id: 432, type: "casestudy", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Migration",
+    id: 432, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p><strong>Contoso Ltd.</strong> migre son infrastructure vers Azure. Voir l'onglet "Environnement existant" pour les détails réseau.</p>` },
       { title: "Environnement existant", content: `<ul>
@@ -7648,7 +7660,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/expressroute/expressroute-howto-coexist-resource-manager"
   },
   {
-    id: 433, type: "casestudy", domain: "Ressources de calcul Azure", topic: "Étude de cas - Migration",
+    id: 433, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Ressources de calcul Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Contoso migre 150 serveurs vers Azure. L'équipe doit dimensionner les VMs et choisir les options de disponibilité appropriées.</p>` },
       { title: "Catalogue de serveurs", content: `<table class="exhibit-table">
@@ -7677,7 +7689,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machines/availability"
   },
   {
-    id: 434, type: "casestudy", domain: "Stockage Azure", topic: "Étude de cas - Migration",
+    id: 434, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Stockage Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Contoso doit migrer ses partages de fichiers File Server (SRV-FILE01) vers Azure.</p>` },
       { title: "Exigences de stockage", content: `<ul>
@@ -7706,7 +7718,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/storage/files/storage-files-introduction"
   },
   {
-    id: 435, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Migration",
+    id: 435, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Après la migration, Contoso doit mettre en place une surveillance centralisée de toute l'infrastructure Azure.</p>` },
       { title: "Infrastructure migrée", content: `<ul>
@@ -7736,7 +7748,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/logs/design-logs-deployment"
   },
   {
-    id: 436, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
+    id: 436, type: "casestudy", caseStudyId: "contoso-migration", caseStudyTitle: "Contoso — Migration Azure", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Contoso doit organiser ses ressources Azure et appliquer des contrôles de gouvernance.</p>` },
       { title: "Structure organisationnelle", content: `<ul>
@@ -7767,7 +7779,7 @@ az network private-dns link vnet create \
 
   // === ÉTUDE DE CAS 2 : Fabrikam Sécurité (437-442) ===
   {
-    id: 437, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
+    id: 437, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p><strong>Fabrikam Inc.</strong> est une société financière sous réglementation PCI-DSS. Ils ont récemment subi un audit de sécurité qui a révélé plusieurs non-conformités dans leur environnement Azure.</p>` },
       { title: "Non-conformités identifiées", content: `<ul>
@@ -7798,7 +7810,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/bastion/bastion-overview"
   },
   {
-    id: 438, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
+    id: 438, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Fabrikam doit résoudre les non-conformités PCI-DSS. Voir l'onglet "Non-conformités" pour la liste complète.</p>` },
       { title: "Non-conformités", content: `<ul>
@@ -7825,7 +7837,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/key-vault/general/logging"
   },
   {
-    id: 439, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
+    id: 439, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Fabrikam doit implémenter le MFA pour tous les administrateurs.</p>` },
       { title: "Situation actuelle", content: `<ul>
@@ -7853,7 +7865,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/conditional-access/howto-conditional-access-policy-admin-mfa"
   },
   {
-    id: 440, type: "casestudy", domain: "Stockage Azure", topic: "Étude de cas - Sécurité",
+    id: 440, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Stockage Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Fabrikam doit sécuriser ses comptes de stockage Azure contenant des données de transactions de paiement.</p>` },
       { title: "Situation actuelle", content: `<ul>
@@ -7881,7 +7893,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/storage/blobs/authorize-access-azure-active-directory"
   },
   {
-    id: 441, type: "casestudy", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Sécurité",
+    id: 441, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Fabrikam doit sécuriser l'accès réseau à ses comptes de stockage.</p>` },
       { title: "Architecture réseau", content: `<ul>
@@ -7909,7 +7921,7 @@ az network private-dns link vnet create \
     reference: "https://learn.microsoft.com/fr-fr/azure/private-link/private-endpoint-dns"
   },
   {
-    id: 442, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
+    id: 442, type: "casestudy", caseStudyId: "fabrikam-security", caseStudyTitle: "Fabrikam — Sécurité PCI-DSS", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
     tabs: [
       { title: "Vue d'ensemble", content: `<p>Fabrikam implémente une solution SIEM pour la détection des intrusions en temps réel.</p>` },
       { title: "Sources de logs", content: `<ul>
@@ -8393,6 +8405,38 @@ const State = {
 //  Multiple: partial — award per-correct-option minus per-wrong-option, min 0
 //  Raw score → Scaled 1–1000 (pass = 700)
 // ══════════════════════════════════════════════════════════
+function shuffleKeepingCaseStudies(qs) {
+  // Group casestudy questions by caseStudyId; shuffle groups as units
+  const groups = {};
+  const standalone = [];
+  qs.forEach(q => {
+    if (q.caseStudyId) {
+      if (!groups[q.caseStudyId]) groups[q.caseStudyId] = [];
+      groups[q.caseStudyId].push(q);
+    } else {
+      standalone.push(q);
+    }
+  });
+  // Shuffle standalone questions
+  for (let i = standalone.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [standalone[i], standalone[j]] = [standalone[j], standalone[i]];
+  }
+  // Shuffle the group order (but keep questions within each group in order)
+  const groupKeys = Object.keys(groups);
+  for (let i = groupKeys.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [groupKeys[i], groupKeys[j]] = [groupKeys[j], groupKeys[i]];
+  }
+  // Interleave: place each case study group as a block among standalone questions
+  const result = [...standalone];
+  groupKeys.forEach(key => {
+    const insertAt = Math.floor(Math.random() * (result.length + 1));
+    result.splice(insertAt, 0, ...groups[key]);
+  });
+  return result;
+}
+
 function calcQuestionScore(q, userAnswers) {
   // yesno: traité comme single
   if (q.type === 'yesno') {
@@ -8584,7 +8628,7 @@ const App = {
     if (mode === 'practice') {
       const count = this._qCountVal === 'all' ? qs.length : Math.min(this._qCountVal, qs.length);
       const shuffle = document.getElementById('opt-shuffle').checked;
-      if (shuffle) qs = qs.sort(() => Math.random() - 0.5);
+      if (shuffle) qs = shuffleKeepingCaseStudies(qs);
       qs = qs.slice(0, count);
 
       const timeMins = parseInt(document.getElementById('practice-time').value) || 0;
@@ -8597,7 +8641,7 @@ const App = {
     } else {
       const count = Math.min(this._examQCountVal, qs.length);
       const shuffle = document.getElementById('exam-shuffle').checked;
-      if (shuffle) qs = qs.sort(() => Math.random() - 0.5);
+      if (shuffle) qs = shuffleKeepingCaseStudies(qs);
       qs = qs.slice(0, count);
       State.config = { showAnswer: false, showExplanation: false, timeLimit: 150 * 60 };
       State.timeLeft = 150 * 60;
@@ -8679,13 +8723,20 @@ const App = {
       ? `<button class="btn-nav primary-nav" onclick="App.navigate(1)">Suivant →</button>`
       : `<button class="btn-nav primary-nav" onclick="App.confirmEnd()">Terminer ✓</button>`;
 
+    let caseStudyBadge = '';
+    if (q.caseStudyId) {
+      const csQuestions = State.questions.filter(qq => qq.caseStudyId === q.caseStudyId);
+      const csIdx = csQuestions.findIndex(qq => qq.id === q.id);
+      caseStudyBadge = `<div class="case-study-badge">📋 ${escHtml(q.caseStudyTitle || q.caseStudyId)} — Q${csIdx+1}/${csQuestions.length}</div>`;
+    }
     const header = `
       <div class="question-header">
         <span class="q-number">Q${qi+1}</span>
         <span class="q-domain">${escHtml(q.domain)}</span>
         <span class="q-type">${typeLabels[q.type] || q.type}</span>
         <button class="flagged-btn ${State.flags.has(qi) ? 'flagged' : ''}" onclick="App.toggleFlag()" title="Marquer">🚩</button>
-      </div>`;
+      </div>
+      ${caseStudyBadge}`;
 
     // ── CODE COMPLETION type ──
     if (q.type === 'code-completion') {
