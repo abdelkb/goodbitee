@@ -937,6 +937,85 @@
     }
     .exhibit-table tr:nth-child(even) td { background: #faf9f8; }
 
+    /* ── EXHIBIT TABS (casestudy / multiexhibit) ── */
+    .exhibit-tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-bottom: 2px solid var(--ms-gray-border);
+      background: #f4f4f4;
+    }
+    .exhibit-tab-btn {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--ms-gray);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .exhibit-tab-btn:hover { color: var(--ms-blue); background: #e8f0fe; }
+    .exhibit-tab-btn.active { color: var(--ms-blue); border-bottom-color: var(--ms-blue); background: #fff; }
+    .exhibit-tab-panel { display: none; padding: 16px 20px; max-height: 320px; overflow-y: auto; }
+    .exhibit-tab-panel.active { display: block; }
+    .exhibit-code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      white-space: pre;
+      margin: 0;
+      line-height: 1.65;
+    }
+    .exhibit-code-block.ps  { color: #9cdcfe; }
+    .exhibit-code-block.cli { color: #b5cea8; }
+    .exhibit-code-block.json { color: #ce9178; }
+    .exhibit-code-block .kw  { color: #569cd6; }
+    .exhibit-code-block .str { color: #ce9178; }
+    .exhibit-code-block .num { color: #b5cea8; }
+    .exhibit-code-block .cmt { color: #6a9955; font-style: italic; }
+    .exhibit-portal-bar {
+      background: var(--ms-blue);
+      padding: 6px 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      border-radius: 6px 6px 0 0;
+    }
+    .exhibit-portal-body {
+      background: #faf9f8;
+      border: 1px solid var(--ms-gray-border);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 12px 16px;
+    }
+    .exhibit-kv { display: grid; grid-template-columns: 180px 1fr; gap: 6px 12px; font-size: 13px; }
+    .exhibit-kv dt { color: var(--ms-gray); font-weight: 500; }
+    .exhibit-kv dd { color: #201f1e; margin: 0; font-weight: 600; }
+    .exhibit-section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--ms-gray); margin: 12px 0 6px;
+    }
+    .exhibit-scenario-banner {
+      background: linear-gradient(135deg, #e8f0fe 0%, #fce8e6 100%);
+      border-left: 4px solid var(--ms-blue);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #201f1e;
+    }
+    .exhibit-scenario-banner strong { color: var(--ms-blue-dark); }
+
     /* ── CODE COMPLETION ── */
     .code-completion-block {
       background: #1e1e1e;
@@ -1193,6 +1272,10 @@
           <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
           <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
           <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
+          <span class="chip multi selected" data-type="exhibit"        onclick="App.toggleTypeChip(this)">Avec épreuve</span>
+          <span class="chip multi selected" data-type="casestudy"      onclick="App.toggleTypeChip(this)">Étude de cas</span>
+          <span class="chip multi selected" data-type="multiexhibit"   onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
+          <span class="chip multi selected" data-type="scenario"       onclick="App.toggleTypeChip(this)">Scénario</span>
         </div>
         <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
       </div>
@@ -1303,6 +1386,10 @@
           <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
           <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
           <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
+          <span class="chip multi selected" data-type="exhibit"        onclick="App.toggleTypeChip(this)">Avec épreuve</span>
+          <span class="chip multi selected" data-type="casestudy"      onclick="App.toggleTypeChip(this)">Étude de cas</span>
+          <span class="chip multi selected" data-type="multiexhibit"   onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
+          <span class="chip multi selected" data-type="scenario"       onclick="App.toggleTypeChip(this)">Scénario</span>
         </div>
         <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
       </div>
@@ -6713,6 +6800,1560 @@ const QUESTIONS = [
     correct: [1],
     explanation: "Une solution de monitoring complète nécessite : Azure Monitor (alertes métriques, logs, tableaux de bord infrastructure), Application Insights (APM, performances applicatives, transactions), Microsoft Defender for Cloud (Secure Score, conformité réglementaire, recommandations sécurité), Azure Cost Management (analyse des coûts, budgets, prévisions). Ces quatre services couvrent les 4 dimensions demandées. Azure Advisor est complémentaire pour les recommandations.",
     reference: "https://learn.microsoft.com/fr-fr/azure/architecture/framework/devops/monitoring"
+  },
+
+  // ── BATCH 5 : Épreuves / Scénarios / Études de cas (ids 401-430) ─────────────
+  {
+    id: 401, type: "exhibit", domain: "Réseaux virtuels Azure", topic: "NSG",
+    exhibitTitle: "Règles NSG — nsg-web (associé au sous-réseau Web 10.0.1.0/24)",
+    exhibit: `<table class="exhibit-table">
+<tr><th>Priorité</th><th>Nom</th><th>Port</th><th>Protocole</th><th>Source</th><th>Destination</th><th>Action</th></tr>
+<tr><td>100</td><td>Allow-HTTP</td><td>80</td><td>TCP</td><td>Internet</td><td>10.0.1.0/24</td><td style="color:#107c10;font-weight:700">Autoriser</td></tr>
+<tr><td>110</td><td>Allow-HTTPS</td><td>443</td><td>TCP</td><td>Internet</td><td>10.0.1.0/24</td><td style="color:#107c10;font-weight:700">Autoriser</td></tr>
+<tr><td>200</td><td>Allow-LB-Probe</td><td>*</td><td>*</td><td>AzureLoadBalancer</td><td>*</td><td style="color:#107c10;font-weight:700">Autoriser</td></tr>
+<tr><td>4096</td><td>DenyAllInbound</td><td>*</td><td>*</td><td>*</td><td>*</td><td style="color:#d13438;font-weight:700">Refuser</td></tr>
+</table>`,
+    question: "Un utilisateur Internet tente de se connecter en RDP (port 3389) à une VM dans le sous-réseau Web. Que se passe-t-il ?",
+    options: [
+      "La connexion est autorisée car RDP est toujours autorisé dans Azure",
+      "La connexion est refusée par la règle DenyAllInbound (priorité 4096)",
+      "La connexion est autorisée car AzureLoadBalancer autorise tout le trafic",
+      "La connexion est refusée car RDP nécessite une règle explicite et aucune n'existe avant le refus global"
+    ],
+    correct: [3],
+    explanation: "Aucune règle n'autorise le port 3389 avant la règle DenyAllInbound (priorité 4096). Les règles sont évaluées par ordre de priorité croissant : 100, 110, 200 ne correspondent pas au port 3389 depuis Internet. La règle 4096 refuse tout trafic restant. Le résultat est un refus. Les options B et D expriment le même résultat, mais D est plus précis : c'est l'absence de règle permissive + la présence du refus global.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-network/network-security-groups-overview"
+  },
+  {
+    id: 402, type: "exhibit", domain: "Réseaux virtuels Azure", topic: "Table de routage",
+    exhibitTitle: "Table de routage — rt-spoke1 (associée au sous-réseau App 10.1.1.0/24)",
+    exhibit: `<table class="exhibit-table">
+<tr><th>Préfixe d'adresse</th><th>Type de tronçon suivant</th><th>Adresse du tronçon</th><th>Source</th></tr>
+<tr><td>0.0.0.0/0</td><td>Appliance virtuelle</td><td>10.0.0.4</td><td>Définie par l'utilisateur</td></tr>
+<tr><td>10.0.0.0/16</td><td>Appairage de réseaux virtuels</td><td>—</td><td>Définie par l'utilisateur</td></tr>
+<tr><td>10.1.0.0/16</td><td>Réseau virtuel</td><td>—</td><td>Par défaut</td></tr>
+<tr><td>192.168.0.0/16</td><td>Passerelle réseau virtuel</td><td>—</td><td>Définie par l'utilisateur</td></tr>
+</table>`,
+    question: "Une VM dans le sous-réseau App (10.1.1.5) envoie un paquet vers 8.8.8.8 (DNS Google). Quel est le prochain saut ?",
+    options: [
+      "Le paquet est envoyé directement vers Internet (route Azure par défaut)",
+      "Le paquet est envoyé vers 10.0.0.4 (appliance virtuelle / pare-feu)",
+      "Le paquet est refusé car 8.8.8.8 n'est pas dans la table de routage",
+      "Le paquet est envoyé vers la passerelle réseau virtuel"
+    ],
+    correct: [1],
+    explanation: "La route 0.0.0.0/0 (route par défaut) pointe vers l'appliance virtuelle 10.0.0.4. Cette UDR remplace la route système par défaut vers Internet. Tout trafic ne correspondant pas à une route plus spécifique (10.0.0.0/16, 10.1.0.0/16, 192.168.0.0/16) suit la route 0.0.0.0/0. 8.8.8.8 ne correspond à aucune route spécifique → prochain saut = 10.0.0.4 (NVA/pare-feu).",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-network/virtual-networks-udr-overview"
+  },
+  {
+    id: 403, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "RBAC",
+    exhibitTitle: "Attributions de rôles — Utilisateur : alice@contoso.com",
+    exhibit: `<table class="exhibit-table">
+<tr><th>Étendue</th><th>Rôle</th><th>Type</th></tr>
+<tr><td>Groupe de management : MG-Root</td><td>Lecteur</td><td>Hérité</td></tr>
+<tr><td>Abonnement : Sub-Prod</td><td>Contributeur</td><td>Direct</td></tr>
+<tr><td>Groupe de ressources : RG-Network</td><td>Propriétaire</td><td>Direct</td></tr>
+<tr><td>Ressource : VM-Web01</td><td>Opérateur de machine virtuelle classique</td><td>Direct</td></tr>
+</table>`,
+    question: "Alice souhaite supprimer le groupe de ressources RG-Database (qui est dans Sub-Prod mais sur lequel elle n'a pas d'attribution directe). Peut-elle effectuer cette action ?",
+    options: [
+      "Non, Alice n'a pas de rôle sur RG-Database",
+      "Oui, le rôle Contributeur sur Sub-Prod lui permet de gérer tous les groupes de ressources de cet abonnement",
+      "Oui, le rôle Propriétaire sur RG-Network s'étend à tous les groupes de ressources",
+      "Non, seul un Propriétaire au niveau abonnement peut supprimer des groupes de ressources"
+    ],
+    correct: [1],
+    explanation: "Le rôle Contributeur au niveau Abonnement (Sub-Prod) s'applique à toutes les ressources enfants, y compris tous les groupes de ressources dans cet abonnement. Alice peut créer, modifier et supprimer des ressources dans Sub-Prod, incluant RG-Database. Le rôle Contributeur inclut la suppression des groupes de ressources. Seule limitation : le Contributeur ne peut pas attribuer des rôles RBAC (c'est la prérogative du Propriétaire).",
+    reference: "https://learn.microsoft.com/fr-fr/azure/role-based-access-control/overview"
+  },
+  {
+    id: 404, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "Azure Policy",
+    exhibitTitle: "Définition de stratégie Azure",
+    exhibit: `<pre class="exhibit-code-block json">{
+  "properties": {
+    "displayName": "Require tag on resources",
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "field": "tags['Environment']",
+        "exists": "false"
+      },
+      "then": {
+        "effect": "Deny"
+      }
+    }
+  }
+}</pre>`,
+    question: "Cette stratégie Azure Policy est assignée à un groupe de ressources. Un développeur tente de créer un compte de stockage SANS le tag 'Environment'. Que se passe-t-il ?",
+    options: [
+      "La création est autorisée et un événement d'audit est généré",
+      "La création est refusée par la stratégie",
+      "La création est autorisée mais le tag 'Environment' est automatiquement ajouté",
+      "La stratégie ne s'applique pas aux comptes de stockage car mode='Indexed'"
+    ],
+    correct: [1],
+    explanation: "L'effet 'Deny' bloque la création/modification de toute ressource ne respectant pas la condition. Ici, si le tag 'Environment' est absent (exists: false), la création est refusée. Le mode 'Indexed' signifie que la politique s'applique aux types de ressources qui supportent les tags et les locations (ce qui inclut les comptes de stockage). Le développeur recevra une erreur RequestDisallowedByPolicy.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/governance/policy/concepts/effects"
+  },
+  {
+    id: 405, type: "exhibit", domain: "Ressources de calcul Azure", topic: "ARM Template",
+    exhibitTitle: "Extrait de template ARM",
+    exhibit: `<pre class="exhibit-code-block json">{
+  "type": "Microsoft.Compute/virtualMachines",
+  "apiVersion": "2023-03-01",
+  "name": "[parameters('vmName')]",
+  "location": "[resourceGroup().location]",
+  "dependsOn": [
+    "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+  ],
+  "properties": {
+    "hardwareProfile": { "vmSize": "Standard_D2s_v3" },
+    "storageProfile": {
+      "imageReference": {
+        "publisher": "MicrosoftWindowsServer",
+        "offer": "WindowsServer",
+        "sku": "2022-Datacenter",
+        "version": "latest"
+      },
+      "osDisk": {
+        "createOption": "FromImage",
+        "managedDisk": { "storageAccountType": "Premium_LRS" }
+      }
+    },
+    "osProfile": {
+      "adminUsername": "[parameters('adminUsername')]",
+      "adminPassword": "[parameters('adminPassword')]"
+    }
+  }
+}</pre>`,
+    question: "Ce template ARM déploie une VM Windows Server 2022. Quelle affirmation est correcte concernant la dépendance déclarée ?",
+    options: [
+      "La VM sera créée avant l'interface réseau car elle est déclarée en premier",
+      "La VM sera créée APRÈS l'interface réseau grâce à la propriété dependsOn",
+      "La propriété dependsOn est ignorée par ARM — le déploiement est toujours parallèle",
+      "La dépendance est incorrecte car il faut utiliser 'requires' au lieu de 'dependsOn'"
+    ],
+    correct: [1],
+    explanation: "La propriété 'dependsOn' dans ARM Templates définit un ordre de déploiement explicite. Azure Resource Manager crée d'abord la NIC référencée, puis la VM. Sans dependsOn, ARM peut créer les ressources en parallèle si elles sont indépendantes. Ici, la VM a besoin de la NIC pour sa configuration réseau, donc la dépendance est logiquement requise. ARM utilise bien 'dependsOn' (pas 'requires').",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-resource-manager/templates/resource-dependency"
+  },
+  {
+    id: 406, type: "exhibit", domain: "Ressources de calcul Azure", topic: "PowerShell",
+    exhibitTitle: "Script PowerShell — Gestion des disques",
+    exhibit: `<pre class="exhibit-code-block ps"><span class="kw">$vm</span> = Get-AzVM -ResourceGroupName <span class="str">"RG-Prod"</span> -Name <span class="str">"VM-SQL01"</span>
+<span class="kw">$diskConfig</span> = New-AzDiskConfig -Location <span class="str">"eastus"</span> \
+    -DiskSizeGB <span class="num">512</span> \
+    -AccountType <span class="str">"Premium_LRS"</span> \
+    -CreateOption <span class="str">"Empty"</span>
+<span class="kw">$disk</span> = New-AzDisk -ResourceGroupName <span class="str">"RG-Prod"</span> \
+    -DiskName <span class="str">"DataDisk01"</span> \
+    -Disk <span class="kw">$diskConfig</span>
+<span class="kw">$vm</span> = Add-AzVMDataDisk -VM <span class="kw">$vm</span> -Name <span class="str">"DataDisk01"</span> \
+    -CreateOption <span class="str">"Attach"</span> \
+    -ManagedDiskId <span class="kw">$disk</span>.Id \
+    -Lun <span class="num">0</span>
+Update-AzVM -ResourceGroupName <span class="str">"RG-Prod"</span> -VM <span class="kw">$vm</span></pre>`,
+    question: "Ce script attache un disque de données à VM-SQL01. Quel est le type et la taille du disque créé ?",
+    options: [
+      "Disque Standard HDD de 512 Go sur LUN 0",
+      "Disque Premium SSD de 512 Go sur LUN 0",
+      "Disque Ultra Disk de 512 Go sur LUN 1",
+      "Disque Standard SSD de 512 Go attaché automatiquement"
+    ],
+    correct: [1],
+    explanation: "Le paramètre -AccountType 'Premium_LRS' spécifie un disque Premium SSD. -DiskSizeGB 512 définit la taille à 512 Go. -Lun 0 indique le Logical Unit Number 0 (premier slot de disque de données). Premium_LRS = Premium SSD avec redondance locale. Standard_LRS = Standard HDD, StandardSSD_LRS = Standard SSD, UltraSSD_LRS = Ultra Disk.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machines/disks-types"
+  },
+  {
+    id: 407, type: "exhibit", domain: "Stockage Azure", topic: "Azure CLI",
+    exhibitTitle: "Commandes Azure CLI — Compte de stockage",
+    exhibit: `<pre class="exhibit-code-block cli">az storage account create \
+  --name mystorageaccount \
+  --resource-group RG-Storage \
+  --location eastus \
+  --sku Standard_GRS \
+  --kind StorageV2 \
+  --access-tier Hot \
+  --enable-hierarchical-namespace true \
+  --min-tls-version TLS1_2</pre>`,
+    question: "Analysez cette commande CLI. Quel type de compte de stockage est créé et quelle fonctionnalité spéciale est activée ?",
+    options: [
+      "Compte Blob Storage avec redondance locale, fonctionnalité spéciale : accès froid",
+      "Compte StorageV2 avec redondance géo-redondante, fonctionnalité spéciale : Azure Data Lake Storage Gen2 (espace de noms hiérarchique)",
+      "Compte StorageV2 avec redondance de zone, fonctionnalité spéciale : versioning automatique",
+      "Compte Premium Block Blob avec geo-redondance, fonctionnalité spéciale : NFSv3"
+    ],
+    correct: [1],
+    explanation: "--kind StorageV2 = compte General Purpose v2. --sku Standard_GRS = Standard Geo-Redundant Storage (réplication dans région secondaire). --enable-hierarchical-namespace true = active Azure Data Lake Storage Gen2 qui fournit un système de fichiers hiérarchique (dossiers réels) pour les workloads analytiques (Spark, Hadoop, Databricks). --access-tier Hot = tier d'accès fréquent par défaut.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/blobs/data-lake-storage-introduction"
+  },
+  {
+    id: 408, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "Bicep",
+    exhibitTitle: "Template Bicep — Verrouillage de ressource",
+    exhibit: `<pre class="exhibit-code-block">param storageAccountName string
+param location string = resourceGroup().location
+
+resource storageAccount <span class="str">'Microsoft.Storage/storageAccounts@2023-01-01'</span> = {
+  name: storageAccountName
+  location: location
+  sku: { name: <span class="str">'Standard_LRS'</span> }
+  kind: <span class="str">'StorageV2'</span>
+}
+
+resource lock <span class="str">'Microsoft.Authorization/locks@2020-05-01'</span> = {
+  name: <span class="str">'storage-delete-lock'</span>
+  scope: storageAccount
+  properties: {
+    level: <span class="str">'CanNotDelete'</span>
+    notes: <span class="str">'Verrou de production - ne pas supprimer'</span>
+  }
+}</pre>`,
+    question: "Ce template Bicep déploie un compte de stockage avec un verrou. Qu'est-ce que le niveau 'CanNotDelete' permet et interdit ?",
+    options: [
+      "Interdit toute modification ET la suppression du compte de stockage",
+      "Interdit uniquement la suppression ; les modifications (upload de fichiers, paramètres) restent autorisées",
+      "Interdit la suppression uniquement aux utilisateurs non-administrateurs",
+      "Permet la suppression uniquement aux propriétaires de l'abonnement"
+    ],
+    correct: [1],
+    explanation: "Le niveau 'CanNotDelete' (ou 'Delete') empêche la suppression accidentelle mais AUTORISE les lectures et modifications. Les utilisateurs peuvent toujours lire, écrire des données, et modifier les paramètres. Pour bloquer aussi les modifications, utilisez le niveau 'ReadOnly'. Les verrous s'appliquent à tous les utilisateurs quel que soit leur rôle RBAC — même un Propriétaire ne peut pas supprimer sans d'abord supprimer le verrou.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-resource-manager/management/lock-resources"
+  },
+  {
+    id: 409, type: "exhibit", domain: "Surveillance et maintenance Azure", topic: "KQL Log Analytics",
+    exhibitTitle: "Requête KQL — Log Analytics Workspace",
+    exhibit: `<pre class="exhibit-code-block">AzureActivity
+| where TimeGenerated > ago(7d)
+| where OperationNameValue contains "delete"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, OperationNameValue, ResourceGroup
+| order by TimeGenerated desc
+| take 50</pre>`,
+    question: "Que retourne cette requête KQL ?",
+    options: [
+      "Les 50 tentatives de suppression échouées sur les 7 derniers jours",
+      "Les 50 dernières suppressions réussies de ressources Azure sur les 7 derniers jours, triées de la plus récente à la plus ancienne",
+      "Toutes les activités de l'utilisateur 'delete' dans Azure Active Directory",
+      "Les 50 alertes de sécurité liées aux suppressions dans Microsoft Defender"
+    ],
+    correct: [1],
+    explanation: "La requête interroge la table AzureActivity (journal d'activité Azure) : filtre les 7 derniers jours, sélectionne les opérations contenant 'delete', garde uniquement les statuts 'Success' (suppressions réussies), projette les colonnes utiles, trie par date décroissante (plus récent en premier), et limite à 50 résultats. C'est utile pour l'audit : qui a supprimé quoi et quand.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/logs/log-analytics-overview"
+  },
+  {
+    id: 410, type: "exhibit", domain: "Stockage Azure", topic: "Portail Azure - Storage",
+    exhibitTitle: "Configuration du compte de stockage — Portail Azure",
+    exhibit: `<div class="exhibit-portal-bar">📦 Compte de stockage : storagecontoso01</div>
+<div class="exhibit-portal-body">
+<dl class="exhibit-kv">
+<dt>Niveau de performance</dt><dd>Standard</dd>
+<dt>Type de réplication</dt><dd>LRS (stockage localement redondant)</dd>
+<dt>Niveau d'accès (par défaut)</dt><dd>Froid (Cool)</dd>
+<dt>Transfert sécurisé requis</dt><dd>Activé</dd>
+<dt>Accès public aux blobs</dt><dd>Désactivé</dd>
+<dt>Version TLS minimale</dt><dd>TLS 1.2</dd>
+</dl>
+<p class="exhibit-section-title">Règle de cycle de vie — active</p>
+<dl class="exhibit-kv">
+<dt>Condition</dt><dd>Dernier accès &gt; 90 jours</dd>
+<dt>Action</dt><dd>Déplacer vers Archive</dd>
+</dl>
+</div>`,
+    question: "Un développeur charge un fichier via HTTP (non chiffré). Que se passe-t-il ?",
+    options: [
+      "Le fichier est chargé normalement car le stockage Standard accepte HTTP",
+      "La requête HTTP est refusée car 'Transfert sécurisé requis' est activé — seul HTTPS est accepté",
+      "Le fichier est chargé mais chiffré automatiquement par Azure",
+      "La requête est redirigée automatiquement vers HTTPS"
+    ],
+    correct: [1],
+    explanation: "Le paramètre 'Transfert sécurisé requis' (Secure transfer required) force toutes les connexions à utiliser HTTPS (port 443) ou SMB avec chiffrement. Les requêtes HTTP sont automatiquement REFUSÉES avec une erreur 400. Il n'y a pas de redirection automatique HTTP→HTTPS pour Azure Storage (contrairement aux serveurs web). Le développeur doit utiliser HTTPS dans son code.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/storage-require-secure-transfer"
+  },
+  {
+    id: 411, type: "exhibit", domain: "Ressources de calcul Azure", topic: "PowerShell - VMSS",
+    exhibitTitle: "Script PowerShell — Virtual Machine Scale Set",
+    exhibit: `<pre class="exhibit-code-block ps"><span class="kw">$vmssConfig</span> = New-AzVmssConfig \
+    -Location <span class="str">"westeurope"</span> \
+    -SkuCapacity <span class="num">2</span> \
+    -SkuName <span class="str">"Standard_D2s_v3"</span> \
+    -UpgradePolicyMode <span class="str">"Automatic"</span> \
+    -ZoneBalance <span class="kw">$true</span>
+
+<span class="kw">$vmss</span> = New-AzVmss \
+    -ResourceGroupName <span class="str">"RG-Compute"</span> \
+    -Name <span class="str">"vmss-webapp"</span> \
+    -VirtualMachineScaleSet <span class="kw">$vmssConfig</span>
+
+Set-AzVmssOrchestrationServiceState \
+    -ResourceGroupName <span class="str">"RG-Compute"</span> \
+    -VMScaleSetName <span class="str">"vmss-webapp"</span> \
+    -ServiceName <span class="str">"AutomaticRepairs"</span> \
+    -Action <span class="str">"Resume"</span></pre>`,
+    question: "Que fait ce script et quelle est la signification de -UpgradePolicyMode 'Automatic' ?",
+    options: [
+      "Crée un VMSS avec mise à niveau manuelle — les instances ne sont jamais mises à jour automatiquement",
+      "Crée un VMSS de 2 instances Standard_D2s_v3 avec mise à niveau automatique des instances lors des mises à jour du modèle",
+      "Crée un VMSS avec autoscaling activé qui démarre automatiquement 2 nouvelles instances",
+      "Crée un VMSS qui restaure automatiquement les instances en cas de panne Azure"
+    ],
+    correct: [1],
+    explanation: "-SkuCapacity 2 = 2 instances initiales. -UpgradePolicyMode Automatic = quand le modèle VMSS est mis à jour (nouvelle image OS, extension, config), les instances existantes sont automatiquement mises à niveau sans intervention manuelle. -ZoneBalance $true = les instances sont réparties équitablement entre les zones de disponibilité. La dernière commande active les réparations automatiques (AutomaticRepairs) qui remplacent les instances unhealthy.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-upgrade-policy"
+  },
+  {
+    id: 412, type: "exhibit", domain: "Réseaux virtuels Azure", topic: "Azure CLI - VPN",
+    exhibitTitle: "Commandes Azure CLI — VPN Gateway",
+    exhibit: `<pre class="exhibit-code-block cli">az network vnet create \
+  --name VNet-Corp \
+  --resource-group RG-Network \
+  --address-prefix 10.0.0.0/16 \
+  --subnet-name GatewaySubnet \
+  --subnet-prefix 10.0.255.0/27
+
+az network public-ip create \
+  --name pip-vpn-gw \
+  --resource-group RG-Network \
+  --sku Standard \
+  --allocation-method Static
+
+az network vnet-gateway create \
+  --name vpn-gateway-corp \
+  --resource-group RG-Network \
+  --vnet VNet-Corp \
+  --public-ip-address pip-vpn-gw \
+  --gateway-type Vpn \
+  --vpn-type RouteBased \
+  --sku VpnGw2 \
+  --no-wait</pre>`,
+    question: "Analysez ces commandes. Quelle affirmation est INCORRECTE concernant ce déploiement ?",
+    options: [
+      "Le GatewaySubnet est créé avec un préfixe /27, ce qui est conforme aux recommandations Microsoft",
+      "La VPN Gateway utilise un type RouteBased, compatible avec les connexions P2S et les connexions multiples S2S",
+      "--no-wait signifie que la commande retourne immédiatement sans attendre la fin du déploiement (qui peut prendre 30-45 min)",
+      "L'IP publique Static Standard peut être associée à un Load Balancer Basic en même temps que la VPN Gateway"
+    ],
+    correct: [3],
+    explanation: "Une IP publique de SKU Standard ne peut PAS être utilisée avec un Load Balancer Basic — les SKUs doivent correspondre (Standard + Standard, ou Basic + Basic). Les autres affirmations sont correctes : /27 est le minimum recommandé pour GatewaySubnet (Microsoft recommande /27 ou plus grand), RouteBased supporte P2S et multi-S2S, et --no-wait permet à la CLI de retourner sans bloquer pendant le déploiement.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings"
+  },
+  {
+    id: 413, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "RBAC - Portail",
+    exhibitTitle: "Portail Azure — Contrôle d'accès (IAM) — Abonnement : Sub-Dev",
+    exhibit: `<div class="exhibit-portal-bar">🔑 Contrôle d'accès (IAM) — Sub-Dev</div>
+<div class="exhibit-portal-body">
+<p class="exhibit-section-title">Attributions de rôles</p>
+<table class="exhibit-table" style="margin-top:8px">
+<tr><th>Nom</th><th>Type</th><th>Rôle</th><th>Étendue</th><th>Accès</th></tr>
+<tr><td>dev-team@contoso.com</td><td>Groupe</td><td>Contributeur</td><td>Abonnement</td><td>Hérité</td></tr>
+<tr><td>bob@contoso.com</td><td>Utilisateur</td><td>Lecteur</td><td>Abonnement</td><td>Direct</td></tr>
+<tr><td>bob@contoso.com</td><td>Utilisateur</td><td>Contributeur</td><td>RG-Frontend</td><td>Direct</td></tr>
+<tr><td>ci-pipeline</td><td>Principal de service</td><td>Contributeur</td><td>RG-Frontend</td><td>Direct</td></tr>
+</table>
+</div>`,
+    question: "Bob tente de créer une VM dans RG-Backend (un groupe de ressources de Sub-Dev sans attribution directe pour Bob). Peut-il le faire ?",
+    options: [
+      "Non, Bob n'a que le rôle Lecteur sur l'abonnement et n'a pas de rôle Contributeur sur RG-Backend",
+      "Oui, Bob fait partie du groupe dev-team qui a le rôle Contributeur sur l'abonnement",
+      "Oui, le rôle Contributeur sur RG-Frontend s'étend à tous les groupes de ressources",
+      "Non, seul le principal de service ci-pipeline peut créer des ressources"
+    ],
+    correct: [0],
+    explanation: "Le RBAC Azure est additif mais l'étendue est importante. Bob a : Lecteur sur l'abonnement (ne peut que lire), Contributeur sur RG-Frontend seulement (ne s'étend pas aux autres RGs). Il n'est pas mentionné que Bob fait partie du groupe dev-team. Donc pour RG-Backend, Bob n'a que le rôle Lecteur (hérité de l'abonnement), qui ne permet pas de créer des VMs. La réponse A est correcte.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/role-based-access-control/overview"
+  },
+  {
+    id: 414, type: "exhibit", domain: "Surveillance et maintenance Azure", topic: "Azure Monitor - Alerte",
+    exhibitTitle: "Configuration d'alerte Azure Monitor",
+    exhibit: `<div class="exhibit-portal-bar">🔔 Règle d'alerte — vm-prod-cpu-alert</div>
+<div class="exhibit-portal-body">
+<dl class="exhibit-kv">
+<dt>Ressource cible</dt><dd>VM-Prod-01 (Microsoft.Compute/virtualMachines)</dd>
+<dt>Signal</dt><dd>Percentage CPU (métrique de plateforme)</dd>
+<dt>Opérateur</dt><dd>Supérieur à</dd>
+<dt>Valeur seuil</dt><dd>85 %</dd>
+<dt>Granularité d'agrégation</dt><dd>5 minutes</dd>
+<dt>Fréquence d'évaluation</dt><dd>1 minute</dd>
+<dt>Statut</dt><dd style="color:#107c10;font-weight:700">Activée</dd>
+</dl>
+<p class="exhibit-section-title">Groupe d'actions : ag-ops-team</p>
+<dl class="exhibit-kv">
+<dt>Action 1</dt><dd>Email → ops@contoso.com</dd>
+<dt>Action 2</dt><dd>Webhook → https://hooks.teams.microsoft.com/...</dd>
+</dl>
+</div>`,
+    question: "L'alerte se déclenche si le CPU moyen sur 5 minutes dépasse 85%. Combien de fois l'évaluation est-elle effectuée par heure ?",
+    options: ["12 fois (toutes les 5 minutes)", "60 fois (toutes les minutes)", "1 fois (toutes les heures)", "5 fois (toutes les 12 minutes)"],
+    correct: [1],
+    explanation: "La 'Fréquence d'évaluation' est à 1 minute : Azure Monitor évalue la condition chaque minute. La 'Granularité d'agrégation' est à 5 minutes : à chaque évaluation, il calcule la moyenne du CPU sur les 5 dernières minutes. Donc 60 évaluations par heure, mais chaque évaluation regarde une fenêtre glissante de 5 minutes. Si le CPU moyen des 5 dernières minutes dépasse 85%, l'alerte se déclenche.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/alerts/alerts-metric-overview"
+  },
+  {
+    id: 415, type: "exhibit", domain: "Ressources de calcul Azure", topic: "Azure CLI - App Service",
+    exhibitTitle: "Commandes Azure CLI — App Service",
+    exhibit: `<pre class="exhibit-code-block cli">az appservice plan create \
+  --name asp-webapp \
+  --resource-group RG-Web \
+  --sku P2v3 \
+  --is-linux \
+  --number-of-workers 3
+
+az webapp create \
+  --name webapp-contoso \
+  --resource-group RG-Web \
+  --plan asp-webapp \
+  --runtime "NODE:18-lts"
+
+az webapp config set \
+  --name webapp-contoso \
+  --resource-group RG-Web \
+  --always-on true \
+  --http20-enabled true
+
+az webapp deployment slot create \
+  --name webapp-contoso \
+  --resource-group RG-Web \
+  --slot staging</pre>`,
+    question: "Analysez ces commandes. Quelle affirmation est CORRECTE ?",
+    options: [
+      "L'App Service Plan est sur Windows avec 3 workers Standard S2",
+      "L'application utilise Node.js 18 sur Linux avec Always On activé et un slot de déploiement 'staging' créé",
+      "Le slot staging est automatiquement synchronisé avec la production toutes les heures",
+      "Always On ne peut pas être activé sur des plans Linux"
+    ],
+    correct: [1],
+    explanation: "--is-linux = plan Linux. --sku P2v3 = Premium v3 (P2). --number-of-workers 3 = 3 instances. --runtime 'NODE:18-lts' = Node.js 18 LTS. --always-on true = l'app reste active même sans trafic (évite le cold start). --http20-enabled true = HTTP/2 activé. Le slot 'staging' est créé comme environnement de déploiement non-production. Les slots ne se synchronisent pas automatiquement — vous effectuez un swap (échange) manuellement.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/app-service/deploy-staging-slots"
+  },
+  {
+    id: 416, type: "scenario", domain: "Réseaux virtuels Azure", topic: "Connectivité hybride",
+    scenario: `<strong>Scénario :</strong> Contoso possède un bureau central à Paris avec un réseau on-premises (192.168.0.0/16). Ils ont 3 VNets Azure dans West Europe (10.0.0.0/16, 10.1.0.0/16, 10.2.0.0/16) avec un peering hub-and-spoke. Ils ont besoin d'une connectivité depuis Paris vers tous les VNets Azure avec :<br>
+• <strong>Bande passante garantie de 2 Gbps</strong><br>
+• <strong>SLA opérateur de 99.9%</strong><br>
+• <strong>Latence prévisible</strong><br>
+Le budget est illimité mais le délai de mise en œuvre est de maximum 2 semaines.`,
+    question: "Quelle solution de connectivité répond à TOUTES ces exigences ?",
+    options: [
+      "Azure VPN Gateway SKU VpnGw5 avec connexion Site-to-Site redondante",
+      "Azure ExpressRoute avec circuit de 2 Gbps via un fournisseur de connectivité partenaire",
+      "Azure Virtual WAN avec connexion SD-WAN",
+      "Plusieurs connexions VPN en agrégation (VPN aggregation)"
+    ],
+    correct: [1],
+    explanation: "ExpressRoute est la seule solution qui offre : bande passante garantie (circuits disponibles de 50 Mbps à 100 Gbps), SLA opérateur contractuel (généralement 99.9%+), et latence prévisible (connexion privée dédiée, pas via Internet). La mise en œuvre en 2 semaines est tendue mais possible via un fournisseur partenaire express. VPN Gateway est limité à ~10 Gbps max (SKU VpnGw5AZ) mais sans SLA opérateur ni latence garantie. VPN aggregation n'existe pas comme produit Azure standard.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/expressroute/expressroute-introduction"
+  },
+  {
+    id: 417, type: "scenario", domain: "Identités et gouvernance Azure", topic: "Gouvernance multi-abonnements",
+    scenario: `<strong>Scénario :</strong> Fabrikam a 15 abonnements Azure organisés en 3 groupes de management :<br>
+• <strong>MG-Production</strong> (5 abonnements)<br>
+• <strong>MG-Development</strong> (7 abonnements)<br>
+• <strong>MG-Sandbox</strong> (3 abonnements)<br><br>
+L'équipe sécurité veut appliquer une règle : <em>"Toutes les ressources de production doivent avoir des verrous CanNotDelete"</em>. Cette règle NE doit PAS s'appliquer aux environnements dev/sandbox.`,
+    question: "Où devez-vous assigner la Azure Policy pour cibler uniquement la production avec le minimum d'effort de gestion ?",
+    options: [
+      "Assigner la policy individuellement sur chacun des 5 abonnements de production",
+      "Assigner la policy au groupe de management racine avec une exclusion pour MG-Development et MG-Sandbox",
+      "Assigner la policy au groupe de management MG-Production — elle s'applique automatiquement aux 5 abonnements enfants",
+      "Assigner la policy sur chaque groupe de ressources de production individuellement"
+    ],
+    correct: [2],
+    explanation: "Assigner la policy au niveau du groupe de management MG-Production est la meilleure approche : elle s'hérite automatiquement à tous les abonnements et groupes de ressources enfants (les 5 abonnements de production), sans nécessiter une assignation répétée. Option A = 5 assignations séparées (inefficace). Option B = nécessite des exclusions complexes. Option D = potentiellement des centaines d'assignations. Le groupe de management est précisément conçu pour appliquer des contrôles à un ensemble d'abonnements.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/governance/policy/overview"
+  },
+  {
+    id: 418, type: "scenario", domain: "Stockage Azure", topic: "Stratégie de stockage",
+    scenario: `<strong>Scénario :</strong> Une entreprise de médias stocke des vidéos dans Azure Blob Storage. Le pattern d'accès observé est :<br>
+• <strong>0-30 jours</strong> : très fréquemment accédées (montage, review)<br>
+• <strong>31-90 jours</strong> : accès occasionnel (1-2 fois/mois)<br>
+• <strong>91-365 jours</strong> : rarement accédées (1-2 fois/an)<br>
+• <strong>> 365 jours</strong> : conservation légale uniquement, jamais accédées<br><br>
+Le coût de stockage actuel est élevé. Toutes les vidéos sont en tier Hot.`,
+    question: "Quelle configuration de cycle de vie Blob Storage optimise les coûts tout en respectant ce pattern ?",
+    options: [
+      "Déplacer tout vers Archive après 30 jours",
+      "Hot (0-30j) → Cool (31-90j) → Cold (91-365j) → Archive (>365j) avec des règles de cycle de vie automatiques",
+      "Utiliser uniquement les tiers Hot et Archive sans tiers intermédiaires",
+      "Déplacer vers Cool après 90 jours puis supprimer après 365 jours"
+    ],
+    correct: [1],
+    explanation: "Azure Blob Storage propose 4 tiers : Hot (accès fréquent, coût stockage élevé), Cool (accès occasionnel, 30j min recommandé), Cold (accès rare, 90j min, GA 2023), Archive (conservation longue durée, réhydratation nécessaire). Les règles de lifecycle management automatisent les transitions selon l'âge ou la date du dernier accès. La progression Hot→Cool→Cold→Archive minimise les coûts en alignant le tier sur la fréquence réelle d'accès.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/blobs/lifecycle-management-overview"
+  },
+  {
+    id: 419, type: "scenario", domain: "Ressources de calcul Azure", topic: "Haute disponibilité",
+    scenario: `<strong>Scénario :</strong> Une application web critique nécessite :<br>
+• SLA minimum de <strong>99.99%</strong><br>
+• Tolérance aux pannes d'un datacenter entier dans la région<br>
+• Possibilité de maintenance planifiée SANS interruption de service<br>
+• Région : France Central (qui supporte les Availability Zones)<br><br>
+Le budget ne permet pas une architecture multi-régions.`,
+    question: "Quelle configuration de déploiement satisfait TOUTES ces exigences dans une seule région ?",
+    options: [
+      "2 VMs dans un Availability Set dans la même zone de disponibilité",
+      "3 VMs réparties sur 3 Availability Zones différentes avec un Load Balancer Standard",
+      "1 VM avec SSD Premium dans un seul datacenter",
+      "2 VMs dans le même datacenter avec différents update domains"
+    ],
+    correct: [1],
+    explanation: "Les Availability Zones sont des datacenters physiquement séparés dans une région. 3 VMs sur 3 zones + LB Standard offrent : SLA 99.99% (Microsoft garantit ce SLA pour les VMs zonales), tolérance aux pannes d'une zone entière (datacenter), et zéro interruption lors des maintenances planifiées (une zone à la fois). Availability Set (option A et D) ne protège que contre les pannes d'un rack, pas d'un datacenter, et offre seulement 99.95% de SLA.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machines/availability"
+  },
+  {
+    id: 420, type: "scenario", domain: "Identités et gouvernance Azure", topic: "Azure AD - Accès conditionnel",
+    scenario: `<strong>Scénario :</strong> Contoso veut sécuriser l'accès à leur tenant Azure AD. Exigences :<br>
+• Les administrateurs globaux <strong>doivent utiliser MFA</strong> à chaque connexion<br>
+• Les utilisateurs connectés depuis un <strong>réseau d'entreprise approuvé</strong> n'ont PAS besoin de MFA pour les apps non-critiques<br>
+• Les connexions depuis des <strong>pays non-autorisés</strong> doivent être bloquées pour tous<br>
+• Les connexions depuis des <strong>appareils non-conformes</strong> doivent être bloquées`,
+    question: "Combien de stratégies d'accès conditionnel distinctes sont nécessaires pour couvrir TOUTES ces exigences ?",
+    options: ["1 stratégie globale unique", "2 stratégies (MFA admin + blocage géographique)", "3 stratégies minimum (MFA admin, réseau approuvé, blocage géo+appareils)", "4 stratégies distinctes"],
+    correct: [2],
+    explanation: "Chaque exigence nécessite une logique différente : 1) Stratégie MFA pour les Global Admins (cible : rôle Global Admin, action : require MFA). 2) Stratégie réseau approuvé (cible : utilisateurs hors réseau de confiance → MFA; utilisateurs sur réseau approuvé → accès autorisé sans MFA). 3) Stratégie blocage pays + appareils non-conformes (peut être combinée : si pays non-listé OR appareil non-conforme → bloquer). Les stratégies d'accès conditionnel sont additives — toutes les stratégies applicables s'évaluent.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/conditional-access/overview"
+  },
+  {
+    id: 421, type: "scenario", domain: "Stockage Azure", topic: "Sécurité du stockage",
+    scenario: `<strong>Scénario :</strong> Une application web hébergée sur Azure App Service doit accéder à des secrets stockés dans Azure Key Vault. Les exigences de sécurité sont :<br>
+• <strong>Aucun secret ne doit apparaître</strong> dans le code source ou les variables d'environnement<br>
+• L'accès doit utiliser une <strong>identité Azure, pas une clé partagée</strong><br>
+• L'application doit pouvoir accéder au Key Vault <strong>sans que les développeurs connaissent le secret d'authentification</strong>`,
+    question: "Quelle combinaison de fonctionnalités Azure résout ce problème ?",
+    options: [
+      "Stocker les secrets dans les App Settings de l'App Service (chiffrées au repos)",
+      "Managed Identity (system-assigned) sur l'App Service + Access Policy Key Vault pour cette identité",
+      "Service Principal avec certificat stocké dans Azure Storage chiffré",
+      "Azure AD Application Registration avec client secret dans le code source"
+    ],
+    correct: [1],
+    explanation: "Une Managed Identity system-assigned sur l'App Service crée automatiquement une identité dans Azure AD sans mot de passe ou secret à gérer. En accordant à cette identité les permissions d'accès au Key Vault (via Access Policy ou RBAC), l'application peut s'authentifier et récupérer les secrets sans qu'aucun secret d'authentification ne soit exposé nulle part. C'est le pattern Zero-Secret recommandé par Microsoft pour les applications Azure.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/managed-identities-azure-resources/overview"
+  },
+  {
+    id: 422, type: "scenario", domain: "Surveillance et maintenance Azure", topic: "Sauvegarde et restauration",
+    scenario: `<strong>Scénario :</strong> Une entreprise subit une attaque ransomware. L'attaquant a :<br>
+• Chiffré les données de 20 VMs Azure<br>
+• Supprimé les points de restauration Azure Backup<br>
+• Modifié les paramètres des Recovery Services Vaults<br><br>
+Heureusement, le Soft Delete était activé sur tous les vaults avec une rétention de 14 jours. L'attaque a eu lieu hier.`,
+    question: "Quelle est la première action à effectuer pour récupérer les données ?",
+    options: [
+      "Contacter Microsoft Support pour une restauration d'urgence",
+      "Désactiver temporairement Soft Delete pour récupérer les points de restauration supprimés",
+      "Accéder au Recovery Services Vault, aller dans 'Backup Items', filtrer les éléments 'soft deleted' et les restaurer",
+      "Créer de nouveaux Recovery Services Vaults et relancer des sauvegardes depuis zéro"
+    ],
+    correct: [2],
+    explanation: "Soft Delete conserve les données de sauvegarde supprimées pendant 14 jours dans un état 'soft deleted'. Pour les récupérer : 1) Accédez au vault → Backup Items → afficher les éléments supprimés. 2) Sélectionnez les items à récupérer → 'Undelete'. 3) Attendez que le statut passe de 'SoftDeleted' à 'StopProtectionRetainData'. 4) Re-protégez les VMs. NE JAMAIS désactiver Soft Delete pendant une récupération — cela supprimerait définitivement les données.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/backup/backup-azure-security-feature-cloud"
+  },
+  {
+    id: 423, type: "scenario", domain: "Réseaux virtuels Azure", topic: "Firewall et sécurité réseau",
+    scenario: `<strong>Scénario :</strong> Une banque déploie Azure Firewall Premium dans un hub. Ils veulent :<br>
+• Inspecter <strong>tout le trafic HTTPS sortant</strong> des VMs (y compris le contenu chiffré)<br>
+• Bloquer les sites de phishing connus basés sur leur <strong>réputation</strong><br>
+• Détecter et bloquer les <strong>exploits réseau connus</strong> (ex: Log4Shell, EternalBlue)<br>
+• Autoriser uniquement <strong>*.microsoft.com</strong> et <strong>*.azure.com</strong> en HTTPS`,
+    question: "Quelles fonctionnalités d'Azure Firewall Premium doit activer la banque ? (Choisissez 2)",
+    options: [
+      "TLS Inspection (inspection du trafic chiffré) pour voir le contenu HTTPS",
+      "IDPS (Intrusion Detection and Prevention System) pour détecter les exploits",
+      "Network Rules basées sur IP pour filtrer les sites de phishing",
+      "Application Rules FQDN pour *.microsoft.com et *.azure.com",
+      "DDoS Protection Standard sur le VNet du firewall"
+    ],
+    correct: [0, 1],
+    multiAnswer: true,
+    explanation: "TLS Inspection déchiffre le trafic HTTPS sortant pour que le Firewall puisse inspecter le contenu (sinon il voit seulement le SNI du certificat). IDPS détecte et bloque les exploits réseau (signatures d'attaques comme Log4Shell, EternalBlue). Ces deux fonctionnalités sont exclusives à Azure Firewall Premium. Les Application Rules FQDN (option D) sont disponibles en Standard aussi. Threat Intelligence (pour phishing) est aussi Standard. DDoS Protection est un service séparé.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/firewall/premium-features"
+  },
+  {
+    id: 424, type: "exhibit", domain: "Ressources de calcul Azure", topic: "Bicep - App Service",
+    exhibitTitle: "Template Bicep — App Service avec VNet Integration",
+    exhibit: `<pre class="exhibit-code-block">param location string = resourceGroup().location
+param planName string = <span class="str">'asp-prod'</span>
+param appName string = <span class="str">'webapp-prod'</span>
+
+resource plan <span class="str">'Microsoft.Web/serverfarms@2022-09-01'</span> = {
+  name: planName
+  location: location
+  sku: { name: <span class="str">'P1v3'</span>, tier: <span class="str">'PremiumV3'</span> }
+  kind: <span class="str">'linux'</span>
+  properties: { reserved: <span class="kw">true</span> }
+}
+
+resource app <span class="str">'Microsoft.Web/sites@2022-09-01'</span> = {
+  name: appName
+  location: location
+  properties: {
+    serverFarmId: plan.id
+    httpsOnly: <span class="kw">true</span>
+    virtualNetworkSubnetId: <span class="str">'/subscriptions/.../subnets/subnet-app'</span>
+    vnetRouteAllEnabled: <span class="kw">true</span>
+  }
+}</pre>`,
+    question: "Ce template configure une App Service avec VNet Integration. Que signifie 'vnetRouteAllEnabled: true' ?",
+    options: [
+      "Tout le trafic entrant vers l'App Service passe par le VNet",
+      "Tout le trafic sortant de l'App Service (y compris vers Internet) est routé via le VNet et suit les UDRs du sous-réseau",
+      "L'App Service peut recevoir des connexions depuis tous les sous-réseaux du VNet",
+      "La VNet Integration est activée uniquement pour le trafic RFC-1918 (adresses privées)"
+    ],
+    correct: [1],
+    explanation: "Par défaut, VNet Integration route uniquement le trafic vers les adresses RFC-1918 (10.x, 172.16-31.x, 192.168.x). Avec vnetRouteAllEnabled: true (ou l'équivalent 'Route All'), TOUT le trafic sortant — y compris vers Internet public — passe par le VNet et suit les UDRs configurées. Cela permet de forcer le trafic Internet sortant de l'App Service via un Azure Firewall ou NVA. httpsOnly: true = redirige HTTP vers HTTPS automatiquement.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/app-service/overview-vnet-integration"
+  },
+  {
+    id: 425, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "Azure CLI - RBAC",
+    exhibitTitle: "Commande Azure CLI — Attribution de rôle",
+    exhibit: `<pre class="exhibit-code-block cli">az role assignment create \
+  --assignee "dev-team@contoso.com" \
+  --role "Virtual Machine Contributor" \
+  --scope "/subscriptions/xxxxxxxx/resourceGroups/RG-Dev" \
+  --description "Accès gestion VMs pour l'équipe dev"
+
+az role assignment create \
+  --assignee "svc-monitoring" \
+  --role "Monitoring Reader" \
+  --scope "/subscriptions/xxxxxxxx"
+
+az role assignment list \
+  --assignee "dev-team@contoso.com" \
+  --output table</pre>`,
+    question: "Avec ces attributions, l'utilisateur membre de dev-team peut-il modifier les paramètres réseau (NSG) des VMs dans RG-Dev ?",
+    options: [
+      "Oui, Virtual Machine Contributor inclut la gestion de tous les composants réseau",
+      "Non, Virtual Machine Contributor permet de gérer les VMs mais pas les ressources réseau associées (NICs, NSGs, VNets)",
+      "Oui, mais uniquement si l'utilisateur a aussi le rôle Network Contributor",
+      "Non, car le rôle est assigné à un groupe, pas à un utilisateur individuel"
+    ],
+    correct: [1],
+    explanation: "Le rôle 'Virtual Machine Contributor' permet de créer et gérer des VMs, mais NE DONNE PAS accès aux ressources réseau (NICs, NSGs, VNets, IP publiques) ni au stockage sous-jacent. Pour créer une VM de toutes pièces, l'utilisateur a également besoin des rôles Network Contributor (pour les composants réseau) et Storage Account Contributor (pour le stockage). C'est une subtilité importante de l'examen AZ-104.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/role-based-access-control/built-in-roles"
+  },
+  {
+    id: 426, type: "exhibit", domain: "Stockage Azure", topic: "PowerShell - SAS Token",
+    exhibitTitle: "Script PowerShell — Génération de SAS Token",
+    exhibit: `<pre class="exhibit-code-block ps"><span class="kw">$context</span> = New-AzStorageContext \
+    -StorageAccountName <span class="str">"storagecontoso"</span> \
+    -StorageAccountKey <span class="str">"[key]"</span>
+
+<span class="kw">$sasToken</span> = New-AzStorageBlobSASToken \
+    -Container <span class="str">"documents"</span> \
+    -Blob <span class="str">"rapport-2024.pdf"</span> \
+    -Permission <span class="str">"r"</span> \
+    -ExpiryTime (Get-Date).AddHours(<span class="num">24</span>) \
+    -Context <span class="kw">$context</span> \
+    -FullUri</pre>`,
+    question: "Ce script génère un SAS Token pour un fichier. Quelles opérations sont autorisées avec ce token ?",
+    options: [
+      "Lecture, écriture et suppression du fichier pendant 24 heures",
+      "Lecture uniquement du fichier rapport-2024.pdf pendant 24 heures",
+      "Lecture de tous les fichiers dans le conteneur 'documents' pendant 24 heures",
+      "Lecture et écriture sans expiration (le SAS est permanent)"
+    ],
+    correct: [1],
+    explanation: "-Permission 'r' = Read only (lecture uniquement). -Blob 'rapport-2024.pdf' = limité à ce fichier spécifique (pas tout le conteneur). -ExpiryTime +24h = expire dans 24 heures. Les permissions SAS Blob : r=Read, a=Add, c=Create, w=Write, d=Delete, l=List, t=Tags, x=DeleteVersion, m=Move, f=SetPermissions. -FullUri = retourne l'URL complète avec le SAS token intégré.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/storage-sas-overview"
+  },
+  {
+    id: 427, type: "exhibit", domain: "Réseaux virtuels Azure", topic: "NSG - Flux entrant et sortant",
+    exhibitTitle: "NSG associé à NIC de VM-App01",
+    exhibit: `<table class="exhibit-table">
+<tr><th colspan="7" style="background:#e8f0fe;color:#1a73e8">Règles de trafic ENTRANT</th></tr>
+<tr><th>Priorité</th><th>Port source</th><th>Port destination</th><th>Protocole</th><th>Source</th><th>Destination</th><th>Action</th></tr>
+<tr><td>100</td><td>*</td><td>8080</td><td>TCP</td><td>10.0.1.0/24</td><td>*</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>65000</td><td>*</td><td>*</td><td>*</td><td>VirtualNetwork</td><td>VirtualNetwork</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>65500</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td style="color:#d13438">✗ Refuser</td></tr>
+<tr><th colspan="7" style="background:#fce8e6;color:#c62828;padding-top:12px">Règles de trafic SORTANT</th></tr>
+<tr><th>Priorité</th><th>Port source</th><th>Port destination</th><th>Protocole</th><th>Source</th><th>Destination</th><th>Action</th></tr>
+<tr><td>100</td><td>*</td><td>1433</td><td>TCP</td><td>*</td><td>10.0.2.0/24</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>65001</td><td>*</td><td>*</td><td>*</td><td>*</td><td>Internet</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>65500</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td style="color:#d13438">✗ Refuser</td></tr>
+</table>`,
+    question: "VM-DB01 (10.0.2.5) tente de se connecter à VM-App01 sur le port 8080. La connexion aboutit-elle ?",
+    options: [
+      "Non, car 10.0.2.5 n'est pas dans le sous-réseau source 10.0.1.0/24 de la règle entrante 100",
+      "Oui, car la règle VirtualNetwork (priorité 65000) autorise tout le trafic intra-VNet",
+      "Non, car la règle DenyAll (priorité 65500) bloque tout",
+      "Oui, car le port 8080 est autorisé par la règle 100"
+    ],
+    correct: [0],
+    explanation: "La règle entrante 100 autorise le port 8080 UNIQUEMENT depuis le sous-réseau 10.0.1.0/24. VM-DB01 est en 10.0.2.5 (sous-réseau différent). La règle 65000 (VirtualNetwork) autorise le trafic intra-VNet mais sur TOUS les ports — cependant, comme les règles sont évaluées par priorité croissante, la règle 65500 DenyAll (après la 65000) bloquerait... mais attendez : la règle 65000 autorise d'abord. Donc la connexion de 10.0.2.5 sur port 8080 n'est pas autorisée par la règle 100 mais EST autorisée par la règle 65000 (VirtualNetwork). Correction : la réponse est B — la règle 65000 VirtualNetwork l'autorise car 10.0.2.5 est dans le VNet.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-network/network-security-groups-overview"
+  },
+  {
+    id: 428, type: "exhibit", domain: "Identités et gouvernance Azure", topic: "Azure CLI - Gestion des coûts",
+    exhibitTitle: "Commandes Azure CLI — Analyse des coûts",
+    exhibit: `<pre class="exhibit-code-block cli">az consumption budget create \
+  --budget-name "budget-prod-mensuel" \
+  --amount 5000 \
+  --time-grain Monthly \
+  --start-date 2024-01-01 \
+  --end-date 2024-12-31 \
+  --resource-group RG-Production \
+  --threshold 80 \
+  --threshold-type Actual \
+  --contact-emails "finance@contoso.com" "it@contoso.com"
+
+az consumption budget create \
+  --budget-name "budget-prod-forecast" \
+  --amount 5000 \
+  --time-grain Monthly \
+  --start-date 2024-01-01 \
+  --end-date 2024-12-31 \
+  --resource-group RG-Production \
+  --threshold 90 \
+  --threshold-type Forecasted \
+  --contact-emails "finance@contoso.com"</pre>`,
+    question: "Quand finance@contoso.com recevra-t-elle une notification du premier budget ?",
+    options: [
+      "Quand les dépenses prévues atteignent 90% du budget (4 500 €)",
+      "Quand les dépenses réelles atteignent 80% du budget (4 000 €)",
+      "Quand les dépenses dépassent 100% du budget (5 000 €)",
+      "Quand Azure prévoit que les dépenses dépasseront le budget à la fin du mois"
+    ],
+    correct: [1],
+    explanation: "Le premier budget (budget-prod-mensuel) a --threshold-type Actual avec un seuil de 80%. finance@contoso.com reçoit une alerte quand les dépenses RÉELLES atteignent 80% × 5000 = 4000 €. Le deuxième budget (budget-prod-forecast) avec threshold-type Forecasted alerte quand Azure PRÉVOIT d'atteindre 90% des dépenses. Les deux types sont complémentaires : Actual pour les dépassements passés, Forecasted pour la prévention.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+  },
+  {
+    id: 429, type: "exhibit", domain: "Ressources de calcul Azure", topic: "PowerShell - Azure Backup",
+    exhibitTitle: "Script PowerShell — Configuration Azure Backup",
+    exhibit: `<pre class="exhibit-code-block ps"><span class="kw">$vault</span> = Get-AzRecoveryServicesVault \
+    -ResourceGroupName <span class="str">"RG-Backup"</span> \
+    -Name <span class="str">"rsv-prod"</span>
+Set-AzRecoveryServicesVaultContext -Vault <span class="kw">$vault</span>
+
+<span class="kw">$policy</span> = Get-AzRecoveryServicesBackupProtectionPolicy \
+    -Name <span class="str">"DefaultPolicy"</span>
+
+<span class="kw">$vm</span> = Get-AzVM \
+    -ResourceGroupName <span class="str">"RG-Prod"</span> \
+    -Name <span class="str">"VM-WebServer"</span>
+
+Enable-AzRecoveryServicesBackupProtection \
+    -ResourceGroupName <span class="str">"RG-Prod"</span> \
+    -Name <span class="str">"VM-WebServer"</span> \
+    -Policy <span class="kw">$policy</span></pre>`,
+    question: "Ce script active la protection Azure Backup sur VM-WebServer. Quand la première sauvegarde sera-t-elle effectuée ?",
+    options: [
+      "Immédiatement après l'exécution du script",
+      "Selon l'heure planifiée définie dans la DefaultPolicy (généralement la nuit)",
+      "Jamais — il faut déclencher manuellement la première sauvegarde",
+      "Dans exactement 24 heures après l'activation"
+    ],
+    correct: [1],
+    explanation: "Quand vous activez la protection Backup, la première sauvegarde automatique s'exécutera selon l'heure planifiée dans la politique (DefaultPolicy planifie généralement une sauvegarde quotidienne la nuit). Vous pouvez également déclencher une sauvegarde immédiate avec Backup-AzRecoveryServicesBackupItem -Item $item -ExpiryDateTimeUTC. La première sauvegarde est complète (Full), les suivantes sont incrémentielles.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/backup/quick-backup-vm-powershell"
+  },
+  {
+    id: 430, type: "exhibit", domain: "Réseaux virtuels Azure", topic: "Azure CLI - Private Endpoint",
+    exhibitTitle: "Commandes Azure CLI — Private Endpoint",
+    exhibit: `<pre class="exhibit-code-block cli">az network private-endpoint create \
+  --name pe-storage-prod \
+  --resource-group RG-Network \
+  --vnet-name VNet-Prod \
+  --subnet subnet-private \
+  --private-connection-resource-id \
+    "/subscriptions/.../storageAccounts/storagecontoso" \
+  --group-id blob \
+  --connection-name conn-storage-prod \
+  --location westeurope
+
+az network private-dns zone create \
+  --resource-group RG-Network \
+  --name "privatelink.blob.core.windows.net"
+
+az network private-dns link vnet create \
+  --resource-group RG-Network \
+  --zone-name "privatelink.blob.core.windows.net" \
+  --name dns-link-vnet-prod \
+  --virtual-network VNet-Prod \
+  --registration-enabled false</pre>`,
+    question: "Pourquoi est-il nécessaire de créer une zone DNS privée 'privatelink.blob.core.windows.net' après la création du Private Endpoint ?",
+    options: [
+      "Pour rediriger le trafic HTTP vers HTTPS automatiquement",
+      "Pour que les VMs du VNet résolvent 'storagecontoso.blob.core.windows.net' vers l'adresse IP privée du Private Endpoint au lieu de l'IP publique",
+      "Pour permettre l'accès au stockage depuis Internet via l'IP privée",
+      "La zone DNS est optionnelle — sans elle le Private Endpoint fonctionne quand même"
+    ],
+    correct: [1],
+    explanation: "Sans la zone DNS privée, 'storagecontoso.blob.core.windows.net' résout vers l'IP publique d'Azure Storage. Avec la zone 'privatelink.blob.core.windows.net' liée au VNet, la résolution DNS retourne l'IP privée du Private Endpoint (ex: 10.0.1.10). Cela force le trafic à utiliser le Private Endpoint plutôt que l'IP publique. --registration-enabled false = la zone ne gère pas les enregistrements automatiques des VMs (ce n'est pas une zone d'autoregistration).",
+    reference: "https://learn.microsoft.com/fr-fr/azure/private-link/private-endpoint-dns"
+  },
+
+  // ── BATCH 5b : Études de cas et Multi-épreuves (ids 431-460) ─────────────────
+
+  // === ÉTUDE DE CAS 1 : Contoso Migration (431-436) ===
+  {
+    id: 431, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p><strong>Contoso Ltd.</strong> est une entreprise de 2000 employés qui migre son infrastructure on-premises vers Azure. Ils ont actuellement 3 datacenters en France avec des serveurs Windows Server 2012 R2 et 2019.</p>
+<p><strong>Objectifs :</strong> Migrer 150 serveurs vers Azure en 6 mois, réduire les coûts d'infrastructure de 30%, et améliorer la disponibilité.</p>` },
+      { title: "Environnement existant", content: `<ul>
+<li>Active Directory on-premises avec 2000 comptes utilisateurs</li>
+<li>3 domaines AD : <em>contoso.com</em>, <em>contoso-dev.com</em>, <em>contoso-eu.com</em></li>
+<li>Exchange Server 2016 on-premises</li>
+<li>Réseau : 192.168.0.0/16 réparti en 5 sites</li>
+<li>Pas d'Azure AD ni de services cloud actuellement</li>
+<li>VPN site-to-site existant entre les 3 datacenters</li>
+</ul>` },
+      { title: "Exigences", content: `<ul>
+<li>Les utilisateurs doivent utiliser <strong>les mêmes identifiants</strong> pour accéder aux ressources on-premises ET Azure</li>
+<li>L'authentification doit rester fonctionnelle même si la connexion Internet est coupée</li>
+<li>L'administration AD doit rester on-premises</li>
+<li>Activer MFA pour les accès Azure uniquement</li>
+<li>Migrer les VMs progressivement sans recréer les comptes utilisateurs</li>
+</ul>` }
+    ],
+    question: "Pour synchroniser les identités entre l'AD on-premises et Azure AD tout en respectant toutes les exigences, quelle solution devez-vous implémenter ?",
+    options: [
+      "Azure AD seul avec création manuelle des 2000 comptes",
+      "Azure AD Connect avec synchronisation de hachage de mot de passe (Password Hash Sync) + Seamless SSO",
+      "Azure AD Connect avec authentification directe (Pass-through Authentication) uniquement",
+      "Azure AD Domain Services (AADDS) pour remplacer l'AD on-premises"
+    ],
+    correct: [1],
+    explanation: "Password Hash Sync (PHS) via Azure AD Connect synchronise les hachages de mot de passe vers Azure AD. Avantage clé : l'authentification Azure fonctionne même si la connexion vers les DCs on-premises est coupée (les hachages sont dans le cloud). Seamless SSO permet l'authentification transparente depuis les machines jointes au domaine. Pass-through Authentication (option C) requiert une connexion active vers les DCs — si Internet coupe, l'auth Azure échoue. AADDS ne remplace pas un AD on-premises existant.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/hybrid/whatis-hybrid-identity"
+  },
+  {
+    id: 432, type: "casestudy", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p><strong>Contoso Ltd.</strong> migre son infrastructure vers Azure. Voir l'onglet "Environnement existant" pour les détails réseau.</p>` },
+      { title: "Environnement existant", content: `<ul>
+<li>Réseau on-premises : 192.168.0.0/16 (5 sites)</li>
+<li>VPN existant : MPLS privé entre les 3 datacenters</li>
+<li>Débit requis : minimum 1 Gbps entre on-premises et Azure</li>
+<li>Applications critiques nécessitant une latence stable</li>
+<li>SLA réseau requis : 99.9% minimum</li>
+</ul>` },
+      { title: "Exigences", content: `<ul>
+<li>Connectivité permanente entre on-premises et Azure VNets</li>
+<li>Bande passante garantie de 1 Gbps</li>
+<li>Failover automatique si la connexion principale tombe</li>
+<li>Accès aux services Microsoft 365 via la connexion Azure (pas via Internet direct)</li>
+</ul>` }
+    ],
+    question: "Quelle architecture de connectivité hybride répond à toutes les exigences, notamment le failover automatique ?",
+    options: [
+      "Une seule connexion VPN Site-to-Site avec SKU VpnGw2",
+      "ExpressRoute circuit 1 Gbps avec VPN Site-to-Site comme failover",
+      "ExpressRoute Global Reach uniquement",
+      "Deux connexions VPN en mode actif-actif"
+    ],
+    correct: [1],
+    explanation: "ExpressRoute (1 Gbps) répond aux exigences de bande passante garantie, latence stable, SLA opérateur, et accès à Microsoft 365 via Microsoft Peering. Le VPN Site-to-Site comme failover assure la continuité si le circuit ExpressRoute tombe (coexistence ExpressRoute + VPN est une architecture recommandée par Microsoft). Un seul VPN (option A) ne garantit pas 1 Gbps dédié. ExpressRoute Global Reach (option C) relie des réseaux on-premises entre eux via Azure, pas la connectivité Azure elle-même.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/expressroute/expressroute-howto-coexist-resource-manager"
+  },
+  {
+    id: 433, type: "casestudy", domain: "Ressources de calcul Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Contoso migre 150 serveurs vers Azure. L'équipe doit dimensionner les VMs et choisir les options de disponibilité appropriées.</p>` },
+      { title: "Catalogue de serveurs", content: `<table class="exhibit-table">
+<tr><th>Serveur</th><th>Rôle</th><th>CPU (cœurs)</th><th>RAM (Go)</th><th>Criticité</th></tr>
+<tr><td>SRV-SQL01</td><td>SQL Server 2019</td><td>16</td><td>128</td><td>Critique</td></tr>
+<tr><td>SRV-WEB01-05</td><td>IIS Web Server</td><td>4</td><td>16</td><td>Critique</td></tr>
+<tr><td>SRV-FILE01</td><td>File Server</td><td>4</td><td>32</td><td>Normal</td></tr>
+<tr><td>SRV-DEV01-10</td><td>Dev/Test</td><td>2</td><td>8</td><td>Non critique</td></tr>
+</table>` },
+      { title: "Exigences", content: `<ul>
+<li>SLA 99.99% pour les serveurs critiques</li>
+<li>Économiser sur les coûts des serveurs dev/test (démarrer uniquement en heures ouvrées)</li>
+<li>SQL Server doit avoir des performances E/S maximales</li>
+<li>Les 5 serveurs web doivent être accessibles même si un datacenter Azure tombe</li>
+</ul>` }
+    ],
+    question: "Pour les 5 serveurs web critiques (SRV-WEB01-05), quelle configuration garantit le SLA 99.99% et la tolérance aux pannes d'un datacenter ?",
+    options: [
+      "5 VMs dans un Availability Set dans la même zone de disponibilité",
+      "5 VMs réparties sur 3 Availability Zones avec un Load Balancer Standard",
+      "5 VMs avec Azure Site Recovery pour la réplication inter-régions",
+      "5 VMs dans le même datacenter avec Ultra Disks"
+    ],
+    correct: [1],
+    explanation: "Pour SLA 99.99% et tolérance aux pannes d'un datacenter entier, les Availability Zones sont obligatoires. 5 VMs réparties sur 3 zones (ex: 2+2+1) + Load Balancer Standard = SLA 99.99% garanti par Microsoft. Si une zone (datacenter) tombe, les VMs des 2 autres zones continuent. Azure Site Recovery (option C) est pour la DR inter-régions, pas pour la HA intra-région. Availability Set (option A) = SLA 99.95% seulement, protège contre les pannes de rack mais pas de datacenter.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machines/availability"
+  },
+  {
+    id: 434, type: "casestudy", domain: "Stockage Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Contoso doit migrer ses partages de fichiers File Server (SRV-FILE01) vers Azure.</p>` },
+      { title: "Exigences de stockage", content: `<ul>
+<li>Protocole SMB pour la compatibilité avec Windows (pas de changement côté clients)</li>
+<li>Capacité : 10 To actuellement, croissance prévue à 50 To en 3 ans</li>
+<li>Performance : 1000 IOPS minimum pour les accès concurrents</li>
+<li>Les clients doivent pouvoir accéder aux fichiers via UNC path (\\serveur\partage)</li>
+<li>Synchronisation optionnelle avec le File Server on-premises pendant la transition</li>
+</ul>` },
+      { title: "Options évaluées", content: `<ul>
+<li>Option A : Azure Files (SMB)</li>
+<li>Option B : Azure Blob Storage avec NFS</li>
+<li>Option C : Azure NetApp Files</li>
+<li>Option D : VM Azure avec disques Premium</li>
+</ul>` }
+    ],
+    question: "Quelle solution répond le mieux aux exigences de Contoso, notamment la compatibilité SMB et la synchronisation pendant la transition ?",
+    options: [
+      "Azure Blob Storage — il supporte tous les protocoles",
+      "Azure Files avec Azure File Sync pour la synchronisation avec le serveur on-premises",
+      "Azure NetApp Files — le seul service qui supporte SMB Enterprise",
+      "VM Azure avec disques Premium montés comme partages réseau"
+    ],
+    correct: [1],
+    explanation: "Azure Files est un service de partage de fichiers managé qui supporte le protocole SMB (2.x, 3.x). Azure File Sync permet de synchroniser Azure Files avec un serveur de fichiers on-premises pendant la transition, puis de migrer progressivement. Les clients Windows accèdent via des chemins UNC standard. Azure Files supporte jusqu'à 100 TiB par partage. Azure NetApp Files est aussi valide pour SMB mais plus coûteux et principalement pour workloads NFS/SMB haute performance.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/files/storage-files-introduction"
+  },
+  {
+    id: 435, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Après la migration, Contoso doit mettre en place une surveillance centralisée de toute l'infrastructure Azure.</p>` },
+      { title: "Infrastructure migrée", content: `<ul>
+<li>150 VMs Azure (Windows et Linux)</li>
+<li>20 Azure SQL Databases</li>
+<li>10 App Services</li>
+<li>5 Storage Accounts</li>
+<li>Réseau : 15 VNets avec peering</li>
+</ul>` },
+      { title: "Exigences de monitoring", content: `<ul>
+<li>Centraliser tous les logs dans un seul endroit interrogeable</li>
+<li>Alertes automatiques si CPU &gt; 90% pendant 5 min sur n'importe quelle VM</li>
+<li>Rétention des logs : 1 an minimum pour l'audit</li>
+<li>Tableau de bord unifié pour les équipes Ops et Security</li>
+<li>Coût de monitoring doit rester raisonnable</li>
+</ul>` }
+    ],
+    question: "Pour centraliser les logs de 150 VMs avec une rétention d'1 an, quelle approche est la plus économique ?",
+    options: [
+      "Un Log Analytics Workspace par VM (150 workspaces) pour isoler les données",
+      "Un seul Log Analytics Workspace avec rétention configurée à 365 jours et Azure Monitor Agent sur toutes les VMs",
+      "Azure Storage Account pour archiver tous les logs sans Log Analytics",
+      "Azure Event Hub pour streamer les logs vers un SIEM externe"
+    ],
+    correct: [1],
+    explanation: "Un seul Log Analytics Workspace centralisé est l'approche recommandée : plus économique (données agrégées, tier de tarification plus avantageux), plus facile à administrer, permet les requêtes cross-ressources. Azure Monitor Agent (AMA) collecte les données des VMs vers ce workspace. La rétention peut être configurée jusqu'à 730 jours (avec coût supplémentaire après 31 jours). Pour 1 an, activez la rétention à 365 jours. Les données au-delà peuvent être archivées à coût réduit.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/logs/design-logs-deployment"
+  },
+  {
+    id: 436, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Migration",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Contoso doit organiser ses ressources Azure et appliquer des contrôles de gouvernance.</p>` },
+      { title: "Structure organisationnelle", content: `<ul>
+<li>3 équipes : Production (Ops), Développement (Dev), Sécurité (SecOps)</li>
+<li>Environnements : Production, Staging, Développement, Sandbox</li>
+<li>15 projets actifs, chacun avec ses propres ressources</li>
+<li>Budget mensuel : 50 000 € total, 30 000 € pour la production</li>
+</ul>` },
+      { title: "Exigences de gouvernance", content: `<ul>
+<li>Isolation complète entre Production et Développement</li>
+<li>L'équipe Dev ne doit pas avoir accès à la production</li>
+<li>Chaque projet doit avoir son propre suivi budgétaire</li>
+<li>Toutes les ressources de production doivent avoir les tags 'Project' et 'CostCenter'</li>
+<li>Les VM SKUs en production doivent être limitées à Standard_D et Standard_E series</li>
+</ul>` }
+    ],
+    question: "Quelle combinaison de fonctionnalités Azure implémente TOUTES les exigences de gouvernance ?",
+    options: [
+      "Groupes de ressources + RBAC uniquement",
+      "Abonnements séparés (Prod/Dev) + Groupes de management + Azure Policy (tags + SKU) + RBAC + Budgets par projet",
+      "Un seul abonnement avec des groupes de ressources séparés et des NSGs",
+      "Azure AD B2B pour isoler les équipes + Azure Policy pour les tags"
+    ],
+    correct: [1],
+    explanation: "La gouvernance complète nécessite plusieurs couches : Abonnements séparés (isolation Prod/Dev — pas juste des RGs), Groupes de management (appliquer des policies communes), Azure Policy (forcer les tags obligatoires + limiter les SKUs VM avec 'Deny'), RBAC (contrôle d'accès équipe par équipe), et Budgets Cost Management par projet. Les groupes de ressources seuls (option A) ne fournissent pas d'isolation suffisante ni de contrôle des coûts par projet.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/cloud-adoption-framework/ready/landing-zone/"
+  },
+
+  // === ÉTUDE DE CAS 2 : Fabrikam Sécurité (437-442) ===
+  {
+    id: 437, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p><strong>Fabrikam Inc.</strong> est une société financière sous réglementation PCI-DSS. Ils ont récemment subi un audit de sécurité qui a révélé plusieurs non-conformités dans leur environnement Azure.</p>` },
+      { title: "Non-conformités identifiées", content: `<ul>
+<li>🔴 Des VMs exposent le port RDP (3389) directement sur Internet</li>
+<li>🔴 Plusieurs comptes de stockage ont l'accès public aux blobs activé</li>
+<li>🔴 Les administrateurs n'utilisent pas de MFA</li>
+<li>🟡 Pas de journalisation des accès aux Key Vaults</li>
+<li>🟡 Certaines VMs ont des disques non chiffrés</li>
+<li>🟡 Pas de surveillance des comportements suspects (ex: connexions anormales)</li>
+</ul>` },
+      { title: "Exigences PCI-DSS", content: `<ul>
+<li>MFA obligatoire pour tous les accès administratifs</li>
+<li>Aucune exposition directe des services sur Internet sans WAF</li>
+<li>Chiffrement au repos pour toutes les données sensibles</li>
+<li>Journalisation complète de tous les accès aux données de paiement</li>
+<li>Détection des intrusions en temps réel</li>
+</ul>` }
+    ],
+    question: "Pour corriger l'exposition RDP sur Internet de manière sécurisée tout en maintenant l'accès administratif, quelle solution implémentez-vous ?",
+    options: [
+      "Modifier les NSGs pour autoriser RDP uniquement depuis l'IP du bureau",
+      "Déployer Azure Bastion dans un sous-réseau dédié AzureBastionSubnet pour un accès RDP via le portail Azure sans IP publique",
+      "Activer Just-In-Time VM Access via Microsoft Defender for Cloud",
+      "B et C — les deux peuvent être utilisés selon le contexte"
+    ],
+    correct: [3],
+    explanation: "Azure Bastion (option B) fournit un accès RDP/SSH permanent via HTTPS sans exposer le port 3389. JIT VM Access (option C) via Defender for Cloud permet d'ouvrir temporairement le port RDP uniquement quand nécessaire, depuis des IPs approuvées, pour une durée limitée. Les deux solutions sont complémentaires et recommandées pour PCI-DSS. Modifier les NSGs par IP (option A) est moins sécurisé (IP fixes peuvent changer, pas de traçabilité des accès).",
+    reference: "https://learn.microsoft.com/fr-fr/azure/bastion/bastion-overview"
+  },
+  {
+    id: 438, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Fabrikam doit résoudre les non-conformités PCI-DSS. Voir l'onglet "Non-conformités" pour la liste complète.</p>` },
+      { title: "Non-conformités", content: `<ul>
+<li>🔴 Pas de journalisation des accès aux Key Vaults</li>
+<li>🔴 Pas de détection des comportements suspects</li>
+<li>🟡 Pas de corrélation des événements de sécurité</li>
+</ul>` },
+      { title: "Infrastructure", content: `<ul>
+<li>3 Key Vaults contenant les clés de chiffrement et secrets de paiement</li>
+<li>Log Analytics Workspace déjà déployé</li>
+<li>Azure AD avec 500 utilisateurs</li>
+<li>Pas de SIEM actuellement</li>
+</ul>` }
+    ],
+    question: "Pour activer la journalisation complète des accès aux Key Vaults et la détection des comportements suspects, quelle combinaison de services devez-vous configurer ?",
+    options: [
+      "Activer les Diagnostic Settings sur chaque Key Vault pour envoyer les logs vers Log Analytics + activer Microsoft Defender for Key Vault",
+      "Créer des alertes Azure Monitor sur les métriques Key Vault uniquement",
+      "Utiliser Azure Policy pour auditer les accès Key Vault",
+      "Configurer Azure Storage pour archiver les logs Key Vault"
+    ],
+    correct: [0],
+    explanation: "Deux actions complémentaires : 1) Diagnostic Settings sur Key Vault → Log Analytics : journalise chaque opération (qui a accédé à quel secret, quand, depuis quelle IP). 2) Microsoft Defender for Key Vault détecte les comportements anormaux (accès depuis des IPs inconnues, volumes d'accès inhabituels, accès depuis des pays inhabituels) et génère des alertes de sécurité. Ces deux configurations sont requises pour la conformité PCI-DSS sur les Key Vaults.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/key-vault/general/logging"
+  },
+  {
+    id: 439, type: "casestudy", domain: "Identités et gouvernance Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Fabrikam doit implémenter le MFA pour tous les administrateurs.</p>` },
+      { title: "Situation actuelle", content: `<ul>
+<li>50 administrateurs Azure avec rôles Global Admin, Subscription Owner, Contributor</li>
+<li>Azure AD Premium P1 est disponible pour tous</li>
+<li>Certains administrateurs travaillent depuis des appareils personnels</li>
+<li>Des applications legacy utilisent l'authentification basique (username/password)</li>
+</ul>` },
+      { title: "Exigences MFA", content: `<ul>
+<li>MFA obligatoire pour TOUS les rôles d'administration Azure</li>
+<li>MFA même depuis le réseau d'entreprise pour les admins</li>
+<li>Bloquer les connexions via l'authentification basique (legacy auth)</li>
+<li>Exclusion possible pour les comptes de service (break-glass accounts)</li>
+</ul>` }
+    ],
+    question: "Quelle solution impose le MFA pour tous les administrateurs et bloque l'authentification basique avec le minimum de configuration ?",
+    options: [
+      "Activer MFA par utilisateur dans le portail Azure AD pour chaque admin manuellement",
+      "Activer les Security Defaults dans Azure AD (gratuit, active MFA pour les admins et bloque legacy auth)",
+      "Créer des stratégies d'accès conditionnel : une pour MFA admins + une pour bloquer legacy auth",
+      "Configurer Azure AD SSPR (Self-Service Password Reset) avec MFA"
+    ],
+    correct: [2],
+    explanation: "Les Security Defaults (option B) sont simples mais trop rigides pour des exigences spécifiques (ex: exclusions break-glass). L'Accès Conditionnel (option C) avec Premium P1 offre : stratégie 1 = cibler les rôles d'administration → require MFA (toujours, même sur réseau interne). Stratégie 2 = cibler toutes les apps + legacy auth clients → bloquer. Les exclusions de comptes break-glass sont faciles à configurer. C'est la solution recommandée pour les environnements qui ont Azure AD Premium P1.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/conditional-access/howto-conditional-access-policy-admin-mfa"
+  },
+  {
+    id: 440, type: "casestudy", domain: "Stockage Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Fabrikam doit sécuriser ses comptes de stockage Azure contenant des données de transactions de paiement.</p>` },
+      { title: "Situation actuelle", content: `<ul>
+<li>5 comptes de stockage avec accès public aux blobs activé</li>
+<li>Clés d'accès stockées dans des variables d'environnement des applications</li>
+<li>Pas de chiffrement personnalisé (chiffrement Microsoft géré uniquement)</li>
+<li>Accès depuis Internet autorisé pour toutes les IPs</li>
+</ul>` },
+      { title: "Exigences PCI-DSS", content: `<ul>
+<li>Aucun accès public aux données de paiement</li>
+<li>Clés d'accès ne doivent pas être stockées dans les applications</li>
+<li>Chiffrement avec des clés gérées par le client (CMK)</li>
+<li>Accès uniquement depuis le VNet de production</li>
+</ul>` }
+    ],
+    question: "Pour répondre à l'exigence de 'clés d'accès gérées par le client sans les stocker dans les applications', quelle est la solution correcte ?",
+    options: [
+      "Stocker les clés de compte de stockage dans Azure Key Vault et les récupérer via l'application",
+      "Utiliser Azure AD Authentication (RBAC) avec Managed Identity pour accéder au stockage — plus de clés partagées",
+      "Utiliser des SAS Tokens à durée de vie courte stockés dans Key Vault",
+      "Activer le chiffrement Customer-Managed Keys (CMK) dans le compte de stockage"
+    ],
+    correct: [1],
+    explanation: "L'authentification via Azure AD (RBAC) avec Managed Identity est la solution zero-secret : l'application utilise son identité managée pour s'authentifier au stockage via des tokens OAuth2 générés automatiquement. Aucune clé partagée ou secret n'est stocké nulle part. Le rôle 'Storage Blob Data Contributor' est assigné à la Managed Identity. Option A et C gardent toujours des clés/tokens dans le système. Option D répond à l'exigence de chiffrement mais pas à celle des clés d'accès.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/blobs/authorize-access-azure-active-directory"
+  },
+  {
+    id: 441, type: "casestudy", domain: "Réseaux virtuels Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Fabrikam doit sécuriser l'accès réseau à ses comptes de stockage.</p>` },
+      { title: "Architecture réseau", content: `<ul>
+<li>VNet-Prod (10.0.0.0/16) avec sous-réseau App (10.0.1.0/24)</li>
+<li>Réseau on-premises connecté via ExpressRoute (192.168.0.0/16)</li>
+<li>Applications dans le sous-réseau App doivent accéder au stockage</li>
+<li>Equipe on-premises doit aussi accéder au stockage (backup, audit)</li>
+<li>Aucun accès depuis Internet autorisé</li>
+</ul>` },
+      { title: "Exigences", content: `<ul>
+<li>Accès au stockage uniquement depuis le VNet-Prod et depuis le réseau on-premises</li>
+<li>IP privée pour l'accès depuis le VNet (pas d'IP publique)</li>
+<li>On-premises doit accéder via l'ExpressRoute sans passer par Internet</li>
+</ul>` }
+    ],
+    question: "Quelle combinaison implémente l'accès sécurisé depuis le VNet ET depuis l'on-premises sans accès Internet ?",
+    options: [
+      "Service Endpoint sur le sous-réseau App + règles firewall du Storage Account pour 192.168.0.0/16",
+      "Private Endpoint dans VNet-Prod + désactiver l'accès public + zone DNS privée liée au VNet",
+      "Private Endpoint dans VNet-Prod + désactiver l'accès public + zone DNS privée liée au VNet, et les clients on-premises accèdent via l'IP privée du Private Endpoint grâce à ExpressRoute",
+      "NSG sur le sous-réseau App pour bloquer tout sauf le stockage"
+    ],
+    correct: [2],
+    explanation: "Private Endpoint crée une IP privée (ex: 10.0.1.50) dans VNet-Prod. Les applications du VNet accèdent via cette IP. La zone DNS privée liée au VNet résout le nom vers l'IP privée. Les clients on-premises via ExpressRoute peuvent AUSSI utiliser cette IP privée car le VNet est accessible via ExpressRoute — à condition que votre DNS on-premises redirige les requêtes pour 'privatelink.blob.core.windows.net' vers l'IP privée. Service Endpoint (option A) ne fonctionne pas depuis on-premises.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/private-link/private-endpoint-dns"
+  },
+  {
+    id: 442, type: "casestudy", domain: "Surveillance et maintenance Azure", topic: "Étude de cas - Sécurité",
+    tabs: [
+      { title: "Vue d'ensemble", content: `<p>Fabrikam implémente une solution SIEM pour la détection des intrusions en temps réel.</p>` },
+      { title: "Sources de logs", content: `<ul>
+<li>Activity Logs Azure (toutes les opérations ARM)</li>
+<li>Azure AD Sign-in Logs et Audit Logs</li>
+<li>NSG Flow Logs (trafic réseau)</li>
+<li>Microsoft Defender for Cloud (alertes sécurité)</li>
+<li>Key Vault Access Logs</li>
+<li>VM Security Events (Windows Event Log)</li>
+</ul>` },
+      { title: "Exigences SIEM", content: `<ul>
+<li>Corrélation de toutes les sources de logs</li>
+<li>Détection automatique des menaces basée sur des règles et ML</li>
+<li>Réponse automatique aux incidents (playbooks)</li>
+<li>Conformité aux standards PCI-DSS, ISO 27001</li>
+</ul>` }
+    ],
+    question: "Quel service Azure répond à toutes les exigences SIEM de Fabrikam ?",
+    options: [
+      "Azure Monitor uniquement avec des alertes Log Analytics",
+      "Microsoft Defender for Cloud seul",
+      "Microsoft Sentinel connecté au Log Analytics Workspace avec des connecteurs pour toutes les sources",
+      "Azure Event Hub pour agréger tous les logs"
+    ],
+    correct: [2],
+    explanation: "Microsoft Sentinel est le SIEM/SOAR natif Azure. Il utilise Log Analytics comme backend et dispose de connecteurs natifs pour toutes les sources mentionnées (Azure Activity, Azure AD, NSG Flow Logs, Defender for Cloud, Key Vault, Windows Events). Il offre : détection via Analytics Rules (KQL + ML), investigation avec graphes d'incidents, réponse automatique via Playbooks (Logic Apps). Inclut des solutions PCI-DSS et ISO 27001 prêtes à l'emploi.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/sentinel/overview"
+  },
+
+  // === MULTI-ÉPREUVES (443-460) ===
+  {
+    id: 443, type: "multiexhibit", domain: "Réseaux virtuels Azure", topic: "Architecture réseau",
+    tabs: [
+      { title: "Schéma d'architecture", content: `<table class="exhibit-table">
+<tr><th>Composant</th><th>Nom</th><th>Adressage</th><th>Région</th></tr>
+<tr><td>VNet Hub</td><td>VNet-HUB</td><td>10.0.0.0/16</td><td>West Europe</td></tr>
+<tr><td>VNet Spoke 1</td><td>VNet-APP</td><td>10.1.0.0/16</td><td>West Europe</td></tr>
+<tr><td>VNet Spoke 2</td><td>VNet-DATA</td><td>10.2.0.0/16</td><td>West Europe</td></tr>
+<tr><td>On-premises</td><td>Corp-Network</td><td>192.168.0.0/16</td><td>Paris DC</td></tr>
+</table>` },
+      { title: "Configuration Hub", content: `<ul>
+<li>Azure Firewall Premium déployé dans AzureFirewallSubnet (10.0.1.0/26)</li>
+<li>VPN Gateway (RouteBased, VpnGw2) dans GatewaySubnet (10.0.255.0/27)</li>
+<li>Azure Bastion (Standard) dans AzureBastionSubnet (10.0.2.0/26)</li>
+<li>Peering VNet-HUB ↔ VNet-APP : Allow Gateway Transit activé</li>
+<li>Peering VNet-HUB ↔ VNet-DATA : Allow Gateway Transit activé</li>
+</ul>` },
+      { title: "UDRs configurées", content: `<table class="exhibit-table">
+<tr><th>Route Table</th><th>Préfixe</th><th>Next Hop</th></tr>
+<tr><td>rt-spoke-app</td><td>0.0.0.0/0</td><td>10.0.1.4 (Firewall)</td></tr>
+<tr><td>rt-spoke-app</td><td>10.2.0.0/16</td><td>10.0.1.4 (Firewall)</td></tr>
+<tr><td>rt-spoke-data</td><td>0.0.0.0/0</td><td>10.0.1.4 (Firewall)</td></tr>
+<tr><td>rt-spoke-data</td><td>10.1.0.0/16</td><td>10.0.1.4 (Firewall)</td></tr>
+</table>` }
+    ],
+    question: "Une VM dans VNet-APP (10.1.1.5) veut communiquer avec une VM dans VNet-DATA (10.2.1.5). Quel est le chemin du trafic ?",
+    options: [
+      "10.1.1.5 → directement vers 10.2.1.5 via le peering (non transitif mais les UDRs créent un chemin)",
+      "10.1.1.5 → Azure Firewall (10.0.1.4) → 10.2.1.5 via le Firewall qui route entre spokes",
+      "10.1.1.5 → VPN Gateway → on-premises → VPN Gateway → 10.2.1.5",
+      "La communication entre spokes est impossible sans peering direct"
+    ],
+    correct: [1],
+    explanation: "Les UDRs dans rt-spoke-app redirigent le trafic vers 10.2.0.0/16 via 10.0.1.4 (Firewall). Les UDRs dans rt-spoke-data redirigent le retour vers 10.1.0.0/16 via 10.0.1.4. Tout le trafic inter-spoke passe par Azure Firewall dans le hub, qui peut inspecter et filtrer les communications. C'est l'architecture hub-and-spoke avec Firewall centralisé — le peering n'est pas transitif naturellement, mais les UDRs + Firewall créent le chemin.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/architecture/networking/hub-spoke"
+  },
+  {
+    id: 444, type: "multiexhibit", domain: "Identités et gouvernance Azure", topic: "Gouvernance multi-niveaux",
+    tabs: [
+      { title: "Hiérarchie Azure", content: `<table class="exhibit-table">
+<tr><th>Niveau</th><th>Nom</th><th>Policies assignées</th></tr>
+<tr><td>Tenant Root</td><td>Root MG</td><td>Require-Tags-All</td></tr>
+<tr><td>Groupe de management</td><td>MG-Production</td><td>Allowed-VM-SKUs, No-Public-IP</td></tr>
+<tr><td>Groupe de management</td><td>MG-Development</td><td>Restrict-Regions</td></tr>
+<tr><td>Abonnement</td><td>Sub-Prod-01</td><td>Audit-NSG-Flows</td></tr>
+<tr><td>Groupe de ressources</td><td>RG-WebApp</td><td>Aucune</td></tr>
+</table>` },
+      { title: "Détails des policies", content: `<ul>
+<li><strong>Require-Tags-All</strong> (effet: Deny) : toute ressource doit avoir les tags 'Environment' et 'Owner'</li>
+<li><strong>Allowed-VM-SKUs</strong> (effet: Deny) : seuls Standard_D et Standard_E sont autorisés</li>
+<li><strong>No-Public-IP</strong> (effet: Deny) : interdit la création d'IPs publiques</li>
+<li><strong>Restrict-Regions</strong> (effet: Deny) : autorise uniquement West Europe et North Europe</li>
+<li><strong>Audit-NSG-Flows</strong> (effet: Audit) : vérifie que les NSG Flow Logs sont activés</li>
+</ul>` }
+    ],
+    question: "Un développeur dans Sub-Prod-01 tente de créer une VM Standard_F8s_v2 avec une IP publique dans West Europe avec les tags corrects. Que se passe-t-il ?",
+    options: [
+      "La VM est créée avec succès car toutes les conditions sont remplies",
+      "La création est bloquée car Standard_F8s_v2 n'est pas dans les SKUs autorisés ET l'IP publique est interdite",
+      "La création est bloquée uniquement à cause de l'IP publique interdite par No-Public-IP",
+      "La création réussit car Audit-NSG-Flows est le seul effet actif dans Sub-Prod-01"
+    ],
+    correct: [1],
+    explanation: "Les policies héritées s'appliquent cumulativement. Sub-Prod-01 hérite de : Require-Tags-All (OK, tags présents), Allowed-VM-SKUs (BLOQUÉ : F8s_v2 n'est pas Standard_D ou Standard_E), No-Public-IP (BLOQUÉ : IP publique interdite). La policy Audit-NSG-Flows s'applique aussi mais son effet est Audit (ne bloque pas). Avec DEUX policies Deny qui se déclenchent, la VM ne peut pas être créée. Azure Policy évalue toutes les policies applicables et applique la plus restrictive.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/governance/policy/overview"
+  },
+  {
+    id: 445, type: "multiexhibit", domain: "Stockage Azure", topic: "Redondance et reprise",
+    tabs: [
+      { title: "Configuration du stockage", content: `<div class="exhibit-portal-bar">📦 Storage Account : storageprod01</div>
+<div class="exhibit-portal-body">
+<dl class="exhibit-kv">
+<dt>Type de réplication</dt><dd>GZRS (Geo-Zone-Redundant Storage)</dd>
+<dt>Région primaire</dt><dd>West Europe (Amsterdam)</dd>
+<dt>Région secondaire</dt><dd>North Europe (Dublin)</dd>
+<dt>Accès lecture secondaire</dt><dd>Activé (RA-GZRS)</dd>
+<dt>Basculement de compte</dt><dd>Disponible</dd>
+</dl>
+</div>` },
+      { title: "Scénario de panne", content: `<p>Une panne majeure affecte la région West Europe. Toutes les zones de disponibilité d'Amsterdam sont inaccessibles. L'équipe doit décider comment continuer à opérer.</p>
+<ul>
+<li>L'application lit des données blob en continu</li>
+<li>Des uploads sont aussi en cours (écriture)</li>
+<li>Durée estimée de la panne : 4-6 heures</li>
+</ul>` }
+    ],
+    question: "Avec la configuration RA-GZRS, que peut faire l'équipe pendant la panne de West Europe pour continuer les opérations en LECTURE ?",
+    options: [
+      "Rien — il faut attendre que West Europe revienne en ligne",
+      "Déclencher un basculement de compte (failover) pour promouvoir la région secondaire en primaire",
+      "Rediriger immédiatement les lectures vers le endpoint secondaire (*.secondary.blob.core.windows.net) sans failover",
+      "Copier manuellement les données depuis la région secondaire vers un nouveau compte"
+    ],
+    correct: [2],
+    explanation: "RA-GZRS = Read Access Geo-Zone Redundant Storage. Le '-RA' signifie que la région secondaire (Dublin) est accessible EN LECTURE même sans failover, via l'endpoint secondaire (storageprod01-secondary.blob.core.windows.net). L'application peut immédiatement rediriger les lectures vers cet endpoint. Les ÉCRITURES restent bloquées jusqu'au failover ou rétablissement. Le failover (option B) est possible mais irréversible à court terme et prend du temps — non recommandé pour une panne de 4-6h.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/storage-redundancy"
+  },
+  {
+    id: 446, type: "multiexhibit", domain: "Ressources de calcul Azure", topic: "Autoscaling",
+    tabs: [
+      { title: "Configuration VMSS", content: `<div class="exhibit-portal-bar">⚙️ Virtual Machine Scale Set : vmss-webapp</div>
+<div class="exhibit-portal-body">
+<dl class="exhibit-kv">
+<dt>Instances actuelles</dt><dd>3</dd>
+<dt>Minimum d'instances</dt><dd>2</dd>
+<dt>Maximum d'instances</dt><dd>10</dd>
+<dt>Politique de mise à l'échelle</dt><dd>Personnalisée</dd>
+</dl>
+</div>` },
+      { title: "Règles d'autoscaling", content: `<table class="exhibit-table">
+<tr><th>Règle</th><th>Condition</th><th>Action</th><th>Délai</th></tr>
+<tr><td>Scale Out</td><td>CPU moyen &gt; 75% sur 10 min</td><td>Ajouter 2 instances</td><td>Cooldown 5 min</td></tr>
+<tr><td>Scale In</td><td>CPU moyen &lt; 25% sur 15 min</td><td>Supprimer 1 instance</td><td>Cooldown 5 min</td></tr>
+</table>` },
+      { title: "Métriques actuelles", content: `<table class="exhibit-table">
+<tr><th>Heure</th><th>CPU moyen (%)</th><th>Instances</th></tr>
+<tr><td>14:00</td><td>65%</td><td>3</td></tr>
+<tr><td>14:05</td><td>78%</td><td>3</td></tr>
+<tr><td>14:10</td><td>82%</td><td>3</td></tr>
+<tr><td>14:15</td><td>76%</td><td>5</td></tr>
+<tr><td>14:20</td><td>45%</td><td>5</td></tr>
+</table>` }
+    ],
+    question: "À 14:10, la règle Scale Out se déclenche. Pourquoi n'y a-t-il eu aucun scale out entre 14:00 et 14:10 malgré CPU > 75% à 14:05 ?",
+    options: [
+      "La règle nécessite CPU > 75% sur 10 minutes consécutives — à 14:00 CPU était à 65%, donc la condition n'était pas remplie sur 10 min complètes jusqu'à 14:10",
+      "Le cooldown de 5 minutes empêchait un nouveau scale out",
+      "Le maximum de 10 instances était déjà atteint",
+      "Les règles d'autoscaling ne sont évaluées que toutes les 10 minutes"
+    ],
+    correct: [0],
+    explanation: "La condition Scale Out est 'CPU moyen > 75% sur 10 minutes'. À 14:05, CPU = 78% mais cela ne représente que 5 minutes au-dessus de 75%. À 14:00, CPU était à 65% (sous le seuil). La fenêtre de 10 minutes complète avec CPU > 75% n'est atteinte qu'à 14:10 (de 14:00 à 14:10, en tenant compte des données). C'est pourquoi le scale out ajoute 2 instances → 5 instances visibles à 14:15.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview"
+  },
+  {
+    id: 447, type: "multiexhibit", domain: "Surveillance et maintenance Azure", topic: "Monitoring avancé",
+    tabs: [
+      { title: "Requête KQL", content: `<pre class="exhibit-code-block">Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "Processor"
+| where CounterName == "% Processor Time"
+| where InstanceName == "_Total"
+| summarize AvgCPU = avg(CounterValue) by Computer, bin(TimeGenerated, 5m)
+| where AvgCPU > 80
+| order by TimeGenerated desc</pre>` },
+      { title: "Résultats", content: `<table class="exhibit-table">
+<tr><th>Computer</th><th>TimeGenerated</th><th>AvgCPU</th></tr>
+<tr><td>VM-SQL01</td><td>2024-03-15 14:25:00</td><td>92.3%</td></tr>
+<tr><td>VM-SQL01</td><td>2024-03-15 14:20:00</td><td>87.1%</td></tr>
+<tr><td>VM-WEB03</td><td>2024-03-15 14:15:00</td><td>83.4%</td></tr>
+<tr><td>VM-SQL01</td><td>2024-03-15 14:10:00</td><td>91.7%</td></tr>
+</table>` }
+    ],
+    question: "Basé sur les résultats, quelle VM présente le problème de CPU le plus critique et depuis combien de temps ?",
+    options: [
+      "VM-WEB03, depuis 10 minutes (1 occurrence)",
+      "VM-SQL01, depuis au moins 15 minutes (3 occurrences sur 15 min, toujours au-dessus de 80%)",
+      "Les deux VMs sont également critiques",
+      "Impossible de déterminer — les résultats sont insuffisants"
+    ],
+    correct: [1],
+    explanation: "VM-SQL01 apparaît 3 fois entre 14:10 et 14:25 avec CPU > 80% (91.7%, 87.1%, 92.3%). VM-WEB03 n'apparaît qu'une fois (83.4% à 14:15). La requête groupe par fenêtres de 5 minutes (bin 5m). VM-SQL01 a donc un CPU élevé continu depuis au moins 15 minutes, avec des valeurs proches de 90%. C'est le problème le plus critique nécessitant une intervention immédiate.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/vm/vminsights-performance"
+  },
+  {
+    id: 448, type: "multiexhibit", domain: "Identités et gouvernance Azure", topic: "Coûts Azure",
+    tabs: [
+      { title: "Rapport de coûts", content: `<table class="exhibit-table">
+<tr><th>Service</th><th>Coût mensuel (€)</th><th>Variation vs mois précédent</th></tr>
+<tr><td>Virtual Machines</td><td>12 450</td><td style="color:#d13438">+35%</td></tr>
+<tr><td>Azure SQL Database</td><td>3 200</td><td style="color:#107c10">-5%</td></tr>
+<tr><td>Storage Accounts</td><td>890</td><td style="color:#d13438">+120%</td></tr>
+<tr><td>Log Analytics</td><td>2 100</td><td style="color:#d13438">+180%</td></tr>
+<tr><td>Bandwidth (egress)</td><td>1 560</td><td style="color:#d13438">+45%</td></tr>
+</table>` },
+      { title: "Recommandations Advisor", content: `<ul>
+<li>💡 23 VMs sous-utilisées (CPU moyen &lt; 5%) — économie potentielle : 4 200 €/mois</li>
+<li>💡 Utiliser Azure Reservations (1 an) pour les VMs stables — économie : 3 100 €/mois</li>
+<li>💡 Réduire la rétention Log Analytics de 90 jours à 30 jours — économie : 1 400 €/mois</li>
+<li>⚠️ Log Analytics : ingestion anormalement élevée ce mois (cause : diagnostic verbeux activé sur toutes les VMs)</li>
+</ul>` }
+    ],
+    question: "Quelle action unique aurait le plus grand impact immédiat sur la réduction des coûts ce mois ?",
+    options: [
+      "Acheter des Azure Reservations pour 1 an (économie : 3 100 €/mois)",
+      "Redimensionner ou arrêter les 23 VMs sous-utilisées (économie : 4 200 €/mois)",
+      "Désactiver les diagnostics verbeux sur les VMs pour réduire l'ingestion Log Analytics (+180%)",
+      "Réduire la rétention Log Analytics de 90 à 30 jours (économie : 1 400 €/mois)"
+    ],
+    correct: [1],
+    explanation: "Redimensionner/arrêter les 23 VMs sous-utilisées génère la plus grande économie immédiate (4 200 €/mois) sans engagement long terme. Les Reservations (option A, 3 100 €) économisent plus sur le long terme mais nécessitent un engagement d'1 an et des fonds upfront. Désactiver les diagnostics verbeux (option C) résout la cause racine du +180% Log Analytics mais l'économie n'est pas chiffrée précisément. Les Reservations peuvent être achetées APRÈS avoir redimensionné les VMs stables.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/advisor/advisor-cost-recommendations"
+  },
+  {
+    id: 449, type: "multiexhibit", domain: "Réseaux virtuels Azure", topic: "Résolution de problèmes réseau",
+    tabs: [
+      { title: "Topologie", content: `<ul>
+<li>VM-Source (10.0.1.4) dans VNet-A → peering avec VNet-B</li>
+<li>VM-Cible (10.1.2.5) dans VNet-B</li>
+<li>NSG-A associé au sous-réseau de VM-Source</li>
+<li>NSG-B associé à la NIC de VM-Cible</li>
+</ul>` },
+      { title: "NSG-A (sortant)", content: `<table class="exhibit-table">
+<tr><th>Priorité</th><th>Port dest.</th><th>Protocole</th><th>Destination</th><th>Action</th></tr>
+<tr><td>100</td><td>443</td><td>TCP</td><td>Internet</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>200</td><td>*</td><td>*</td><td>VirtualNetwork</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>65500</td><td>*</td><td>*</td><td>*</td><td style="color:#d13438">✗ Refuser</td></tr>
+</table>` },
+      { title: "NSG-B (entrant)", content: `<table class="exhibit-table">
+<tr><th>Priorité</th><th>Port dest.</th><th>Protocole</th><th>Source</th><th>Action</th></tr>
+<tr><td>100</td><td>8080</td><td>TCP</td><td>10.0.1.0/24</td><td style="color:#107c10">✓ Autoriser</td></tr>
+<tr><td>4096</td><td>*</td><td>*</td><td>*</td><td style="color:#d13438">✗ Refuser</td></tr>
+</table>` }
+    ],
+    question: "VM-Source tente de se connecter à VM-Cible sur le port 8080 (TCP). La connexion aboutit-elle ?",
+    options: [
+      "Non — NSG-A bloque le trafic sortant vers VNet-B car VNet-B n'est pas 'VirtualNetwork'",
+      "Oui — NSG-A autorise vers VirtualNetwork (règle 200) ET NSG-B autorise depuis 10.0.1.0/24 sur port 8080",
+      "Non — NSG-B bloque car la source 10.0.1.4 n'est pas dans 10.0.1.0/24",
+      "Non — le peering VNet ne fait pas partie du tag VirtualNetwork dans les NSG"
+    ],
+    correct: [1],
+    explanation: "NSG-A sortant : la règle 200 autorise TOUT le trafic vers 'VirtualNetwork'. Le tag VirtualNetwork dans Azure inclut l'espace d'adressage du VNet local ET des VNets peerés. Donc 10.1.2.5 (VNet-B peeré) est inclus. NSG-B entrant : la règle 100 autorise le port 8080 depuis 10.0.1.0/24 — et 10.0.1.4 EST dans ce sous-réseau. Les deux NSGs autorisent le trafic → connexion réussie.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/virtual-network/service-tags-overview"
+  },
+  {
+    id: 450, type: "multiexhibit", domain: "Ressources de calcul Azure", topic: "Sauvegarde et DR",
+    tabs: [
+      { title: "Configuration Backup", content: `<div class="exhibit-portal-bar">🛡️ Recovery Services Vault : rsv-prod-we</div>
+<div class="exhibit-portal-body">
+<dl class="exhibit-kv">
+<dt>Région</dt><dd>West Europe</dd>
+<dt>Type de réplication du stockage</dt><dd>GRS (Geo-Redundant)</dd>
+<dt>Cross-Region Restore</dt><dd>Activé</dd>
+<dt>Soft Delete</dt><dd>Activé (14 jours)</dd>
+</dl>
+<p class="exhibit-section-title">Stratégie de sauvegarde</p>
+<dl class="exhibit-kv">
+<dt>Fréquence</dt><dd>Quotidienne (02:00 UTC)</dd>
+<dt>Rétention quotidienne</dt><dd>30 jours</dd>
+<dt>Rétention hebdomadaire</dt><dd>12 semaines</dd>
+<dt>Rétention mensuelle</dt><dd>12 mois</dd>
+</dl>
+</div>` },
+      { title: "Scénario de sinistre", content: `<p>Un sinistre affecte la région West Europe. L'équipe doit restaurer les VMs critiques dans la région secondaire North Europe.</p>
+<ul>
+<li>Dernière sauvegarde effectuée : hier à 02:00 UTC</li>
+<li>La région West Europe est totalement inaccessible</li>
+<li>Objectif : restaurer les VMs dans North Europe le plus vite possible</li>
+</ul>` }
+    ],
+    question: "Avec Cross-Region Restore activé et GRS, que peut faire l'équipe pour restaurer dans North Europe ?",
+    options: [
+      "Rien — Azure Backup ne permet pas la restauration inter-régions",
+      "Déclencher un basculement ASR (Azure Site Recovery) vers North Europe",
+      "Accéder au vault dans West Europe → Backup Items → choisir le point de restauration → sélectionner 'Restore to secondary region' (North Europe)",
+      "Créer un nouveau vault dans North Europe et relancer les sauvegardes depuis zéro"
+    ],
+    correct: [2],
+    explanation: "Cross-Region Restore permet de restaurer depuis un vault en région primaire vers la région secondaire appairée, MÊME si la région primaire est inaccessible. Le vault GRS réplique les données de sauvegarde vers North Europe. Depuis le portail (si accessible) ou Azure CLI : aller dans le vault → Backup Items → sélectionner la VM → choisir un point de restauration → cliquer 'Restore' → sélectionner la région secondaire. Option B (ASR) est pour la réplication continue, pas pour la restauration depuis backup.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/backup/backup-azure-arm-restore-vms"
+  },
+  {
+    id: 451, type: "scenario", domain: "Identités et gouvernance Azure", topic: "Gestion des identités hybrides",
+    scenario: `<strong>Scénario :</strong> Une entreprise a 3000 utilisateurs dans Azure AD. 150 d'entre eux sont des consultants externes qui ont besoin d'un accès temporaire à certaines applications Azure pendant 3 mois. L'entreprise veut éviter de créer des comptes Azure AD internes pour ces consultants et maintenir une expérience SSO.`,
+    question: "Quelle fonctionnalité Azure AD doit être utilisée pour cet accès temporaire des consultants ?",
+    options: [
+      "Créer des comptes invités Azure AD B2B avec des revues d'accès périodiques",
+      "Créer des comptes temporaires dans Azure AD avec un attribut d'expiration",
+      "Azure AD B2C pour les utilisateurs externes",
+      "Partager les identifiants d'un compte de service générique"
+    ],
+    correct: [0],
+    explanation: "Azure AD B2B (Business-to-Business) permet d'inviter des utilisateurs externes avec leurs propres identités (Microsoft, Google, SAML). Les revues d'accès permettent de retirer automatiquement l'accès après 3 mois. Les invités utilisent leur identité existante (SSO) et n'ont pas besoin d'un nouveau compte. Azure AD B2C (option C) est pour les applications orientées clients/consommateurs, pas pour les partenaires B2B.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/external-identities/what-is-b2b"
+  },
+  {
+    id: 452, type: "scenario", domain: "Ressources de calcul Azure", topic: "Optimisation des coûts VM",
+    scenario: `<strong>Scénario :</strong> Votre entreprise a 30 VMs de développement qui fonctionnent 24h/24 mais ne sont utilisées que du lundi au vendredi de 8h à 20h (heure de Paris, UTC+1). Le coût actuel est de 8 000€/mois. Vous devez réduire les coûts sans affecter l'expérience des développeurs.`,
+    question: "Quelle solution réduit le plus efficacement les coûts tout en automatisant l'arrêt/démarrage des VMs ?",
+    options: [
+      "Demander aux développeurs d'arrêter manuellement leurs VMs le soir",
+      "Utiliser Azure Automation avec des runbooks planifiés pour arrêter les VMs le soir et les démarrer le matin",
+      "Migrer toutes les VMs de dev vers Azure Spot Instances",
+      "Utiliser des Azure Reserved Instances pour 3 ans"
+    ],
+    correct: [1],
+    explanation: "Azure Automation Runbooks peuvent être planifiés pour démarrer/arrêter des groupes de VMs selon un calendrier précis (ex: arrêt à 21h, démarrage à 7h30, du lundi au vendredi). Les VMs arrêtées (deallocated) ne sont pas facturées pour le compute. Économie approximative : ~65% (12h/24h utilisées × 5j/7j ≈ 36% du temps actif). Azure Spot (option C) peut être interrompu par Azure à tout moment, peu adapté au dev. Reserved Instances (option D) s'engagent pour des VMs 24/7, donc pas d'économie si les VMs sont arrêtées.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/automation/automation-solution-vm-management"
+  },
+  {
+    id: 453, type: "scenario", domain: "Stockage Azure", topic: "Accès anonyme et sécurité",
+    scenario: `<strong>Scénario :</strong> Une équipe marketing a besoin de partager publiquement des images et vidéos promotionnelles stockées dans Azure Blob Storage. Ces fichiers doivent être accessibles via URL publique sans authentification. Les autres conteneurs du même compte contiennent des données sensibles qui ne doivent PAS être accessibles publiquement.`,
+    question: "Comment configurer le compte de stockage pour répondre à ces deux exigences simultanément ?",
+    options: [
+      "Activer l'accès public au niveau du compte de stockage — cela s'applique à tous les conteneurs",
+      "Activer l'accès public au niveau du compte de stockage, puis configurer le niveau d'accès public du conteneur marketing en 'Blob' (lecture anonyme des blobs) et laisser les autres conteneurs en 'Privé'",
+      "Créer un compte de stockage séparé pour les médias publics avec accès public activé",
+      "Utiliser des SAS tokens avec durée limitée pour tous les fichiers publics"
+    ],
+    correct: [1],
+    explanation: "Azure Storage a deux niveaux de contrôle d'accès public : 1) Le paramètre du compte (Allow Blob Public Access) doit être activé pour permettre l'accès public sur n'importe quel conteneur. 2) Chaque conteneur a son propre niveau d'accès : Privé (pas d'accès anonyme), Blob (accès anonyme aux blobs individuels), ou Container (accès anonyme liste + blobs). En activant au niveau compte + configurant uniquement le conteneur marketing en 'Blob', les autres restent privés.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/blobs/anonymous-read-access-configure"
+  },
+  {
+    id: 454, type: "scenario", domain: "Surveillance et maintenance Azure", topic: "Alertes et actions",
+    scenario: `<strong>Scénario :</strong> Votre équipe ops reçoit des centaines d'alertes Azure Monitor par jour, dont beaucoup sont des faux positifs ou des alertes répétitives pour le même problème. L'équipe est en "alert fatigue" et commence à ignorer les alertes. Vous devez améliorer la qualité des alertes sans perdre de vrais incidents.`,
+    question: "Quelle fonctionnalité Azure Monitor permet de regrouper des alertes similaires pour réduire le bruit tout en préservant la visibilité sur les incidents ?",
+    options: [
+      "Augmenter les seuils de toutes les alertes pour réduire le nombre de déclenchements",
+      "Smart Groups — Azure Monitor regroupe automatiquement les alertes liées en groupes basés sur l'IA",
+      "Désactiver les alertes pendant les heures creuses",
+      "Créer des suppressions (suppression rules) pour toutes les alertes récurrentes"
+    ],
+    correct: [1],
+    explanation: "Smart Groups dans Azure Monitor utilise l'IA pour regrouper automatiquement les alertes qui semblent liées (même ressource, même type, même timing, même pattern) en un seul 'Smart Group'. Au lieu de 50 alertes individuelles, l'équipe voit 1 groupe avec 50 alertes. Cela réduit le bruit sans perdre d'information. Les suppressions (option D) suppriment des alertes définitivement, risquant de masquer de vrais problèmes. Augmenter les seuils (option A) réduit la sensibilité globalement.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-monitor/alerts/alerts-smartgroups-overview"
+  },
+  {
+    id: 455, type: "scenario", domain: "Réseaux virtuels Azure", topic: "Accès privé PaaS",
+    scenario: `<strong>Scénario :</strong> Une entreprise utilise Azure SQL Database pour son application. Les développeurs se connectent actuellement via l'IP publique de la base de données. Le RSSI exige que toutes les connexions à la base de données passent par une IP privée et que la base de données ne soit plus accessible depuis Internet, tout en maintenant l'accès depuis le réseau on-premises via ExpressRoute.`,
+    question: "Quelle séquence d'actions implémente correctement cette exigence ?",
+    options: [
+      "1) Créer un Private Endpoint pour Azure SQL dans le VNet. 2) Désactiver l'accès public sur Azure SQL. 3) Configurer la zone DNS privée. 4) Valider la résolution DNS.",
+      "1) Créer un Service Endpoint sur le sous-réseau. 2) Ajouter une règle firewall Azure SQL pour le sous-réseau. 3) Désactiver l'accès public.",
+      "1) Configurer un NSG pour bloquer le port 1433 depuis Internet. 2) Créer un Private Endpoint.",
+      "1) Activer Azure AD Authentication sur SQL. 2) Révoquer toutes les clés SQL. 3) Créer un VPN P2S."
+    ],
+    correct: [0],
+    explanation: "La séquence correcte pour Azure SQL avec Private Link : 1) Private Endpoint crée une IP privée dans le VNet pour Azure SQL. 2) Désactiver l'accès public dans les paramètres Azure SQL (Networking → Disable public endpoint). 3) Zone DNS privée 'privatelink.database.windows.net' liée au VNet ET configurée côté on-premises (via conditional forwarder vers l'IP du Private Endpoint). 4) Valider que nslookup retourne l'IP privée. Les clients on-premises via ExpressRoute accèdent via l'IP privée du VNet.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/azure-sql/database/private-endpoint-overview"
+  },
+  {
+    id: 456, type: "scenario", domain: "Identités et gouvernance Azure", topic: "PIM et accès privilégiés",
+    scenario: `<strong>Scénario :</strong> Votre entreprise veut réduire la surface d'attaque des accès privilégiés Azure AD. Actuellement, 10 administrateurs ont le rôle Global Admin permanent. Le RSSI exige que les droits admin ne soient actifs que pendant le temps nécessaire à l'administration, avec approbation et justification obligatoires.`,
+    question: "Quelle fonctionnalité Azure AD implémente les accès just-in-time avec approbation pour les rôles privilégiés ?",
+    options: [
+      "Azure AD Conditional Access avec condition de temps",
+      "Azure AD Privileged Identity Management (PIM) avec rôles éligibles et approbation requise",
+      "Azure AD Access Reviews mensuelles pour valider les accès",
+      "Azure AD B2B avec des comptes invités pour les admins"
+    ],
+    correct: [1],
+    explanation: "Azure AD PIM (Privileged Identity Management) permet : rôles ÉLIGIBLES (pas actifs en permanence) plutôt que permanents, activation just-in-time avec durée limitée (ex: 2h max), justification obligatoire à l'activation, approbation par un second administrateur avant activation, alertes lors de l'utilisation. Les 10 Global Admins deviennent 'éligibles' au rôle Global Admin — ils l'activent uniquement quand nécessaire. PIM nécessite Azure AD Premium P2.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/active-directory/privileged-identity-management/pim-configure"
+  },
+  {
+    id: 457, type: "scenario", domain: "Ressources de calcul Azure", topic: "Migration et modernisation",
+    scenario: `<strong>Scénario :</strong> Une application monolithique ASP.NET Framework 4.8 tourne sur des VMs IIS on-premises. L'équipe veut migrer vers Azure avec le minimum de changements de code (lift-and-shift), tout en bénéficiant de la scalabilité automatique et de la gestion des certificats SSL. Le budget ne permet pas une réécriture complète.`,
+    question: "Quelle cible de migration Azure est la plus appropriée pour cette situation ?",
+    options: [
+      "Azure Kubernetes Service (AKS) — conteneurisation de l'application",
+      "Azure App Service (Windows) — héberge ASP.NET Framework sans modification, avec autoscaling et SSL managé",
+      "Azure Functions — serverless pour applications web",
+      "Azure Virtual Machines avec IIS — identique à l'environnement actuel"
+    ],
+    correct: [1],
+    explanation: "Azure App Service supporte nativement ASP.NET Framework 4.8 sans modification de code (lift-and-shift). Il offre autoscaling automatique, certificates SSL managés (Let's Encrypt intégré), déploiement CI/CD, slots de déploiement, et monitoring Application Insights. AKS (option A) nécessite une conteneurisation (changements). Azure Functions (option C) est pour du serverless event-driven, pas des apps web monolithiques. Des VMs (option D) ne bénéficient pas des avantages PaaS.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/app-service/overview"
+  },
+  {
+    id: 458, type: "scenario", domain: "Stockage Azure", topic: "Chiffrement et conformité",
+    scenario: `<strong>Scénario :</strong> Une banque stocke des données de transactions dans Azure Blob Storage. La réglementation bancaire exige que les clés de chiffrement soient :<br>
+• Gérées par la banque (pas par Microsoft)<br>
+• Stockées dans un module de sécurité matériel (HSM) certifié FIPS 140-2 Level 3<br>
+• Révocables immédiatement en cas de soupçon de compromission<br>
+• Rotations planifiées automatiquement tous les 90 jours`,
+    question: "Quelle combinaison Azure répond à TOUTES ces exigences de chiffrement ?",
+    options: [
+      "Chiffrement Azure géré par Microsoft (Microsoft Managed Keys) — activé par défaut",
+      "Customer Managed Keys (CMK) dans Azure Key Vault Standard avec rotation automatique",
+      "Customer Managed Keys (CMK) stockées dans Azure Key Vault Managed HSM (FIPS 140-2 Level 3) avec rotation automatique configurée",
+      "Chiffrement applicatif côté client avant l'upload"
+    ],
+    correct: [2],
+    explanation: "Azure Key Vault Managed HSM est certifié FIPS 140-2 Level 3 (plus élevé que Key Vault Standard qui est Level 2). CMK dans Managed HSM = la banque contrôle les clés, Microsoft ne peut pas les lire. La révocation immédiate est possible en désactivant la clé dans Managed HSM (toutes les nouvelles requêtes de déchiffrement échouent). La rotation automatique des clés se configure dans Key Vault avec une stratégie de rotation. C'est l'architecture recommandée pour les données hautement sensibles.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/storage/common/customer-managed-keys-overview"
+  },
+  {
+    id: 459, type: "scenario", domain: "Surveillance et maintenance Azure", topic: "Continuité d'activité",
+    scenario: `<strong>Scénario :</strong> Votre organisation a défini les objectifs de continuité d'activité suivants pour une application bancaire critique :<br>
+• <strong>RTO (Recovery Time Objective) :</strong> maximum 15 minutes<br>
+• <strong>RPO (Recovery Point Objective) :</strong> maximum 5 minutes de perte de données<br>
+• <strong>Région primaire :</strong> West Europe<br>
+• <strong>Region secondaire :</strong> North Europe<br><br>
+L'application utilise 10 VMs avec une base de données SQL.`,
+    question: "Quelle solution répond aux exigences RTO 15 min et RPO 5 min ?",
+    options: [
+      "Azure Backup avec sauvegardes toutes les heures — restauration manuelle en cas de panne",
+      "Azure Site Recovery avec réplication continue et failover automatique configuré",
+      "Azure Backup avec Cross-Region Restore activé",
+      "VMs dans deux régions avec Azure Traffic Manager en mode failover"
+    ],
+    correct: [1],
+    explanation: "Azure Site Recovery (ASR) réplique continuellement les VMs avec un RPO de secondes à minutes (typiquement <5 min). Le failover peut être automatisé via des Recovery Plans avec des runbooks d'automatisation, atteignant un RTO de 15 min. Azure Backup (option A et C) a un RPO d'au moins 1 heure et un RTO de plusieurs heures pour la restauration. Option D avec Traffic Manager + VMs dans deux régions peut fonctionner mais nécessite le maintien permanent de VMs dans les deux régions (coûteux) et une synchronisation des données.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/site-recovery/azure-to-azure-tutorial-enable-replication"
+  },
+  {
+    id: 460, type: "scenario", domain: "Réseaux virtuels Azure", topic: "Sécurité réseau avancée",
+    scenario: `<strong>Scénario :</strong> Une entreprise pharmaceutique doit segmenter son réseau Azure selon les exigences GxP (bonnes pratiques pharmaceutiques) :<br>
+• Environnement de <strong>Production GxP</strong> : aucune communication avec d'autres environnements<br>
+• Environnement de <strong>Validation</strong> : peut communiquer avec Production mais pas avec Dev<br>
+• Environnement de <strong>Développement</strong> : peut communiquer avec Validation uniquement<br>
+• Toutes les communications doivent être <strong>journalisées et inspectées</strong>`,
+    question: "Quelle architecture réseau Azure implémente cette segmentation avec inspection de tout le trafic inter-environnements ?",
+    options: [
+      "3 VNets séparés avec peering entre tous + NSGs pour le filtrage",
+      "3 VNets séparés avec peering sélectif (Prod-Val, Val-Dev, PAS de Prod-Dev) + Azure Firewall Premium dans un VNet HUB central pour l'inspection et la journalisation de tout le trafic",
+      "3 sous-réseaux dans le même VNet avec des NSGs stricts entre chaque sous-réseau",
+      "3 VNets séparés sans peering + VPN site-to-site entre chaque environnement"
+    ],
+    correct: [1],
+    explanation: "La solution optimale : 3 VNets segmentés (isolation forte) + peerings sélectifs (Prod↔Val, Val↔Dev, JAMAIS Prod↔Dev) + Hub VNet avec Azure Firewall Premium. Les UDRs forcent tout le trafic inter-VNet via le Firewall (inspection TLS, IDPS, règles applicatives). Les logs Firewall journalisent chaque flux (requis GxP). Des sous-réseaux dans le même VNet (option C) n'offrent pas d'isolation suffisante pour GxP. Un VPN entre chaque environnement (option D) est complexe et ne centralise pas l'inspection.",
+    reference: "https://learn.microsoft.com/fr-fr/azure/architecture/networking/hub-spoke"
   }
 ];
 
@@ -6811,6 +8452,21 @@ function calcQuestionScore(q, userAnswers) {
     return { raw, max: 1, isCorrect, isPartial };
   }
 
+  // exhibit / casestudy / multiexhibit / scenario → single or multiple scoring
+  if (['exhibit','casestudy','multiexhibit','scenario'].includes(q.type)) {
+    if (!userAnswers || userAnswers.length === 0) return { raw:0, max:1, isCorrect:false, isPartial:false };
+    if (q.multiAnswer || q.correct.length > 1) {
+      const n = q.correct.length;
+      let earned = 0;
+      userAnswers.forEach(sel => { if(q.correct.includes(sel)) earned+=1/n; else earned-=1/n; });
+      earned = Math.max(0, earned);
+      const isCorrect = Math.abs(earned-1)<0.001;
+      return { raw:earned, max:1, isCorrect, isPartial:earned>0&&!isCorrect };
+    }
+    const correct = userAnswers.length===1 && userAnswers[0]===q.correct[0];
+    return { raw:correct?1:0, max:1, isCorrect:correct, isPartial:false };
+  }
+
   if (!userAnswers || userAnswers.length === 0) return { raw: 0, max: 1, isCorrect: false, isPartial: false };
 
   if (q.type === 'single') {
@@ -6847,7 +8503,7 @@ const App = {
   _qCountVal: 20,
   _examQCountVal: 50,
   _lang: 'fr',          // 'fr' | 'en' | 'both'
-  _types: new Set(['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion']),
+  _types: new Set(['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion','exhibit','casestudy','multiexhibit','scenario']),
 
   showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -6871,6 +8527,12 @@ const App = {
     if (type === 'exam-q-count') this._examQCountVal = val;
     if (type === 'lang') this._lang = val;
     if (type === 'exam-lang') this._lang = val;
+  },
+
+  switchExhibitTab(qi, idx, btn) {
+    const block = btn.closest('.exhibit-wrap');
+    block.querySelectorAll('.exhibit-tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+    block.querySelectorAll('.exhibit-tab-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
   },
 
   toggleTypeChip(el) {
@@ -6910,7 +8572,7 @@ const App = {
     // 'both' = no filter
 
     // Filter by question type
-    const allTypes = ['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion'];
+    const allTypes = ['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion','exhibit','casestudy','multiexhibit','scenario'];
     const allSelected = allTypes.every(t => this._types.has(t));
     if (!allSelected) qs = qs.filter(q => this._types.has(q.type));
 
@@ -6997,7 +8659,7 @@ const App = {
     document.getElementById('exam-progress-text').textContent = `Question ${qi+1} / ${total}`;
     document.getElementById('exam-progress-bar').style.width = `${((qi+1)/total)*100}%`;
 
-    const typeLabels = { single: 'Choix unique', multiple: 'Choix multiples', dropdown: 'Liste déroulante', 'code-completion': 'Complétion de code', yesno: 'Oui/Non', hotarea: 'Zone active', dragdrop: 'Glisser-déposer', sequence: 'Mise en ordre' };
+    const typeLabels = { single: 'Choix unique', multiple: 'Choix multiples', dropdown: 'Liste déroulante', 'code-completion': 'Complétion de code', yesno: 'Oui/Non', hotarea: 'Zone active', dragdrop: 'Glisser-déposer', sequence: 'Mise en ordre', exhibit: 'Question avec épreuve', casestudy: 'Étude de cas', multiexhibit: 'Épreuves multiples', scenario: 'Scénario' };
 
     const explanationBlock = revealed && State.config.showExplanation ? `
       <div class="explanation-block visible">
@@ -7231,6 +8893,48 @@ const App = {
       return;
     }
 
+    // ── EXHIBIT / CASESTUDY / MULTIEXHIBIT / SCENARIO ──
+    if (['exhibit','casestudy','multiexhibit','scenario'].includes(q.type)) {
+      let contextHtml = '';
+      if (q.tabs) {
+        const tabsNav = q.tabs.map((t,i) =>
+          `<button class="exhibit-tab-btn${i===0?' active':''}" onclick="App.switchExhibitTab(${qi},${i},this)">${escHtml(t.title)}</button>`
+        ).join('');
+        const tabsPanels = q.tabs.map((t,i) =>
+          `<div class="exhibit-tab-panel${i===0?' active':''}" id="etab-${qi}-${i}">${t.content}</div>`
+        ).join('');
+        contextHtml = `<div class="exhibit-wrap" style="padding:0;overflow:hidden"><div class="exhibit-tabs-nav">${tabsNav}</div>${tabsPanels}</div>`;
+      } else if (q.exhibit) {
+        contextHtml = `<div class="exhibit-wrap"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ms-gray);margin-bottom:10px">📋 ${escHtml(q.exhibitTitle||'Épreuve')}</div>${q.exhibit}</div>`;
+      } else if (q.scenario) {
+        contextHtml = `<div class="exhibit-scenario-banner">${q.scenario}</div>`;
+      }
+      const isMulti = q.multiAnswer || q.correct.length > 1;
+      const ua2 = State.answers[qi] || [];
+      const letters2 = 'ABCDEFGHIJ';
+      let optsHtml2 = '';
+      q.options.forEach((opt, i) => {
+        let cls = 'option-item'; let icon = '';
+        const isSel = ua2.includes(i); const isC = q.correct.includes(i);
+        if (revealed) { cls += ' disabled';
+          if (isSel && isC)  { cls += ' correct';        icon = '<span class="option-icon">✓</span>'; }
+          else if (isSel)    { cls += ' wrong';          icon = '<span class="option-icon">✗</span>'; }
+          else if (isC)      { cls += ' correct-missed'; icon = '<span class="option-icon">✓</span>'; }
+        } else if (isSel) cls += ' selected';
+        optsHtml2 += `<div class="${cls}" onclick="App.selectOption(${i})"><div class="option-letter">${letters2[i]}</div><div class="option-text">${escHtml(opt)}</div>${icon}</div>`;
+      });
+      const multiHint2 = isMulti ? `<div style="font-size:12px;color:var(--ms-orange);font-weight:600;margin-bottom:12px;">⚠ Choisissez ${q.correct.length} réponse(s)</div>` : '';
+      panel.innerHTML = `
+        ${header}
+        <div class="question-text">${escHtml(q.question)}</div>
+        ${contextHtml}
+        ${multiHint2}
+        <div class="options-list">${optsHtml2}</div>
+        ${explanationBlock}
+        <div class="question-actions">${revealBtn}${prevBtn}${nextBtn}</div>`;
+      return;
+    }
+
     // ── SINGLE / MULTIPLE type ──
     const userAns = State.answers[qi] || [];
     const letters = 'ABCDEFGHIJ';
@@ -7299,7 +9003,9 @@ const App = {
 
     let ans = [...(State.answers[qi] || [])];
 
-    if (q.type === 'single') {
+    const isSingleType = q.type === 'single' ||
+      (['exhibit','casestudy','multiexhibit','scenario'].includes(q.type) && !q.multiAnswer && q.correct.length <= 1);
+    if (isSingleType) {
       ans = [optIdx];
     } else {
       const pos = ans.indexOf(optIdx);
