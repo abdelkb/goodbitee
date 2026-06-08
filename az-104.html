@@ -73,6 +73,19 @@
       transition: background 0.15s;
     }
     .app-header .btn-ghost:hover { background: rgba(255,255,255,0.15); }
+    .ui-lang-switch {
+      display:flex; align-items:center; gap:2px;
+      background:rgba(255,255,255,0.15); border-radius:20px; padding:3px;
+      margin-left:10px;
+    }
+    .ui-lang-switch .uilang-btn {
+      border:none; background:transparent; color:rgba(255,255,255,0.65);
+      font-size:11px; font-weight:700; padding:3px 9px; border-radius:16px;
+      cursor:pointer; transition:all .15s; letter-spacing:0.5px;
+    }
+    .ui-lang-switch .uilang-btn.active {
+      background:#fff; color:var(--ms-blue-dark);
+    }
 
     /* ── HOME SCREEN ── */
     #screen-home {
@@ -1200,16 +1213,20 @@
     <span class="logo">AZ-104</span>
     <span class="badge">Microsoft Azure Administrator</span>
     <span class="spacer"></span>
+    <div class="ui-lang-switch">
+      <button class="uilang-btn active" data-lang="fr" onclick="App.setUILang('fr')">FR</button>
+      <button class="uilang-btn" data-lang="en" onclick="App.setUILang('en')">EN</button>
+    </div>
   </header>
 
   <div class="home-hero" style="padding-top:40px;">
-    <h1>AZ-104 Exam Simulator</h1>
-    <p>Prépare-toi à la certification <strong>Microsoft Azure Administrator</strong> avec des simulations d'examen réalistes.</p>
+    <h1 data-i18n="home.h1">AZ-104 Exam Simulator</h1>
+    <p data-i18n="home.subtitle">Prépare-toi à la certification <strong>Microsoft Azure Administrator</strong> avec des simulations d'examen réalistes.</p>
     <div class="exam-info-strip">
-      <span class="info-chip">⏱ 150 minutes</span>
-      <span class="info-chip">📝 40–60 questions</span>
-      <span class="info-chip">🎯 Score de passage : 700/1000</span>
-      <span class="info-chip">💰 Coût : ~165 USD</span>
+      <span class="info-chip" data-i18n="home.chip.time">⏱ 150 minutes</span>
+      <span class="info-chip" data-i18n="home.chip.questions">📝 40–60 questions</span>
+      <span class="info-chip" data-i18n="home.chip.pass">🎯 Score de passage : 700/1000</span>
+      <span class="info-chip" data-i18n="home.chip.cost">💰 Coût : ~165 USD</span>
     </div>
   </div>
 
@@ -1218,32 +1235,32 @@
     <div class="mode-card practice-mode" onclick="App.openSetup('practice')">
       <div class="card-strip"></div>
       <div class="card-icon">🎓</div>
-      <h2>Mode Pratique</h2>
-      <p>Entraîne-toi à ton rythme avec un retour immédiat sur chaque réponse.</p>
+      <h2 data-i18n="home.practice.title">Mode Pratique</h2>
+      <p data-i18n="home.practice.desc">Entraîne-toi à ton rythme avec un retour immédiat sur chaque réponse.</p>
       <ul>
-        <li>Choix du nombre de questions</li>
-        <li>Temps configurable ou illimité</li>
-        <li>Affichage optionnel des réponses</li>
-        <li>Explications détaillées</li>
-        <li>Navigation libre entre questions</li>
+        <li data-i18n="home.practice.li1">Choix du nombre de questions</li>
+        <li data-i18n="home.practice.li2">Temps configurable ou illimité</li>
+        <li data-i18n="home.practice.li3">Affichage optionnel des réponses</li>
+        <li data-i18n="home.practice.li4">Explications détaillées</li>
+        <li data-i18n="home.practice.li5">Navigation libre entre questions</li>
       </ul>
-      <button class="btn-primary" onclick="event.stopPropagation(); App.openSetup('practice')">Démarrer la pratique</button>
+      <button class="btn-primary" data-i18n="home.practice.btn" onclick="event.stopPropagation(); App.openSetup('practice')">Démarrer la pratique</button>
     </div>
 
     <!-- Exam Mode -->
     <div class="mode-card exam-mode" onclick="App.openSetup('exam')">
       <div class="card-strip"></div>
       <div class="card-icon">🏆</div>
-      <h2>Mode Examen</h2>
-      <p>Simulation fidèle des conditions de l'examen Microsoft officiel.</p>
+      <h2 data-i18n="home.exam.title">Mode Examen</h2>
+      <p data-i18n="home.exam.desc">Simulation fidèle des conditions de l'examen Microsoft officiel.</p>
       <ul>
-        <li>150 minutes (conditions réelles)</li>
-        <li>40–60 questions au hasard</li>
-        <li>Pas de réponses pendant l'examen</li>
-        <li>Scoring Microsoft (échelle 1–1000)</li>
-        <li>Revue des erreurs après résultats</li>
+        <li data-i18n="home.exam.li1">150 minutes (conditions réelles)</li>
+        <li data-i18n="home.exam.li2">40–60 questions au hasard</li>
+        <li data-i18n="home.exam.li3">Pas de réponses pendant l'examen</li>
+        <li data-i18n="home.exam.li4">Scoring Microsoft (échelle 1–1000)</li>
+        <li data-i18n="home.exam.li5">Revue des erreurs après résultats</li>
       </ul>
-      <button class="btn-primary" onclick="event.stopPropagation(); App.openSetup('exam')" style="background:var(--ms-orange);border-color:var(--ms-orange)">Démarrer l'examen</button>
+      <button class="btn-primary" data-i18n="home.exam.btn" onclick="event.stopPropagation(); App.openSetup('exam')" style="background:var(--ms-orange);border-color:var(--ms-orange)">Démarrer l'examen</button>
     </div>
   </div>
 </div>
@@ -1254,67 +1271,71 @@
 <div id="screen-setup-practice" class="screen">
   <header class="app-header">
     <span class="logo">AZ-104</span>
-    <span class="badge">Mode Pratique</span>
+    <span class="badge" data-i18n="practice.badge">Mode Pratique</span>
     <span class="spacer"></span>
-    <button class="btn-ghost" onclick="App.goHome()">← Retour</button>
+    <div class="ui-lang-switch">
+      <button class="uilang-btn active" data-lang="fr" onclick="App.setUILang('fr')">FR</button>
+      <button class="uilang-btn" data-lang="en" onclick="App.setUILang('en')">EN</button>
+    </div>
+    <button class="btn-ghost" data-i18n="setup.back" onclick="App.goHome()">← Retour</button>
   </header>
 
   <div style="flex:1; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px;">
     <div class="setup-card">
-      <h2>🎓 Configurer la pratique</h2>
-      <p class="subtitle">Personnalise ta session d'entraînement selon tes besoins.</p>
+      <h2 data-i18n="practice.h2">🎓 Configurer la pratique</h2>
+      <p class="subtitle" data-i18n="practice.subtitle">Personnalise ta session d'entraînement selon tes besoins.</p>
 
       <div class="form-group">
-        <label>Langue des questions</label>
+        <label data-i18n="setup.label.lang">Langue des questions</label>
         <div class="chip-group" id="lang-chips">
-          <span class="chip" data-val="en" onclick="App.selectChip('lang','en',this)">🇬🇧 Anglais</span>
-          <span class="chip selected" data-val="fr" onclick="App.selectChip('lang','fr',this)">🇫🇷 Français</span>
-          <span class="chip" data-val="both" onclick="App.selectChip('lang','both',this)">🌐 Les deux</span>
+          <span class="chip" data-val="en" data-i18n="lang.en" onclick="App.selectChip('lang','en',this)">🇬🇧 Anglais</span>
+          <span class="chip selected" data-val="fr" data-i18n="lang.fr" onclick="App.selectChip('lang','fr',this)">🇫🇷 Français</span>
+          <span class="chip" data-val="both" data-i18n="lang.both" onclick="App.selectChip('lang','both',this)">🌐 Les deux</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Types de questions</label>
+        <label data-i18n="setup.label.types">Types de questions</label>
         <div class="chip-group" id="type-chips">
-          <span class="chip multi selected" data-type="single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
-          <span class="chip multi selected" data-type="multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
-          <span class="chip multi selected" data-type="yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
-          <span class="chip multi selected" data-type="hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
-          <span class="chip multi selected" data-type="dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
-          <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
-          <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
-          <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
-          <span class="chip multi selected" data-type="exhibit"        onclick="App.toggleTypeChip(this)">Avec épreuve</span>
-          <span class="chip multi selected" data-type="casestudy"      onclick="App.toggleTypeChip(this)">Étude de cas</span>
-          <span class="chip multi selected" data-type="multiexhibit"   onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
-          <span class="chip multi selected" data-type="scenario"       onclick="App.toggleTypeChip(this)">Scénario</span>
+          <span class="chip multi selected" data-type="single"    data-i18n="type.single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
+          <span class="chip multi selected" data-type="multiple"  data-i18n="type.multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
+          <span class="chip multi selected" data-type="yesno"     data-i18n="type.yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
+          <span class="chip multi selected" data-type="hotarea"   data-i18n="type.hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
+          <span class="chip multi selected" data-type="dragdrop"  data-i18n="type.dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
+          <span class="chip multi selected" data-type="sequence"  data-i18n="type.sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
+          <span class="chip multi selected" data-type="dropdown"  data-i18n="type.dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
+          <span class="chip multi selected" data-type="code-completion" data-i18n="type.code" onclick="App.toggleTypeChip(this)">Complétion code</span>
+          <span class="chip multi selected" data-type="exhibit"        data-i18n="type.exhibit"      onclick="App.toggleTypeChip(this)">Avec épreuve</span>
+          <span class="chip multi selected" data-type="casestudy"      data-i18n="type.casestudy"    onclick="App.toggleTypeChip(this)">Étude de cas</span>
+          <span class="chip multi selected" data-type="multiexhibit"   data-i18n="type.multiexhibit" onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
+          <span class="chip multi selected" data-type="scenario"       data-i18n="type.scenario"     onclick="App.toggleTypeChip(this)">Scénario</span>
         </div>
-        <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
+        <p class="chip-group-hint" data-i18n="setup.type.hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
       </div>
 
       <div class="form-group">
-        <label>Nombre de questions</label>
+        <label data-i18n="practice.label.count">Nombre de questions</label>
         <div class="chip-group" id="q-count-chips">
           <span class="chip" data-val="10" onclick="App.selectChip('q-count', 10, this)">10</span>
           <span class="chip selected" data-val="20" onclick="App.selectChip('q-count', 20, this)">20</span>
           <span class="chip" data-val="30" onclick="App.selectChip('q-count', 30, this)">30</span>
           <span class="chip" data-val="40" onclick="App.selectChip('q-count', 40, this)">40</span>
-          <span class="chip" data-val="all" onclick="App.selectChip('q-count', 'all', this)">Toutes</span>
+          <span class="chip" data-val="all" data-i18n="practice.count.all" onclick="App.selectChip('q-count', 'all', this)">Toutes</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Temps limite (minutes, 0 = illimité)</label>
-        <input type="number" class="input-number" id="practice-time" value="0" min="0" max="240" placeholder="0 = illimité">
-        <p class="hint">Recommandation : environ 2 min 30 sec par question</p>
+        <label data-i18n="practice.label.time">Temps limite (minutes, 0 = illimité)</label>
+        <input type="number" class="input-number" id="practice-time" value="0" min="0" max="240" data-i18n-placeholder="practice.placeholder.time" placeholder="0 = illimité">
+        <p class="hint" data-i18n="practice.hint.time">Recommandation : environ 2 min 30 sec par question</p>
       </div>
 
       <div class="form-group">
-        <label>Options</label>
+        <label data-i18n="practice.label.options">Options</label>
         <div class="toggle-row">
           <div class="label-block">
-            <span>Afficher la réponse correcte</span>
-            <small>Révèle la bonne réponse après chaque soumission</small>
+            <span data-i18n="practice.opt.answer.label">Afficher la réponse correcte</span>
+            <small data-i18n="practice.opt.answer.small">Révèle la bonne réponse après chaque soumission</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="opt-show-answer" checked>
@@ -1323,8 +1344,8 @@
         </div>
         <div class="toggle-row">
           <div class="label-block">
-            <span>Afficher l'explication</span>
-            <small>Montre le pourquoi de la réponse correcte</small>
+            <span data-i18n="practice.opt.expl.label">Afficher l'explication</span>
+            <small data-i18n="practice.opt.expl.small">Montre le pourquoi de la réponse correcte</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="opt-show-explanation" checked>
@@ -1333,8 +1354,8 @@
         </div>
         <div class="toggle-row">
           <div class="label-block">
-            <span>Mélanger les questions</span>
-            <small>Ordre aléatoire à chaque session</small>
+            <span data-i18n="practice.opt.shuffle.label">Mélanger les questions</span>
+            <small data-i18n="practice.opt.shuffle.small">Ordre aléatoire à chaque session</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="opt-shuffle" checked>
@@ -1344,8 +1365,8 @@
       </div>
 
       <div class="form-actions">
-        <button class="btn-secondary" onclick="App.goHome()">Annuler</button>
-        <button class="btn-primary flex-1" onclick="App.startSession('practice')">Commencer →</button>
+        <button class="btn-secondary" data-i18n="setup.cancel" onclick="App.goHome()">Annuler</button>
+        <button class="btn-primary flex-1" data-i18n="practice.start" onclick="App.startSession('practice')">Commencer →</button>
       </div>
     </div>
   </div>
@@ -1357,15 +1378,19 @@
 <div id="screen-setup-exam" class="screen">
   <header class="app-header">
     <span class="logo">AZ-104</span>
-    <span class="badge">Mode Examen</span>
+    <span class="badge" data-i18n="exam.badge">Mode Examen</span>
     <span class="spacer"></span>
-    <button class="btn-ghost" onclick="App.goHome()">← Retour</button>
+    <div class="ui-lang-switch">
+      <button class="uilang-btn active" data-lang="fr" onclick="App.setUILang('fr')">FR</button>
+      <button class="uilang-btn" data-lang="en" onclick="App.setUILang('en')">EN</button>
+    </div>
+    <button class="btn-ghost" data-i18n="setup.back" onclick="App.goHome()">← Retour</button>
   </header>
 
   <div style="flex:1; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px;">
     <div class="setup-card">
-      <h2>🏆 Conditions de l'examen Microsoft</h2>
-      <p class="subtitle">La simulation respecte les conditions officielles de l'examen AZ-104.</p>
+      <h2 data-i18n="exam.h2">🏆 Conditions de l'examen Microsoft</h2>
+      <p class="subtitle" data-i18n="exam.subtitle">La simulation respecte les conditions officielles de l'examen AZ-104.</p>
 
       <div style="background:var(--ms-blue-light); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
         <p style="font-size:14px; color:var(--ms-blue-dark); line-height:1.7; margin:0;">
@@ -1379,48 +1404,48 @@
       </div>
 
       <div class="form-group">
-        <label>Langue des questions</label>
+        <label data-i18n="setup.label.lang">Langue des questions</label>
         <div class="chip-group" id="exam-lang-chips">
-          <span class="chip" data-val="en" onclick="App.selectChip('exam-lang','en',this)">🇬🇧 Anglais</span>
-          <span class="chip selected" data-val="fr" onclick="App.selectChip('exam-lang','fr',this)">🇫🇷 Français</span>
-          <span class="chip" data-val="both" onclick="App.selectChip('exam-lang','both',this)">🌐 Les deux</span>
+          <span class="chip" data-val="en" data-i18n="lang.en" onclick="App.selectChip('exam-lang','en',this)">🇬🇧 Anglais</span>
+          <span class="chip selected" data-val="fr" data-i18n="lang.fr" onclick="App.selectChip('exam-lang','fr',this)">🇫🇷 Français</span>
+          <span class="chip" data-val="both" data-i18n="lang.both" onclick="App.selectChip('exam-lang','both',this)">🌐 Les deux</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Types de questions</label>
+        <label data-i18n="setup.label.types">Types de questions</label>
         <div class="chip-group" id="exam-type-chips">
-          <span class="chip multi selected" data-type="single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
-          <span class="chip multi selected" data-type="multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
-          <span class="chip multi selected" data-type="yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
-          <span class="chip multi selected" data-type="hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
-          <span class="chip multi selected" data-type="dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
-          <span class="chip multi selected" data-type="sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
-          <span class="chip multi selected" data-type="dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
-          <span class="chip multi selected" data-type="code-completion" onclick="App.toggleTypeChip(this)">Complétion code</span>
-          <span class="chip multi selected" data-type="exhibit"        onclick="App.toggleTypeChip(this)">Avec épreuve</span>
-          <span class="chip multi selected" data-type="casestudy"      onclick="App.toggleTypeChip(this)">Étude de cas</span>
-          <span class="chip multi selected" data-type="multiexhibit"   onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
-          <span class="chip multi selected" data-type="scenario"       onclick="App.toggleTypeChip(this)">Scénario</span>
+          <span class="chip multi selected" data-type="single"    data-i18n="type.single"    onclick="App.toggleTypeChip(this)">Choix unique</span>
+          <span class="chip multi selected" data-type="multiple"  data-i18n="type.multiple"  onclick="App.toggleTypeChip(this)">Choix multiple</span>
+          <span class="chip multi selected" data-type="yesno"     data-i18n="type.yesno"     onclick="App.toggleTypeChip(this)">Oui / Non</span>
+          <span class="chip multi selected" data-type="hotarea"   data-i18n="type.hotarea"   onclick="App.toggleTypeChip(this)">Zone active</span>
+          <span class="chip multi selected" data-type="dragdrop"  data-i18n="type.dragdrop"  onclick="App.toggleTypeChip(this)">Glisser-déposer</span>
+          <span class="chip multi selected" data-type="sequence"  data-i18n="type.sequence"  onclick="App.toggleTypeChip(this)">Mise en ordre</span>
+          <span class="chip multi selected" data-type="dropdown"  data-i18n="type.dropdown"  onclick="App.toggleTypeChip(this)">Menu déroulant</span>
+          <span class="chip multi selected" data-type="code-completion" data-i18n="type.code" onclick="App.toggleTypeChip(this)">Complétion code</span>
+          <span class="chip multi selected" data-type="exhibit"        data-i18n="type.exhibit"      onclick="App.toggleTypeChip(this)">Avec épreuve</span>
+          <span class="chip multi selected" data-type="casestudy"      data-i18n="type.casestudy"    onclick="App.toggleTypeChip(this)">Étude de cas</span>
+          <span class="chip multi selected" data-type="multiexhibit"   data-i18n="type.multiexhibit" onclick="App.toggleTypeChip(this)">Épreuves multiples</span>
+          <span class="chip multi selected" data-type="scenario"       data-i18n="type.scenario"     onclick="App.toggleTypeChip(this)">Scénario</span>
         </div>
-        <p class="chip-group-hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
+        <p class="chip-group-hint" data-i18n="setup.type.hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
       </div>
 
       <div class="form-group">
-        <label>Nombre de questions</label>
+        <label data-i18n="exam.label.count">Nombre de questions</label>
         <div class="chip-group" id="exam-q-count-chips">
           <span class="chip" data-val="40" onclick="App.selectChip('exam-q-count', 40, this)">40</span>
-          <span class="chip selected" data-val="50" onclick="App.selectChip('exam-q-count', 50, this)">50 (défaut)</span>
+          <span class="chip selected" data-val="50" data-i18n="exam.chip.default" onclick="App.selectChip('exam-q-count', 50, this)">50 (défaut)</span>
           <span class="chip" data-val="60" onclick="App.selectChip('exam-q-count', 60, this)">60</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Options</label>
+        <label data-i18n="practice.label.options">Options</label>
         <div class="toggle-row">
           <div class="label-block">
-            <span>Mélanger les questions</span>
-            <small>Sélection et ordre aléatoires</small>
+            <span data-i18n="exam.opt.shuffle.label">Mélanger les questions</span>
+            <small data-i18n="exam.opt.shuffle.small">Sélection et ordre aléatoires</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="exam-shuffle" checked>
@@ -1430,8 +1455,8 @@
       </div>
 
       <div class="form-actions">
-        <button class="btn-secondary" onclick="App.goHome()">Annuler</button>
-        <button class="btn-primary flex-1" onclick="App.startSession('exam')" style="background:var(--ms-orange);">Démarrer l'examen →</button>
+        <button class="btn-secondary" data-i18n="setup.cancel" onclick="App.goHome()">Annuler</button>
+        <button class="btn-primary flex-1" data-i18n="exam.start" onclick="App.startSession('exam')" style="background:var(--ms-orange);">Démarrer l'examen →</button>
       </div>
     </div>
   </div>
@@ -1446,7 +1471,11 @@
     <span class="progress-info" id="exam-progress-text">Question 1 / 20</span>
     <span class="spacer"></span>
     <div class="timer" id="exam-timer">⏱ --:--</div>
-    <button class="btn-end-exam" onclick="App.confirmEnd()">Terminer</button>
+    <div class="ui-lang-switch" style="margin-right:4px;">
+      <button class="uilang-btn active" data-lang="fr" onclick="App.setUILang('fr')">FR</button>
+      <button class="uilang-btn" data-lang="en" onclick="App.setUILang('en')">EN</button>
+    </div>
+    <button class="btn-end-exam" data-i18n="session.end" onclick="App.confirmEnd()">Terminer</button>
   </div>
   <div class="progress-bar-wrap">
     <div class="progress-bar-fill" id="exam-progress-bar" style="width:0%"></div>
@@ -1457,20 +1486,20 @@
       <!-- Injected by JS -->
     </div>
     <div class="nav-sidebar" id="nav-sidebar">
-      <h3>Navigation</h3>
+      <h3 data-i18n="nav.title">Navigation</h3>
       <div class="nav-grid" id="nav-grid"></div>
       <div class="nav-legend">
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--ms-blue)"></div>
-          <span>Répondu</span>
+          <span data-i18n="legend.answered">Répondu</span>
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--ms-yellow)"></div>
-          <span>Marqué</span>
+          <span data-i18n="legend.flagged">Marqué</span>
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--ms-gray-light); border:1px solid var(--ms-gray-border)"></div>
-          <span>Non répondu</span>
+          <span data-i18n="legend.unanswered">Non répondu</span>
         </div>
       </div>
     </div>
@@ -1485,7 +1514,11 @@
     <span class="logo">AZ-104</span>
     <span class="badge" id="results-mode-label">Résultats</span>
     <span class="spacer"></span>
-    <button class="btn-ghost" onclick="App.goHome()">🏠 Accueil</button>
+    <div class="ui-lang-switch">
+      <button class="uilang-btn active" data-lang="fr" onclick="App.setUILang('fr')">FR</button>
+      <button class="uilang-btn" data-lang="en" onclick="App.setUILang('en')">EN</button>
+    </div>
+    <button class="btn-ghost" data-i18n="results.home" onclick="App.goHome()">🏠 Accueil</button>
   </header>
 
   <div class="results-container" style="padding-top:24px;">
@@ -1493,42 +1526,42 @@
     <div class="score-card" id="score-card">
       <div class="score-verdict" id="score-verdict">RÉUSSI</div>
       <div class="score-main" id="score-main">750</div>
-      <div class="score-label">Score final (sur 1000) — Seuil de passage : 700</div>
+      <div class="score-label" data-i18n="results.score.label">Score final (sur 1000) — Seuil de passage : 700</div>
 
       <div class="score-stats">
         <div class="stat-item">
           <div class="stat-val" id="stat-correct">0</div>
-          <div class="stat-key">Correctes</div>
+          <div class="stat-key" data-i18n="results.stat.correct">Correctes</div>
         </div>
         <div class="stat-item">
           <div class="stat-val" id="stat-wrong">0</div>
-          <div class="stat-key">Incorrectes</div>
+          <div class="stat-key" data-i18n="results.stat.wrong">Incorrectes</div>
         </div>
         <div class="stat-item">
           <div class="stat-val" id="stat-skipped">0</div>
-          <div class="stat-key">Non répondues</div>
+          <div class="stat-key" data-i18n="results.stat.skipped">Non répondues</div>
         </div>
         <div class="stat-item">
           <div class="stat-val" id="stat-pct">0%</div>
-          <div class="stat-key">Pourcentage brut</div>
+          <div class="stat-key" data-i18n="results.stat.pct">Pourcentage brut</div>
         </div>
         <div class="stat-item">
           <div class="stat-val" id="stat-time">0:00</div>
-          <div class="stat-key">Temps utilisé</div>
+          <div class="stat-key" data-i18n="results.stat.time">Temps utilisé</div>
         </div>
       </div>
     </div>
 
     <!-- Domain breakdown -->
     <div class="domain-breakdown" id="domain-breakdown">
-      <h3>📊 Résultats par domaine AZ-104</h3>
+      <h3 data-i18n="results.domains.title">📊 Résultats par domaine AZ-104</h3>
       <div id="domain-rows"><!-- Injected by JS --></div>
     </div>
 
     <!-- Actions -->
     <div class="results-actions">
-      <button class="btn-primary" onclick="App.retrySession()">🔄 Recommencer</button>
-      <button class="btn-secondary" onclick="App.goHome()">🏠 Accueil</button>
+      <button class="btn-primary" data-i18n="results.retry" onclick="App.retrySession()">🔄 Recommencer</button>
+      <button class="btn-secondary" data-i18n="results.home.btn" onclick="App.goHome()">🏠 Accueil</button>
     </div>
 
     <!-- Review wrong answers -->
@@ -1544,11 +1577,11 @@
 ════════════════════════════════════ -->
 <div class="modal-overlay" id="confirm-modal">
   <div class="modal-box">
-    <h3>Terminer l'examen ?</h3>
-    <p id="confirm-modal-text">Il reste des questions non répondues. Es-tu sûr de vouloir terminer ?</p>
+    <h3 data-i18n="modal.confirm.title">Terminer l'examen ?</h3>
+    <p id="confirm-modal-text"></p>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="App.closeModal()">Continuer</button>
-      <button class="btn-danger" onclick="App.finishSession()">Terminer</button>
+      <button class="btn-cancel" data-i18n="modal.confirm.continue" onclick="App.closeModal()">Continuer</button>
+      <button class="btn-danger" data-i18n="modal.confirm.end" onclick="App.finishSession()">Terminer</button>
     </div>
   </div>
 </div>
@@ -8639,13 +8672,246 @@ function calcScaledScore(rawTotal, maxTotal) {
 }
 
 // ══════════════════════════════════════════════════════════
+//  UI STRINGS  (interface language, independent of question language)
+// ══════════════════════════════════════════════════════════
+const UI_STRINGS = {
+  fr: {
+    'home.h1': 'AZ-104 Exam Simulator',
+    'home.subtitle': 'Prépare-toi à la certification <strong>Microsoft Azure Administrator</strong> avec des simulations d\'examen réalistes.',
+    'home.chip.time': '⏱ 150 minutes',
+    'home.chip.questions': '📝 40–60 questions',
+    'home.chip.pass': '🎯 Score de passage : 700/1000',
+    'home.chip.cost': '💰 Coût : ~165 USD',
+    'home.practice.title': 'Mode Pratique',
+    'home.practice.desc': 'Entraîne-toi à ton rythme avec un retour immédiat sur chaque réponse.',
+    'home.practice.li1': 'Choix du nombre de questions',
+    'home.practice.li2': 'Temps configurable ou illimité',
+    'home.practice.li3': 'Affichage optionnel des réponses',
+    'home.practice.li4': 'Explications détaillées',
+    'home.practice.li5': 'Navigation libre entre questions',
+    'home.practice.btn': 'Démarrer la pratique',
+    'home.exam.title': 'Mode Examen',
+    'home.exam.desc': 'Simulation fidèle des conditions de l\'examen Microsoft officiel.',
+    'home.exam.li1': '150 minutes (conditions réelles)',
+    'home.exam.li2': '40–60 questions au hasard',
+    'home.exam.li3': 'Pas de réponses pendant l\'examen',
+    'home.exam.li4': 'Scoring Microsoft (échelle 1–1000)',
+    'home.exam.li5': 'Revue des erreurs après résultats',
+    'home.exam.btn': 'Démarrer l\'examen',
+    'setup.back': '← Retour',
+    'setup.cancel': 'Annuler',
+    'setup.label.lang': 'Langue des questions',
+    'setup.label.types': 'Types de questions',
+    'setup.type.hint': 'Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.',
+    'lang.en': '🇬🇧 Anglais',
+    'lang.fr': '🇫🇷 Français',
+    'lang.both': '🌐 Les deux',
+    'type.single': 'Choix unique',
+    'type.multiple': 'Choix multiple',
+    'type.yesno': 'Oui / Non',
+    'type.hotarea': 'Zone active',
+    'type.dragdrop': 'Glisser-déposer',
+    'type.sequence': 'Mise en ordre',
+    'type.dropdown': 'Menu déroulant',
+    'type.code': 'Complétion code',
+    'type.exhibit': 'Avec épreuve',
+    'type.casestudy': 'Étude de cas',
+    'type.multiexhibit': 'Épreuves multiples',
+    'type.scenario': 'Scénario',
+    'practice.badge': 'Mode Pratique',
+    'practice.h2': '🎓 Configurer la pratique',
+    'practice.subtitle': 'Personnalise ta session d\'entraînement selon tes besoins.',
+    'practice.label.count': 'Nombre de questions',
+    'practice.count.all': 'Toutes',
+    'practice.label.time': 'Temps limite (minutes, 0 = illimité)',
+    'practice.placeholder.time': '0 = illimité',
+    'practice.hint.time': 'Recommandation : environ 2 min 30 sec par question',
+    'practice.label.options': 'Options',
+    'practice.opt.answer.label': 'Afficher la réponse correcte',
+    'practice.opt.answer.small': 'Révèle la bonne réponse après chaque soumission',
+    'practice.opt.expl.label': 'Afficher l\'explication',
+    'practice.opt.expl.small': 'Montre le pourquoi de la réponse correcte',
+    'practice.opt.shuffle.label': 'Mélanger les questions',
+    'practice.opt.shuffle.small': 'Ordre aléatoire à chaque session',
+    'practice.start': 'Commencer →',
+    'exam.badge': 'Mode Examen',
+    'exam.h2': '🏆 Conditions de l\'examen Microsoft',
+    'exam.subtitle': 'La simulation respecte les conditions officielles de l\'examen AZ-104.',
+    'exam.label.count': 'Nombre de questions',
+    'exam.chip.default': '50 (défaut)',
+    'exam.opt.shuffle.label': 'Mélanger les questions',
+    'exam.opt.shuffle.small': 'Sélection et ordre aléatoires',
+    'exam.start': 'Démarrer l\'examen →',
+    'session.end': 'Terminer',
+    'session.confirm': 'Terminer l\'examen ?\n\nToutes les questions non répondues seront comptées comme incorrectes.',
+    'session.progress': 'Question',
+    'session.of': '/',
+    'session.mode.practice': 'Pratique',
+    'session.mode.exam': 'Examen',
+    'session.flag': '🚩 Marquer',
+    'session.unflag': '🚩 Marqué',
+    'session.submit': 'Soumettre',
+    'session.next': 'Suivant →',
+    'session.prev': '← Précédent',
+    'session.reveal': 'Voir la réponse',
+    'nav.title': 'Navigation',
+    'legend.answered': 'Répondu',
+    'legend.flagged': 'Marqué',
+    'legend.unanswered': 'Non répondu',
+    'results.home': '🏠 Accueil',
+    'results.score.label': 'Score final (sur 1000) — Seuil de passage : 700',
+    'results.stat.correct': 'Correctes',
+    'results.stat.wrong': 'Incorrectes',
+    'results.stat.skipped': 'Non répondues',
+    'results.stat.pct': 'Pourcentage brut',
+    'results.stat.time': 'Temps utilisé',
+    'results.domains.title': '📊 Résultats par domaine AZ-104',
+    'results.retry': '🔄 Recommencer',
+    'results.home.btn': '🏠 Accueil',
+    'results.mode.practice': 'Résultats — Mode Pratique',
+    'results.mode.exam': 'Résultats — Mode Examen',
+    'results.pass': 'RÉUSSI',
+    'results.fail': 'ÉCHOUÉ',
+    'modal.confirm.title': 'Terminer l\'examen ?',
+    'modal.confirm.unanswered': 'Il reste {n} question(s) non répondue(s). Es-tu sûr de vouloir terminer ?',
+    'modal.confirm.all_answered': 'Toutes les questions ont été répondues. Confirmer la fin de l\'examen ?',
+    'modal.confirm.continue': 'Continuer',
+    'modal.confirm.end': 'Terminer',
+  },
+  en: {
+    'home.h1': 'AZ-104 Exam Simulator',
+    'home.subtitle': 'Prepare for the <strong>Microsoft Azure Administrator</strong> certification with realistic exam simulations.',
+    'home.chip.time': '⏱ 150 minutes',
+    'home.chip.questions': '📝 40–60 questions',
+    'home.chip.pass': '🎯 Pass score: 700/1000',
+    'home.chip.cost': '💰 Cost: ~$165 USD',
+    'home.practice.title': 'Practice Mode',
+    'home.practice.desc': 'Train at your own pace with immediate feedback on each answer.',
+    'home.practice.li1': 'Choose number of questions',
+    'home.practice.li2': 'Configurable or unlimited time',
+    'home.practice.li3': 'Optional answer display',
+    'home.practice.li4': 'Detailed explanations',
+    'home.practice.li5': 'Free navigation between questions',
+    'home.practice.btn': 'Start practice',
+    'home.exam.title': 'Exam Mode',
+    'home.exam.desc': 'Faithful simulation of official Microsoft exam conditions.',
+    'home.exam.li1': '150 minutes (real conditions)',
+    'home.exam.li2': '40–60 random questions',
+    'home.exam.li3': 'No answers during exam',
+    'home.exam.li4': 'Microsoft scoring (scale 1–1000)',
+    'home.exam.li5': 'Error review after results',
+    'home.exam.btn': 'Start exam',
+    'setup.back': '← Back',
+    'setup.cancel': 'Cancel',
+    'setup.label.lang': 'Question language',
+    'setup.label.types': 'Question types',
+    'setup.type.hint': 'Click to enable / disable a type. All selected = no filter.',
+    'lang.en': '🇬🇧 English',
+    'lang.fr': '🇫🇷 French',
+    'lang.both': '🌐 Both',
+    'type.single': 'Single choice',
+    'type.multiple': 'Multiple choice',
+    'type.yesno': 'Yes / No',
+    'type.hotarea': 'Hot area',
+    'type.dragdrop': 'Drag & drop',
+    'type.sequence': 'Ordering',
+    'type.dropdown': 'Dropdown',
+    'type.code': 'Code completion',
+    'type.exhibit': 'With exhibit',
+    'type.casestudy': 'Case study',
+    'type.multiexhibit': 'Multi-exhibit',
+    'type.scenario': 'Scenario',
+    'practice.badge': 'Practice Mode',
+    'practice.h2': '🎓 Configure practice',
+    'practice.subtitle': 'Customize your training session to your needs.',
+    'practice.label.count': 'Number of questions',
+    'practice.count.all': 'All',
+    'practice.label.time': 'Time limit (minutes, 0 = unlimited)',
+    'practice.placeholder.time': '0 = unlimited',
+    'practice.hint.time': 'Recommendation: about 2 min 30 sec per question',
+    'practice.label.options': 'Options',
+    'practice.opt.answer.label': 'Show correct answer',
+    'practice.opt.answer.small': 'Reveals the right answer after each submission',
+    'practice.opt.expl.label': 'Show explanation',
+    'practice.opt.expl.small': 'Shows why the correct answer is right',
+    'practice.opt.shuffle.label': 'Shuffle questions',
+    'practice.opt.shuffle.small': 'Random order each session',
+    'practice.start': 'Start →',
+    'exam.badge': 'Exam Mode',
+    'exam.h2': '🏆 Microsoft exam conditions',
+    'exam.subtitle': 'The simulation respects the official AZ-104 exam conditions.',
+    'exam.label.count': 'Number of questions',
+    'exam.chip.default': '50 (default)',
+    'exam.opt.shuffle.label': 'Shuffle questions',
+    'exam.opt.shuffle.small': 'Random selection and order',
+    'exam.start': 'Start exam →',
+    'session.end': 'End exam',
+    'session.confirm': 'End the exam?\n\nAll unanswered questions will be counted as incorrect.',
+    'session.progress': 'Question',
+    'session.of': '/',
+    'session.mode.practice': 'Practice',
+    'session.mode.exam': 'Exam',
+    'session.flag': '🚩 Flag',
+    'session.unflag': '🚩 Flagged',
+    'session.submit': 'Submit',
+    'session.next': 'Next →',
+    'session.prev': '← Previous',
+    'session.reveal': 'Show answer',
+    'nav.title': 'Navigation',
+    'legend.answered': 'Answered',
+    'legend.flagged': 'Flagged',
+    'legend.unanswered': 'Unanswered',
+    'results.home': '🏠 Home',
+    'results.score.label': 'Final score (out of 1000) — Pass threshold: 700',
+    'results.stat.correct': 'Correct',
+    'results.stat.wrong': 'Incorrect',
+    'results.stat.skipped': 'Unanswered',
+    'results.stat.pct': 'Raw percentage',
+    'results.stat.time': 'Time used',
+    'results.domains.title': '📊 AZ-104 domain results',
+    'results.retry': '🔄 Retry',
+    'results.home.btn': '🏠 Home',
+    'results.mode.practice': 'Results — Practice Mode',
+    'results.mode.exam': 'Results — Exam Mode',
+    'results.pass': 'PASSED',
+    'results.fail': 'FAILED',
+    'modal.confirm.title': 'End the exam?',
+    'modal.confirm.unanswered': '{n} question(s) unanswered. Are you sure you want to end?',
+    'modal.confirm.all_answered': 'All questions answered. Confirm end of exam?',
+    'modal.confirm.continue': 'Continue',
+    'modal.confirm.end': 'End exam',
+  },
+};
+
+// ══════════════════════════════════════════════════════════
 //  APP CONTROLLER
 // ══════════════════════════════════════════════════════════
 const App = {
   _qCountVal: 20,
   _examQCountVal: 50,
-  _lang: 'fr',          // 'fr' | 'en' | 'both'
+  _lang: 'fr',          // question language filter: 'fr' | 'en' | 'both'
+  _uiLang: 'fr',        // interface language: 'fr' | 'en'
   _types: new Set(['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion','exhibit','casestudy','multiexhibit','scenario']),
+
+  t(key) {
+    return (UI_STRINGS[this._uiLang] || UI_STRINGS.fr)[key] || key;
+  },
+
+  setUILang(lang) {
+    this._uiLang = lang;
+    const S = UI_STRINGS[lang] || UI_STRINGS.fr;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (S[key] !== undefined) el.innerHTML = S[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (S[key] !== undefined) el.placeholder = S[key];
+    });
+    document.querySelectorAll('.uilang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  },
 
   showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -8787,7 +9053,7 @@ const App = {
 
   _renderExamHeader() {
     const badge = document.getElementById('exam-mode-badge');
-    badge.textContent = State.mode === 'practice' ? 'Pratique' : 'Examen';
+    badge.textContent = this.t(State.mode === 'practice' ? 'session.mode.practice' : 'session.mode.exam');
     badge.className = 'mode-badge ' + State.mode;
   },
 
@@ -8798,7 +9064,7 @@ const App = {
     const panel = document.getElementById('question-panel');
     const revealed = State.revealed.has(qi);
 
-    document.getElementById('exam-progress-text').textContent = `Question ${qi+1} / ${total}`;
+    document.getElementById('exam-progress-text').textContent = `${this.t('session.progress')} ${qi+1} ${this.t('session.of')} ${total}`;
     document.getElementById('exam-progress-bar').style.width = `${((qi+1)/total)*100}%`;
 
     const typeLabels = { single: 'Choix unique', multiple: 'Choix multiples', dropdown: 'Liste déroulante', 'code-completion': 'Complétion de code', yesno: 'Oui/Non', hotarea: 'Zone active', dragdrop: 'Glisser-déposer', sequence: 'Mise en ordre', exhibit: 'Question avec épreuve', casestudy: 'Étude de cas', multiexhibit: 'Épreuves multiples', scenario: 'Scénario' };
@@ -8811,15 +9077,15 @@ const App = {
       </div>` : '';
 
     const revealBtn = State.mode === 'practice' && State.config.showAnswer && !revealed
-      ? `<button class="btn-reveal" onclick="App.revealAnswer()">👁 Voir la réponse</button>`
+      ? `<button class="btn-reveal" onclick="App.revealAnswer()">👁 ${this.t('session.reveal')}</button>`
       : '';
 
     const prevBtn = qi > 0
-      ? `<button class="btn-nav" onclick="App.navigate(-1)">← Précédent</button>`
+      ? `<button class="btn-nav" onclick="App.navigate(-1)">${this.t('session.prev')}</button>`
       : '';
     const nextBtn = qi < total - 1
-      ? `<button class="btn-nav primary-nav" onclick="App.navigate(1)">Suivant →</button>`
-      : `<button class="btn-nav primary-nav" onclick="App.confirmEnd()">Terminer ✓</button>`;
+      ? `<button class="btn-nav primary-nav" onclick="App.navigate(1)">${this.t('session.next')}</button>`
+      : `<button class="btn-nav primary-nav" onclick="App.confirmEnd()">${this.t('session.end')} ✓</button>`;
 
     let caseStudyBadge = '';
     if (q.caseStudyId) {
@@ -9245,11 +9511,11 @@ const App = {
   confirmEnd() {
     const unanswered = State.questions.filter((_, i) => !State.answers[i]?.length).length;
     const flagged = State.flags.size;
-    let msg = '';
-    if (unanswered > 0) msg += `${unanswered} question(s) sans réponse. `;
-    if (flagged > 0) msg += `${flagged} question(s) marquée(s). `;
-    msg += 'Veux-tu terminer la session ?';
+    const msg = unanswered > 0
+      ? this.t('modal.confirm.unanswered').replace('{n}', unanswered)
+      : this.t('modal.confirm.all_answered');
     document.getElementById('confirm-modal-text').textContent = msg;
+    this.setUILang(this._uiLang); // refresh modal i18n labels
     document.getElementById('confirm-modal').classList.add('open');
   },
 
@@ -9316,7 +9582,7 @@ const App = {
     // Render score card
     const card = document.getElementById('score-card');
     card.className = 'score-card ' + (pass ? 'pass' : 'fail');
-    document.getElementById('score-verdict').textContent = pass ? '✅ RÉUSSI' : '❌ ÉCHOUÉ';
+    document.getElementById('score-verdict').textContent = pass ? `✅ ${this.t('results.pass')}` : `❌ ${this.t('results.fail')}`;
     document.getElementById('score-verdict').className = 'score-verdict ' + (pass ? 'pass' : 'fail');
     document.getElementById('score-main').textContent = scaledScore;
     document.getElementById('score-main').className = 'score-main ' + (pass ? 'pass' : 'fail');
@@ -9328,7 +9594,7 @@ const App = {
     const usedMin = Math.floor(State.timeUsed / 60);
     const usedSec = State.timeUsed % 60;
     document.getElementById('stat-time').textContent = `${usedMin}:${String(usedSec).padStart(2,'0')}`;
-    document.getElementById('results-mode-label').textContent = State.mode === 'exam' ? 'Résultats — Mode Examen' : 'Résultats — Mode Pratique';
+    document.getElementById('results-mode-label').textContent = this.t(State.mode === 'exam' ? 'results.mode.exam' : 'results.mode.practice');
 
     // Domain breakdown
     const domainRows = document.getElementById('domain-rows');
