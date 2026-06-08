@@ -1314,6 +1314,18 @@
       </div>
 
       <div class="form-group">
+        <label data-i18n="setup.label.domains">Modules (domaines AZ-104)</label>
+        <div class="chip-group" id="domain-chips">
+          <span class="chip multi selected" data-domain="Identités et gouvernance Azure" data-i18n="domain.identity" onclick="App.toggleDomainChip(this)">🔐 Identités & gouvernance</span>
+          <span class="chip multi selected" data-domain="Stockage Azure"                 data-i18n="domain.storage"  onclick="App.toggleDomainChip(this)">🗄️ Stockage</span>
+          <span class="chip multi selected" data-domain="Ressources de calcul Azure"     data-i18n="domain.compute"  onclick="App.toggleDomainChip(this)">⚙️ Calcul</span>
+          <span class="chip multi selected" data-domain="Réseaux virtuels Azure"          data-i18n="domain.network"  onclick="App.toggleDomainChip(this)">🌐 Réseaux</span>
+          <span class="chip multi selected" data-domain="Surveillance et maintenance Azure" data-i18n="domain.monitor" onclick="App.toggleDomainChip(this)">📊 Surveillance</span>
+        </div>
+        <p class="chip-group-hint" data-i18n="setup.domain.hint">Cliquez pour inclure / exclure un domaine. Tous sélectionnés = pas de filtre.</p>
+      </div>
+
+      <div class="form-group">
         <label data-i18n="practice.label.count">Nombre de questions</label>
         <div class="chip-group" id="q-count-chips">
           <span class="chip" data-val="10" onclick="App.selectChip('q-count', 10, this)">10</span>
@@ -1429,6 +1441,18 @@
           <span class="chip multi selected" data-type="scenario"       data-i18n="type.scenario"     onclick="App.toggleTypeChip(this)">Scénario</span>
         </div>
         <p class="chip-group-hint" data-i18n="setup.type.hint">Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.</p>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="setup.label.domains">Modules (domaines AZ-104)</label>
+        <div class="chip-group" id="exam-domain-chips">
+          <span class="chip multi selected" data-domain="Identités et gouvernance Azure" data-i18n="domain.identity" onclick="App.toggleDomainChip(this)">🔐 Identités & gouvernance</span>
+          <span class="chip multi selected" data-domain="Stockage Azure"                 data-i18n="domain.storage"  onclick="App.toggleDomainChip(this)">🗄️ Stockage</span>
+          <span class="chip multi selected" data-domain="Ressources de calcul Azure"     data-i18n="domain.compute"  onclick="App.toggleDomainChip(this)">⚙️ Calcul</span>
+          <span class="chip multi selected" data-domain="Réseaux virtuels Azure"          data-i18n="domain.network"  onclick="App.toggleDomainChip(this)">🌐 Réseaux</span>
+          <span class="chip multi selected" data-domain="Surveillance et maintenance Azure" data-i18n="domain.monitor" onclick="App.toggleDomainChip(this)">📊 Surveillance</span>
+        </div>
+        <p class="chip-group-hint" data-i18n="setup.domain.hint">Cliquez pour inclure / exclure un domaine. Tous sélectionnés = pas de filtre.</p>
       </div>
 
       <div class="form-group">
@@ -8499,17 +8523,23 @@ function selectExamQuestions(qs, count) {
   });
 
   // Compute per-domain targets (Hamilton/largest-remainder method)
-  const domains = Object.keys(WEIGHTS);
+  // Normalize weights to only the domains that have questions in the pool
+  const activeDomains = Object.keys(WEIGHTS).filter(d => (byDomain[d] || []).length > 0);
+  const totalW = activeDomains.reduce((s, d) => s + WEIGHTS[d], 0);
+  const normWeights = {};
+  activeDomains.forEach(d => normWeights[d] = WEIGHTS[d] / totalW);
+
+  const domains = activeDomains;
   const quotas = {};
   let allocated = 0;
   domains.forEach(d => {
-    quotas[d] = Math.floor(WEIGHTS[d] * budget);
+    quotas[d] = Math.floor(normWeights[d] * budget);
     allocated += quotas[d];
   });
   // Distribute remainder slots by largest fractional part
   const remainder = budget - allocated;
   [...domains]
-    .sort((a, b) => (WEIGHTS[b] * budget % 1) - (WEIGHTS[a] * budget % 1))
+    .sort((a, b) => (normWeights[b] * budget % 1) - (normWeights[a] * budget % 1))
     .slice(0, remainder)
     .forEach(d => quotas[d]++);
 
@@ -8703,6 +8733,13 @@ const UI_STRINGS = {
     'setup.label.lang': 'Langue des questions',
     'setup.label.types': 'Types de questions',
     'setup.type.hint': 'Cliquez pour activer / désactiver un type. Tous sélectionnés = pas de filtre.',
+    'setup.label.domains': 'Modules (domaines AZ-104)',
+    'setup.domain.hint': 'Cliquez pour inclure / exclure un domaine. Tous sélectionnés = pas de filtre.',
+    'domain.identity': '🔐 Identités & gouvernance',
+    'domain.storage': '🗄️ Stockage',
+    'domain.compute': '⚙️ Calcul',
+    'domain.network': '🌐 Réseaux',
+    'domain.monitor': '📊 Surveillance',
     'lang.en': '🇬🇧 Anglais',
     'lang.fr': '🇫🇷 Français',
     'lang.both': '🌐 Les deux',
@@ -8806,6 +8843,13 @@ const UI_STRINGS = {
     'setup.label.lang': 'Question language',
     'setup.label.types': 'Question types',
     'setup.type.hint': 'Click to enable / disable a type. All selected = no filter.',
+    'setup.label.domains': 'Modules (AZ-104 domains)',
+    'setup.domain.hint': 'Click to include / exclude a domain. All selected = no filter.',
+    'domain.identity': '🔐 Identity & governance',
+    'domain.storage': '🗄️ Storage',
+    'domain.compute': '⚙️ Compute',
+    'domain.network': '🌐 Networking',
+    'domain.monitor': '📊 Monitoring',
     'lang.en': '🇬🇧 English',
     'lang.fr': '🇫🇷 French',
     'lang.both': '🌐 Both',
@@ -8892,6 +8936,26 @@ const App = {
   _lang: 'fr',          // question language filter: 'fr' | 'en' | 'both'
   _uiLang: 'fr',        // interface language: 'fr' | 'en'
   _types: new Set(['single','multiple','yesno','hotarea','dragdrop','sequence','dropdown','code-completion','exhibit','casestudy','multiexhibit','scenario']),
+  _domains: new Set([
+    'Identités et gouvernance Azure',
+    'Stockage Azure',
+    'Ressources de calcul Azure',
+    'Réseaux virtuels Azure',
+    'Surveillance et maintenance Azure',
+  ]),
+
+  toggleDomainChip(el) {
+    const d = el.dataset.domain;
+    if (this._domains.has(d)) {
+      if (this._domains.size === 1) return;
+      this._domains.delete(d);
+    } else {
+      this._domains.add(d);
+    }
+    document.querySelectorAll('[data-domain]').forEach(c => {
+      if (c.dataset.domain === d) c.classList.toggle('selected', this._domains.has(d));
+    });
+  },
 
   t(key) {
     return (UI_STRINGS[this._uiLang] || UI_STRINGS.fr)[key] || key;
@@ -8984,8 +9048,17 @@ const App = {
     const allSelected = allTypes.every(t => this._types.has(t));
     if (!allSelected) qs = qs.filter(q => this._types.has(q.type));
 
+    // Filter by domain (module)
+    const allDomains = [
+      'Identités et gouvernance Azure','Stockage Azure',
+      'Ressources de calcul Azure','Réseaux virtuels Azure',
+      'Surveillance et maintenance Azure',
+    ];
+    const allDomainsSelected = allDomains.every(d => this._domains.has(d));
+    if (!allDomainsSelected) qs = qs.filter(q => this._domains.has(q.domain));
+
     if (qs.length === 0) {
-      alert('Aucune question ne correspond aux filtres sélectionnés.\nModifie la langue ou les types de questions.');
+      alert('Aucune question ne correspond aux filtres sélectionnés.\nModifie la langue, les types ou les modules.');
       return;
     }
 
@@ -9012,7 +9085,7 @@ const App = {
     }
 
     State.questions = qs;
-    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal, lang: this._lang, types: new Set(this._types) };
+    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal, lang: this._lang, types: new Set(this._types), domains: new Set(this._domains) };
     State.startTime = Date.now();
     State.timeUsed = 0;
 
@@ -9538,6 +9611,7 @@ const App = {
     this._examQCountVal = cfg.examQCountVal;
     if (cfg.lang) this._lang = cfg.lang;
     if (cfg.types) this._types = new Set(cfg.types);
+    if (cfg.domains) this._domains = new Set(cfg.domains);
     this.startSession(cfg.mode);
   },
 
