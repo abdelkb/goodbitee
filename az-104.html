@@ -1171,6 +1171,15 @@
       <p class="subtitle">Personnalise ta session d'entraînement selon tes besoins.</p>
 
       <div class="form-group">
+        <label>Langue des questions</label>
+        <div class="chip-group" id="lang-chips">
+          <span class="chip" data-val="en" onclick="App.selectChip('lang','en',this)">🇬🇧 Anglais</span>
+          <span class="chip selected" data-val="fr" onclick="App.selectChip('lang','fr',this)">🇫🇷 Français</span>
+          <span class="chip" data-val="both" onclick="App.selectChip('lang','both',this)">🌐 Les deux</span>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label>Nombre de questions</label>
         <div class="chip-group" id="q-count-chips">
           <span class="chip" data-val="10" onclick="App.selectChip('q-count', 10, this)">10</span>
@@ -1254,6 +1263,15 @@
           • <strong>Pas de retour en arrière</strong> sur les questions marquées comme terminées<br>
           • Aucune explication pendant l'examen
         </p>
+      </div>
+
+      <div class="form-group">
+        <label>Langue des questions</label>
+        <div class="chip-group" id="exam-lang-chips">
+          <span class="chip" data-val="en" onclick="App.selectChip('exam-lang','en',this)">🇬🇧 Anglais</span>
+          <span class="chip selected" data-val="fr" onclick="App.selectChip('exam-lang','fr',this)">🇫🇷 Français</span>
+          <span class="chip" data-val="both" onclick="App.selectChip('exam-lang','both',this)">🌐 Les deux</span>
+        </div>
       </div>
 
       <div class="form-group">
@@ -6795,6 +6813,7 @@ function calcScaledScore(rawTotal, maxTotal) {
 const App = {
   _qCountVal: 20,
   _examQCountVal: 50,
+  _lang: 'fr',          // 'fr' | 'en' | 'both'
 
   showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -6816,6 +6835,8 @@ const App = {
     el.classList.add('selected');
     if (type === 'q-count') this._qCountVal = val;
     if (type === 'exam-q-count') this._examQCountVal = val;
+    if (type === 'lang') this._lang = val;
+    if (type === 'exam-lang') this._lang = val;
   },
 
   startSession(mode) {
@@ -6831,6 +6852,11 @@ const App = {
     State.current = 0;
 
     let qs = [...QUESTIONS];
+
+    // Filter by language: English = ids 1-200, French = ids 201-400
+    if (this._lang === 'en') qs = qs.filter(q => q.id <= 200);
+    else if (this._lang === 'fr') qs = qs.filter(q => q.id >= 201);
+    // 'both' = no filter
 
     if (mode === 'practice') {
       const count = this._qCountVal === 'all' ? qs.length : Math.min(this._qCountVal, qs.length);
@@ -6855,7 +6881,7 @@ const App = {
     }
 
     State.questions = qs;
-    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal };
+    State.lastConfig = { mode, qCountVal: this._qCountVal, examQCountVal: this._examQCountVal, lang: this._lang };
     State.startTime = Date.now();
     State.timeUsed = 0;
 
@@ -7328,6 +7354,7 @@ const App = {
     const cfg = State.lastConfig;
     this._qCountVal = cfg.qCountVal;
     this._examQCountVal = cfg.examQCountVal;
+    if (cfg.lang) this._lang = cfg.lang;
     this.startSession(cfg.mode);
   },
 
